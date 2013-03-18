@@ -1,0 +1,215 @@
+{% extends "WEMOOFWebBundle::page.html.twig" %}
+{% form_theme form _self %}
+{% block form_row %}
+    {% spaceless %}
+        <label> {{ label|trans({}, translation_domain) }}<br>
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+        </label>
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                <span class="error">{{ error.message }}</span><br>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block content %}
+    <article>
+        <h1>
+            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo" width="400"/>
+        </h1>
+
+        <p class="tagline">Am 13. Mai 2013 findet der erste <strong>Webmontag in Offenbach</strong> statt. Werde Teil
+            davon!</p>
+
+        <h2>#wasfehlt</h2>
+
+        <p>Offenbach ist eine der kreativsten Städte in Deutschland. Über 1.000 Werbeagenturen, IT-Dienstleister,
+            Selbständige, Freiberufler und Künstler haben ihr Herz und ihren beruflichen Mittelpunkt in der Stadt am
+            Meer. Als Gemeinschaft könnten wir viel bewegen, um Offenbach als kreativen Standort weiter voran zu
+            bringen. Was dazu fehlt, ist eine regelmäßige, durch die Community organiserte Veranstaltung, die
+            Interessierte aus allen kreativen Branchen zusammenbringt und so die Raum für neue Verbindungen und
+            Synergien schafft.</p>
+
+        <p>Der <strong>Webmontag Offenbach</strong> bringt Menschen zusammen, die sich für das Web begeistern, Teil
+            davon sind oder es werden wollen.</p>
+
+        <p>Ich bin überzeugt, dass Offenbach diese Veranstaltung braucht und glaub daran, dass wir als kreative
+            Gemeinschaft den Termin in den nächsten Wochen realisieren können.</p>
+
+        <h2>Damit der erste WEMO♥F statt finden kann …<br>benötige ich deine Unterstützung!</h2>
+
+        <h3>Der Termin </h3>
+
+        <p>… steht schonmal fest: Der erste Webmontag Offenbach findet am 13. Mai 2013 statt.<br>
+            <small>Ja, das ist parallel zum großartigen <a href="http:((wmfra.de/" rel="friend met muse">Webmontag
+                    Frankfurt</a>. Wenn wir den WEMO♥F nicht auf die Beine gestellt bekommen, streamen wir einfach den
+                WMFRA nach Offenbach. Aber hey, damit gebe ich mich nicht zufrieden!
+            </small>
+        </p>
+
+        <h3>Die Sprecher</h3>
+
+        <p>6 Sprecher, die einen Vortrag über ein Thema halten, dass sie gerade bewegt. Der Vortrag muss zwei dieser
+            drei Kriterien erfüllen: er hat einen Bezug zum Web, er ist authentisch und er hat etwas mit Offenbach zu
+            tun. Er darf nicht länger als 15 Minuten dauern. Zusätzlich sind Spotlight-Vortäge möglich, hier besteht die
+            Möglichkeit, ein Thema, eine Veranstaltung mit einer Folie und in einer Minute an zu teasern.</p>
+
+        <ol>
+            <li><span class="error">Sprecher fehlt!</span></li>
+            <li><span class="error">Sprecher fehlt!</span></li>
+            <li><span class="error">Sprecher fehlt!</span></li>
+            <li><span class="error">Sprecher fehlt!</span></li>
+            <li><span class="error">Sprecher fehlt!</span></li>
+            <li><span class="error">Sprecher fehlt!</span></li>
+        </ol>
+
+        <h3>Die Location</h3>
+
+        <p>… sollte ausreichend Platz für 30 bis 50 Personen bieten und einen Beamer haben. Toll wären: eine PA-Anlage,
+            eine Bar an der sich die Teilnehmer mit Getränken und ggfs. Snacks versorgen können. Besonders toll wäre:
+            eine Location mit Gastro.</p>
+
+        <ul>
+            <li>Location? <span class="error">fehlt!</span></li>
+            <li>Beamer? <span class="error">fehlt!</span></li>
+            <li>PA-Anlage? <span class="warning">wäre toll.</span></li>
+            <li>Getränke? <span class="warning">wäre toll.</span></li>
+            <li>Gastro? <span class="warning">wäre toll.</span></li>
+        </ul>
+
+        <h3>Du fehlst!</h3>
+
+        <p>Jetzt ist es an dir! Hilf' mit, den Webmontag Offenbach zu realisieren!</p>
+
+    </article>
+    <article>
+        <h2>Du möchtest mich bei der Realisierung des WEMO♥F unterstützen?</h2>
+
+        <p>Super! <a href="mailto:m@wemoof.de">Mail</a> / <a href="tel:+491796678859">Ruf</a> /
+            <a href="http://twitter.com/markustacker">Tweet</a> mich an oder komm' im <a href="http://offenraum.de/">OFfenraum</a>
+            vorbei.</p>
+
+        <h3>Orga-Treffen</h3>
+
+        <p>Für Untertützer, Interessierte und Neugierige wird es zwei Orga-Termin geben, die jeweils im
+            <a href="http://offenraum.de/">OFfenraum</a> statt finden:</p>
+
+        <ol>
+            <li>
+                Mittwoch, 27.3.2013 um 19 Uhr
+            </li>
+            <li>
+                Mittwoch, 24.4.2013 um 19 Uhr
+            </li>
+        </ol>
+
+    </article>
+    <article>
+        <h2 id="signup">Teilnehmen</h2>
+
+        {% if not signup %}
+            <p>Du möchtest am ersten oder an folgenden Webmontagen teilnehmen? Dann trag' dich für den Newsletter
+                ein.</p>
+
+            <form method="POST" action="{{ app.request.get('REQUEST_URI') }}#signup" class="clearfix">
+                {{ form_widget(form) }}
+                <button type="submit">Eintragen</button>
+            </form>
+
+            <p>Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</p>
+        {% else %}
+            <p>Danke! Ich melde mich!</p>
+        {% endif %}
+
+    </article>
+    <article>
+
+        <h2>Kontakt</h2>
+
+        <p>Der Webmontag Offenbach wird organisiert von <a href="http://tckr.cc/" rel="author">Markus Tacker</a>. Du
+            erreichst mich via Mail unter <a href="mailto:m@wemoof.de">m@wemoof.de</a> und via Twitter unter
+            <a href="http://twitter.com/markustacker">@markustacker</a>.</p>
+
+        <ul class="team">
+
+            <li>
+                <a href="http://tckr.cc/" rel="author">
+                    <img src="{{ gravatar('m@tckr.cc') }}" class="gravatar" alt="Markus Tacker"><br><abbr title="Markus Tacker">Markus</abbr>
+                </a>
+            </li>
+            <li>
+                <a href="mailto:m@wemoof.de?subject=WEMOOF+Team">
+                    <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}"><br>Du? </a>
+            </li>
+        </ul>
+
+        <h3>Twitter</h3>
+
+        <p>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://wemoof.de/" data-text="Am 13.5.2013 findet der erste Webmontag Offenbach statt! Sei dabei!" data-via="wemoof" data-lang="de" data-hashtags="wemoof">Tweet</a>
+        </p>
+
+        <p>Den WEMO♥F findest Du auf Twitter unter <a href="http://twitter.com/wemoof" rel="me">@wemoof</a>. Der
+            offizielle Hashtag ist <a href="https://twitter.com/search?q=%23wemoof&src=hash">#wemoof</a>.</p>
+
+        <h3>Facebook</h3>
+
+        <div class="clearfix">
+            <div class="fb-like" data-href="http://wemoof.de/" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="tahoma" data-action="recommend"></div>
+            <br>
+        </div>
+
+        <p>Auf Facebook findest Du den WEMO♥F unter <a href="https://www.facebook.com/pages/Wemoof/435444859870520">Wemoof</a>.
+        </p>
+
+    </article>
+
+    <article>
+
+        <h2>Warum …</h2>
+
+        <h3>Web? </h3>
+
+        <p>Das Internet ist ohne Zweifel das Leitmedium der kreativen Wirtschaft geworden und mit den Grundprinzipien
+            des Webs - Offenheit, Transparenz und Freiheit - können sich viele Menschen identifizieren. Das Web als
+            Kulturgut, Arbeitswerkzeug oder Freizeitvergnügen ist aus unserem Alltag nicht mehr wegzudenken und bietet
+            so als übergordneter Rahmen der Webmontage die thematische Grundlage der Veranstaltung. </p>
+
+        <h3>Das Format „Webmontag“ </h3>
+
+        <p>
+            Ein <a href="http://webmontag.de" rel="friend muse">Webmontag</a> findet in Deutschland in vielen Städten
+            regelmäßig an einem Montag Abend statt. Im Lauf des Abends werden mehrere Vorträge gehalten - üblicherweise
+            unterbrochen von einer Pause. Diese Pause, wie auch die Zeit vor und nach den Vorträgen bietet Gelegenheit
+            sich mit Kollegen, Bekannten und Unbekannte aus der Branche bei einem Bier in ungezwungener Atmosphäre über
+            die Vorträge und aktuelle Themen auszutauschen. Das "Sie" wird dabei an der Garderobe abgegeben.</p>
+
+    </article>
+
+    <article>
+
+        <h2>Sponsoren</h2>
+
+        <p>Sponsoren sind nicht zwingend nötig, aber machen vieles leichter …</p>
+
+        <ul class="sponsoren">
+            <li>
+                <a href="http://offenraum.de/" rel="me friend">
+                    <img src="http://offenraum.de/build/logo.png" alt="OFfenraum · coworking space offenbach/main"><br><abbr title="OFfenraum · coworking space offenbach/main">OFfenraum</abbr>
+                </a>
+            </li>
+            <li>
+                <a href="mailto:m@wemoof.de?subject=Sponsoring">
+                    <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}"><br>Dein<br>Unternehmen?</a>
+            </li>
+        </ul>
+
+    </article>
+{% endblock %}

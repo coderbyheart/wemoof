@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de-de">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="Der Webmontag Offenbach bringt Menschen zusammen, die sich für das Web begeistern, Teil davon sind oder es werden wollen.">
+    <meta name="author" content="Markus Tacker | http://tckr.cc/">
+    <!-- See /humans.txt for more infos -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta property="og:title" content="WEMO♥F">
+    <meta property="og:type" content="non_profit">
+    <meta property="og:url" content="http://wemoof.de/">
+    <meta property="og:image" content="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}">
+    <meta property="og:site_name" content="Webmontag Offenbach">
+    <meta property="fb:admins" content="1132748678">
+    {% stylesheets "bundles/wemoofweb/css/styles.scss" filter="cssrewrite,sass" %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
+    {% endstylesheets %}
+</head>
+<body>
+{% block content %}
+{% endblock %}
+<footer>
+    <p>Hergestellt in Offenbach.<br><a href="http://coderbyheart.de">Markus Tacker</a>, 2013.</p>
+</footer>
+<script type="text/javascript" src="http://fast.fonts.com/jsapi/e33871e7-174d-48c4-8cd3-35efdb881da8.js"></script>
+<script>!function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }(document, "script", "twitter-wjs");</script>
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/de_DE/all.js#xfbml=1&amp;appId=540190586021222";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>
