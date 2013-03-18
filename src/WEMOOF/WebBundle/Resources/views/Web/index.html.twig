@@ -22,7 +22,7 @@
 {% block content %}
     <article>
         <h1>
-            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo" />
+            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
         </h1>
 
         <p class="tagline">Am 13. Mai 2013 findet der erste <strong>Webmontag in Offenbach</strong> statt. Werde Teil
@@ -47,18 +47,14 @@
 
         <h3>Der Termin </h3>
 
-        <p>… steht schonmal fest: Der erste Webmontag Offenbach findet am 13. Mai 2013 statt.<br>
+        <p>… steht schonmal fest:<br><strong>der erste Webmontag Offenbach findet<br>am 13. Mai 2013 statt</strong>.</p>
+
+        <p>
             <small>Ja, das ist parallel zum großartigen <a href="http://wmfra.de/" rel="friend met muse">Webmontag
                     Frankfurt</a>. Wenn wir den WEMO♥F nicht auf die Beine gestellt bekommen, streamen wir einfach den
                 WMFRA nach Offenbach. Aber hey, damit gebe ich mich nicht zufrieden!
             </small>
         </p>
-
-        <ul>
-            <li>… <a href="https://www.xing.com/events/webmontag-offenbach-1-1221472">auf XING</a></li>
-            <li>… <a href="https://www.facebook.com/events/478567365532237/">auf Facebook</a></li>
-            <li>… <a href="https://plus.google.com/u/0/events/cv2j1m4iivu679a0uheevot6hdk">auf Google+</a></li>
-        </ul>
 
         <h3>Die Sprecher</h3>
 
@@ -129,9 +125,20 @@
                 <button type="submit">Eintragen</button>
             </form>
 
-            <p>Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</p>
+            <p>
+                <small>Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</small>
+            </p>
+
+            <p>Hier geht es zum Event im sozialen Netzwerk deiner Wahl:</p>
+
+            <ul>
+                <li>… <a href="https://www.xing.com/events/webmontag-offenbach-1-1221472">auf XING</a></li>
+                <li>… <a href="https://www.facebook.com/events/478567365532237/">auf Facebook</a></li>
+                <li>… <a href="https://plus.google.com/u/0/events/cv2j1m4iivu679a0uheevot6hdk">auf Google+</a></li>
+            </ul>
         {% else %}
             <p>Danke! Ich melde mich!</p>
+
         {% endif %}
 
     </article>
