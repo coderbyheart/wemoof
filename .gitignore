@@ -8,3 +8,4 @@
 /composer.phar
 .idea
 app/config/parameters.yml
+web/css/
