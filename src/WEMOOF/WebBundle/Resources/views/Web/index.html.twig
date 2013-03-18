@@ -112,13 +112,13 @@
 
     </article>
     <article>
-        <h2 id="signup">Teilnehmen</h2>
+        <h2 id="signupform">Teilnehmen</h2>
 
         {% if not signup %}
             <p>Du möchtest am ersten oder an folgenden Webmontagen teilnehmen? Dann trag' dich für den Newsletter
                 ein.</p>
 
-            <form method="POST" action="{{ app.request.get('REQUEST_URI') }}#signup" class="clearfix">
+            <form method="POST" action="{{ app.request.get('REQUEST_URI') }}#signupform" class="clearfix">
                 {{ form_widget(form) }}
                 <button type="submit">Eintragen</button>
             </form>
@@ -146,7 +146,7 @@
             </li>
             <li>
                 <a href="mailto:m@wemoof.de?subject=WEMOOF+Team">
-                    <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}"><br>Du? </a>
+                    <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}" alt=""><br>Du? </a>
             </li>
         </ul>
 
@@ -207,7 +207,7 @@
             </li>
             <li>
                 <a href="mailto:m@wemoof.de?subject=Sponsoring">
-                    <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}"><br>Dein<br>Unternehmen?</a>
+                    <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}" alt=""><br>Dein<br>Unternehmen?</a>
             </li>
         </ul>
 
