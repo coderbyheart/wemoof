@@ -24,11 +24,10 @@ a {
 }
 
 article {
-  border: 25px solid $blue;
-  width: 500px;
+  max-width: 500px;
   background: #fff;
-  margin: 25px auto;
-  padding: 25px 25px 0 25px;
+  padding: 5%;
+  border-bottom: 25px solid $blue;
 }
 
 hr {
@@ -37,7 +36,7 @@ hr {
 }
 
 h2, h3, h4, label, p.tagline {
-  font-family:'VAG Rounded W01 Thin';
+  font-family: 'VAG Rounded W01 Thin';
   line-height: 1.25em;
 }
 
@@ -89,6 +88,10 @@ ul.imagelist {
 
 ul.team, ul.sponsoren {
   @extend ul.imagelist;
+}
+
+#logo {
+  width: 100%;
 }
 
 footer {
