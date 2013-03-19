@@ -15,12 +15,16 @@ a {
   text-decoration: none;
 }
 
+span.heart {
+  color: $heart;
+}
+
 .error {
-  color: #fa0000;
+  color: $error;
 }
 
 .warning {
-  color: #cca534;
+  color: $warning;
 }
 
 article {
@@ -36,7 +40,7 @@ hr {
 }
 
 h2, h3, h4, label, p.tagline {
-  font-family: 'VAG Rounded W01 Thin';
+  font-family: 'Varela Round', sans-serif;
   line-height: 1.25em;
 }
 
@@ -45,7 +49,7 @@ article > h1, article > h2 {
 }
 
 p.tagline {
-  font-size: 2em;
+  font-size: 1.75em;
 
 }
 
