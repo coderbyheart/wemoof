@@ -15,3 +15,5 @@ parameters:
     secret:            changeme
 
     sass_bin:          /usr/bin/sass
+
+    assets_version:    2
