@@ -1,5 +1,5 @@
 {% extends "WEMOOFWebBundle::page.html.twig" %}
-{% set meta_title %}{{ talk }} | WEMO♥F #{{ event.id }} am {{ event.start|date }}{% endset %}
+{% set meta_title %}{{ talk }} | WEMO♥F #{{ event.id }} am {{ event.start|shortdate }}{% endset %}
 {% set meta_image %}{% spaceless %}
     {% if talk.speaker.hasGravatar %}
         {{ gravatar(talk.speaker.email) }}
