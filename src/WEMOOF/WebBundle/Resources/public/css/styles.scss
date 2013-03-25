@@ -84,14 +84,25 @@ ul.imagelist {
     display: inline-block;
     margin-right: 10px;
     img {
-      border: 1px solid $blue;
-      width: 90px;
+      width: 126px;
     }
+  }
+  li:last-child {
+    margin-right: 0;
   }
 }
 
 ul.team, ul.sponsoren {
   @extend ul.imagelist;
+}
+
+ul.speaker {
+  @extend ul.imagelist;
+  li {
+    img {
+      width: 58px;
+    }
+  }
 }
 
 #logo {
@@ -108,6 +119,14 @@ footer {
     text-decoration: underline;
   }
   line-height: 1em;
+}
+
+article.talk, article.user {
+  img.user {
+    width: 150px;
+    float: right;
+    margin-left: 10px;
+  }
 }
 
 @import "responsive";

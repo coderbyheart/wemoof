@@ -20,7 +20,10 @@
         "jms/di-extra-bundle": "1.3.*",
         "leafo/scssphp": "dev-master",
         "ornicar/gravatar-bundle": "dev-master",
-        "gedmo/doctrine-extensions": "dev-master"
+        "gedmo/doctrine-extensions": "dev-master",
+        "doctrine/doctrine-migrations-bundle": "dev-master",
+        "phpoption/phpoption": "dev-master",
+        "dflydev/markdown": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

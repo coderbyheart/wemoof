@@ -3,4 +3,28 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="wemoof.web.controller.web" class="WEMOOF\WebBundle\Controller\WebController" scope="request">
+            <argument type="service" id="request"/>
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="wemoof.backend.repo.event"/>
+            <argument type="service" id="wemoof.backend.repo.talk"/>
+            <argument type="service" id="wemoof.backend.repo.user"/>
+            <argument type="service" id="http_kernel"/>
+        </service>
+        <service id="wemoof.webbundle.twig.extension.date" class="WEMOOF\WebBundle\Twig\Extension\Date" public="false">
+            <tag name="twig.extension"/>
+        </service>
+        <service id="wemoof.webbundle.twig.extension.numtotext" class="WEMOOF\WebBundle\Twig\Extension\NumToText"
+                 public="false">
+            <tag name="twig.extension"/>
+        </service>
+        <service id="wemoof.webbundle.twig.extension.slug" class="WEMOOF\WebBundle\Twig\Extension\Slug" public="false">
+            <tag name="twig.extension"/>
+        </service>
+        <service id="wemoof.webbundle.twig.extension.markdown" class="WEMOOF\WebBundle\Twig\Extension\Markdown" public="false">
+            <tag name="twig.extension"/>
+        </service>
+    </services>
 </container>

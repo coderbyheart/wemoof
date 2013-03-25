@@ -18,7 +18,7 @@ class SignupType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'WEMOOF\WebBundle\Entity\User',
+            'data_class' => 'WEMOOF\BackendBundle\Entity\User',
         ));
     }
 

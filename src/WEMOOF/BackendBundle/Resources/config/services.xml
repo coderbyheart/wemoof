@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="wemoof.backend.repo.event" factory-service="doctrine.orm.entity_manager"
+                 factory-method="getRepository"
+                 class="WEMOOF\BackendBundle\Repository\EventRepository">
+            <argument>WEMOOF\BackendBundle\Entity\Event</argument>
+        </service>
+        <service id="wemoof.backend.repo.talk" factory-service="doctrine.orm.entity_manager"
+                 factory-method="getRepository"
+                 class="WEMOOF\BackendBundle\Repository\TalkRepository">
+            <argument>WEMOOF\BackendBundle\Entity\Talk</argument>
+        </service>
+        <service id="wemoof.backend.repo.user" factory-service="doctrine.orm.entity_manager"
+                 factory-method="getRepository"
+                 class="WEMOOF\BackendBundle\Repository\UserRepository">
+            <argument>WEMOOF\BackendBundle\Entity\User</argument>
+        </service>
+    </services>
+</container>

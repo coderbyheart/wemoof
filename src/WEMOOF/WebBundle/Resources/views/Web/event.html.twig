@@ -18,15 +18,16 @@
         {% endif %}
     {% endspaceless %}
 {% endblock form_errors %}
-{% block title %}WEMO♥F | Webmontag Offenbach #1 am 13. Mai 2013.{% endblock %}
+{% set meta_title %}WEMO♥F | Webmontag Offenbach #{{ event.id }} am {{ event.start|shortdate }}{% endset %}
+{% set meta_image %}{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}{% endset %}
 {% block content %}
     <article>
         <h1>
             <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
         </h1>
 
-        <p class="tagline">Am 13. Mai 2013 findet der erste <strong>Webmontag in Offenbach</strong> statt. Werde Teil
-            davon!</p>
+        <p class="tagline">Am {{ event.start|shortdate }} findet der  {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag
+                in Offenbach</strong> statt. Werde Teil davon!</p>
 
         <h2>#wasfehlt</h2>
 
@@ -48,7 +49,7 @@
 
         <h3>Der Termin </h3>
 
-        <p>… steht schonmal fest: der erste Webmontag Offenbach findet<br>am <strong>Montag, den 13. Mai 2013</strong>
+        <p>… steht schonmal fest: der erste Webmontag Offenbach findet<br>am <strong>{{ event.start|longdate }}</strong>
             statt.</p>
 
         <h3>Die Sprecher</h3>
@@ -60,13 +61,35 @@
             teasern.</p>
 
         <ol>
-            <li><span class="error">Sprecher fehlt!</span></li>
-            <li><span class="error">Sprecher fehlt!</span></li>
-            <li><span class="error">Sprecher fehlt!</span></li>
-            <li><span class="error">Sprecher fehlt!</span></li>
-            <li><span class="error">Sprecher fehlt!</span></li>
-            <li><span class="error">Sprecher fehlt!</span></li>
+            {% for talk in talks %}
+                <li>
+                    <a href="{{ path('wemoof_talk', {'slug': talk|slug, 'id': talk.id}) }}">
+                        {{ talk }}
+                    </a>
+                </li>
+            {% endfor %}
+            {% for i in missing %}
+                <li><span class="error">Sprecher fehlt!</span></li>
+            {% endfor %}
         </ol>
+
+        {% for talk in talks %}
+            {% if loop.first %}
+                <ul class="speaker">
+            {% endif %}
+            <li>
+                <a href="{{ path('wemoof_speaker', {'slug': talk.speaker|slug, 'id': talk.speaker.id}) }}">
+                    {% if talk.speaker.hasGravatar %}
+                        <img src="{{ gravatar(talk.speaker.email) }}" alt="{{ talk.speaker }}">
+                    {% else %}
+                        <img src="/upload/speaker/{{ talk.speaker|slug }}.png" alt="{{ talk.speaker }}">
+                    {% endif %}
+                    <br><abbr title="{{ talk.speaker }}">{{ talk.speaker.firstname }}</abbr> </a>
+            </li>
+            {% if loop.last %}
+                </ul>
+            {% endif %}
+        {% endfor %}
 
         <h3>Die Location</h3>
 
@@ -151,7 +174,7 @@
 
             <li>
                 <a href="http://tckr.cc/" rel="author">
-                    <img src="{{ gravatar('m@tckr.cc') }}" class="gravatar" alt="Markus Tacker"><br><abbr title="Markus Tacker">Markus</abbr>
+                    <img src="{{ gravatar('m@tckr.cc', 125) }}" alt="Markus Tacker"><br><abbr title="Markus Tacker">Markus</abbr>
                 </a>
             </li>
             <li>

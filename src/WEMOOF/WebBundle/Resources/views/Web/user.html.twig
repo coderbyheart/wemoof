@@ -1,0 +1,37 @@
+{% extends "WEMOOFWebBundle::page.html.twig" %}
+{% set meta_title %}{{ user }} | WEMO♥F{% endset %}
+{% set meta_image %}{% spaceless %}
+    {% if user.hasGravatar %}
+        {{ gravatar(user.email) }}
+    {% else %}
+        {% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}/upload/speaker/{{ user|slug }}.png
+    {% endif %}
+{% endspaceless %}{% endset %}
+{% block content %}
+    <article class="user">
+        <h1>
+            <a href="/">
+                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
+            </a>
+        </h1>
+
+        <h2><strong>{{ user }}</strong>
+        </h2>
+
+        {% include "WEMOOFWebBundle:Web:part/user.html.twig" %}
+
+        {% for talk in talks %}
+            {% if loop.first %}
+                <h3>Talks von <strong>{{ user }}</strong></h3>
+                <ul>
+            {% endif %}
+            <li>
+                <a href="{{ path('wemoof_talk', {'id': talk.id, 'slug': talk|slug}) }}">{{ talk.name }}</a>
+            </li>
+            {% if loop.last %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+
+    </article>
+{% endblock %}

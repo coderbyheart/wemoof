@@ -2,4 +2,3 @@ wemoof_web:
     resource: "@WEMOOFWebBundle/Controller/"
     type:     annotation
     prefix:   /
-

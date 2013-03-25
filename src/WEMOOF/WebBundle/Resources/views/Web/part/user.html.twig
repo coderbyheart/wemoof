@@ -1,0 +1,23 @@
+{% if user.url %}<a href="{{ user.url }}">{% endif %}
+{% if user.hasGravatar %}
+    <img src="{{ gravatar(user.email, 150) }}" alt="{{ user }}" class="user">
+{% else %}
+    <img src="/upload/user/{{ user|slug }}.png" alt="{{ user }}" class="user">
+{% endif %}
+{% if user.url %}</a>{% endif %}
+
+{{ user.description|md }}
+
+<dl>
+    {% if user.url %}
+        <dt>Link</dt>
+        <dd><a href="{{ user.url }}" title="{{ user }}">{{ user.url }}</a></dd>
+    {% endif %}
+    {% if user.twitter %}
+        <dt>Twitter</dt>
+        <dd>
+            <a href="https://twitter.com/{{ user.twitter }}" title="{{ user }} auf Twitter">@{{ user.twitter }}</a>
+        </dd>
+    {% endif %}
+</dl>
+
