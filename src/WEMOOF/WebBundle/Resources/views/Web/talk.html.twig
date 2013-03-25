@@ -20,14 +20,17 @@
             {{ talk.name }}
         </h2>
 
-        <p><em>Ein Vortrag von <a href="{{ path('wemoof_speaker', {'slug': talk.speaker|slug, 'id': talk.speaker.id}) }}">{{ talk.speaker }}</a> auf dem
-                <a href="{{ path('wemoof_event', {'id': talk.event.id}) }}">{{ talk.event }}</a>.</em></p>
+        <p><em>Ein Vortrag von
+                <a href="{{ path('wemoof_speaker', {'slug': talk.speaker|slug, 'id': talk.speaker.id}) }}">{{ talk.speaker }}</a>
+                auf dem <a href="{{ path('wemoof_event', {'id': talk.event.id}) }}">{{ talk.event }}</a>.</em></p>
 
         {{ talk.description|md }}
 
-        {%  set share_url %}{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ app.request.pathInfo }}{% endset %}
+        {% set share_url %}{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ app.request.pathInfo }}{% endset %}
 
-        <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ share_url }}" data-text="Am 13.5.2013 findet der erste Webmontag Offenbach statt! Sei dabei!" data-via="wemoof" data-lang="de" data-hashtags="wemoof">Tweet</a>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="Auf dem @wemoof spricht {% spaceless %}
+        {% if talk.speaker.twitter %}@{{ talk.speaker.twitter }}{% else %}{{ talk.speaker }}{% endif %}
+        {% endspaceless %} über {{ talk.name }}:" data-lang="de" data-hashtags="wemoof">Tweet</a>
 
         <div class="fb-like" data-href="{{ share_url }}" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="tahoma" data-action="recommend"></div>
 

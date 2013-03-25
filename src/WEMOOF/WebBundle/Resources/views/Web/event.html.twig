@@ -187,7 +187,7 @@
         <h3>Twitter</h3>
 
         <p>
-            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://wemoof.de/" data-text="Am 13.5.2013 findet der erste Webmontag Offenbach statt! Sei dabei!" data-via="wemoof" data-lang="de" data-hashtags="wemoof">Tweet</a>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://wemoof.de/" data-text="Am {{ event.start|shortdate }} findet der  {{ "%d."|format(event.id)|numtotext }} Webmontag in Offenbach statt! Sei dabei!" data-via="wemoof" data-lang="de" data-hashtags="wemoof">Tweet</a>
         </p>
 
         <p>Den <strong>WEMO<span class="heart">♥</span>F</strong> findest Du auf Twitter unter
