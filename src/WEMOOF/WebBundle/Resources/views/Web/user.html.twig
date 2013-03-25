@@ -7,6 +7,7 @@
         {% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}/upload/speaker/{{ user|slug }}.png
     {% endif %}
 {% endspaceless %}{% endset %}
+{% set meta_description %}{{ user.description|md }}{% endset %}
 {% block content %}
     <article class="user">
         <h1>

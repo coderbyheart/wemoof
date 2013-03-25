@@ -2,15 +2,15 @@
 <html lang="de-de">
 <head>
     <meta charset="UTF-8">
-    <title>{{ meta_title }}</title>
-    <meta name="description" content="Der Webmontag Offenbach bringt Menschen zusammen, die sich für das Web begeistern, Teil davon sind oder es werden wollen.">
+    <title>{{ meta_title|striptags|trim }}</title>
+    <meta name="description" content="{{ meta_description|striptags|trim }}">
     <meta name="author" content="Markus Tacker | http://tckr.cc/">
     <!-- See /humans.txt for more infos -->
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta property="og:type" content="non_profit">
-    <meta property="og:title" content="{{ meta_title }}">
+    <meta property="og:title" content="{{ meta_title|striptags|trim }}">
     <meta property="og:url" content="{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ app.request.pathInfo }}">
-    <meta property="og:image" content="{{ meta_image }}">
+    <meta property="og:image" content="{{ meta_image|striptags|trim }}">
     <meta property="og:site_name" content="WEMO♥F | Webmontag Offenbach">
     <meta property="fb:admins" content="1132748678">
     <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
