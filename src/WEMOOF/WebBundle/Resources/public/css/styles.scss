@@ -1,6 +1,7 @@
 @import "normalize";
 @import "helpers";
 @import "colors";
+@import "fonts";
 
 html {
   background: $bg url(../images/bg.png);
@@ -104,6 +105,11 @@ ul.speaker {
       width: 58px;
     }
   }
+}
+
+ul.links {
+  list-style: none;
+  padding: 0;
 }
 
 #logo {

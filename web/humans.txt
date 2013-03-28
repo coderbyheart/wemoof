@@ -2,3 +2,7 @@ Made by:
 
     Markus Tacker <m@tckr.cc>
 
+Made with:
+
+    Symfony 2       http://symfony.com/
+    IconMoon        http://keyamoon.com/icomoon/

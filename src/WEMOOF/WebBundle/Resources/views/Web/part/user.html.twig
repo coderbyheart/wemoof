@@ -8,16 +8,16 @@
 
 {{ user.description|md }}
 
-<dl>
+<ul class="links">
     {% if user.url %}
-        <dt>Link</dt>
-        <dd><a href="{{ user.url }}" title="{{ user }}">{{ user.url }}</a></dd>
+        <li>
+            <i class="icon-home"></i> <a href="{{ user.url }}" title="{{ user }}">{{ user.url|compacturl }}</a>
+        </li>
     {% endif %}
     {% if user.twitter %}
-        <dt>Twitter</dt>
-        <dd>
+        <li>
+            <i class="icon-twitter"></i>
             <a href="https://twitter.com/{{ user.twitter }}" title="{{ user }} auf Twitter">@{{ user.twitter }}</a>
-        </dd>
+        </li>
     {% endif %}
-</dl>
-
+</ul>
