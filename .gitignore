@@ -9,3 +9,5 @@
 .idea
 app/config/parameters.yml
 web/css/
+/web/upload
+/*.sql*

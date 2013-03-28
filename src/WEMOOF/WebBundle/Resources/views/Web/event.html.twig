@@ -48,9 +48,9 @@
         <h2>Damit der erste <strong>WEMO<span class="heart">♥</span>F</strong> statt finden kann benötige ich deine
             Unterstützung!</h2>
 
-        <h3>Der Termin </h3>
+        <h3>Der Termin und die Location</h3>
 
-        <p>… steht schonmal fest: der erste Webmontag Offenbach findet<br>am <strong>{{ event.start|longdate }}</strong>
+        <p>… stehen schonmal fest: der erste Webmontag Offenbach findet am <strong>{{ event.start|longdate }}</strong> in der <a href="http://afip-hessen.de/">»afip!«</a>
             statt.</p>
 
         <h3>Die Sprecher</h3>
@@ -91,20 +91,6 @@
                 </ul>
             {% endif %}
         {% endfor %}
-
-        <h3>Die Location</h3>
-
-        <p>… sollte ausreichend Platz für 30 bis 50 Personen bieten und einen Beamer haben. Toll wären: eine PA-Anlage,
-            eine Bar an der sich die Teilnehmer mit Getränken und ggfs. Snacks versorgen können. Besonders toll wäre:
-            eine Location mit Gastro.</p>
-
-        <ul>
-            <li>Location? <span class="error">fehlt!</span></li>
-            <li>Beamer? <span class="error">fehlt!</span></li>
-            <li>PA-Anlage? <span class="warning">wäre toll.</span></li>
-            <li>Getränke? <span class="warning">wäre toll.</span></li>
-            <li>Gastro? <span class="warning">wäre toll.</span></li>
-        </ul>
 
         <h3>Du fehlst!</h3>
 
