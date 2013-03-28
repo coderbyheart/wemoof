@@ -171,11 +171,17 @@
             erreichst mich via Mail unter <a href="mailto:m@wemoof.de">m@wemoof.de</a> und via Twitter unter
             <a href="http://twitter.com/markustacker">@markustacker</a>.</p>
 
+        <h3>Team</h3>
+
         <ul class="team">
 
             <li>
-                <a href="http://tckr.cc/" rel="author"> <img src="{{ gravatar('m@tckr.cc', 125) }}" alt="Markus Tacker"><br><abbr title="Markus Tacker">Markus</abbr>
-                </a>
+                <a href="{{ path('wemoof_user', {'id': 1, 'slug': "Markus Tacker"|slug}) }}" rel="author"> <img src="{{ gravatar('m@tckr.cc', 125) }}" alt="Markus Tacker"><br>Markus Tacker
+                </a><br><small>Initiator</small>
+            </li>
+            <li>
+                <a href="{{ path('wemoof_user', {'id': 9, 'slug': "Lutz Jahnke"|slug}) }}"> <img src="/upload/user/{{ "Lutz Jahnke"|slug }}-9.png" alt="Lutz Jahnke"><br>Lutz Jahnke
+                </a><br><small>Location</small>
             </li>
             <li>
                 <a href="mailto:m@wemoof.de?subject=WEMOOF+Team">
