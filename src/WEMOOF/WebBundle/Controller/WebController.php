@@ -106,6 +106,15 @@ class WebController
     }
 
     /**
+     * @Route("/{id}/presse", name="wemoof_presse")
+     * @Template()
+     */
+    public function presseAction($id)
+    {
+        return $this->eventAction($id);
+    }
+
+    /**
      * @Route("/talk/{slug}/{id}", name="wemoof_talk")
      * @Template()
      */

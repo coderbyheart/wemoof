@@ -24,10 +24,10 @@
 {% block content %}
     <article>
         <h1>
-            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
+            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
         </h1>
 
-        <p class="tagline">Am {{ event.start|shortdate }} findet der  {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag
+        <p class="tagline">Am <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time> findet der  {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag
                 in Offenbach</strong> statt. Werde Teil davon!</p>
 
         <h2>#wasfehlt</h2>
@@ -50,7 +50,7 @@
 
         <h3>Der Termin und die Location</h3>
 
-        <p>… stehen schonmal fest: der erste Webmontag Offenbach findet am <strong>{{ event.start|longdate }}</strong> in der <a href="http://afip-hessen.de/">»afip!«</a>
+        <p>… stehen schonmal fest: der erste Webmontag Offenbach findet am <strong><time datetime="{{ event.start|rfc3339 }}">{{ event.start|longdate }}</time></strong> in der <a href="http://afip-hessen.de/">»afip!«</a>
             statt.</p>
 
         <h3>Die Sprecher</h3>
