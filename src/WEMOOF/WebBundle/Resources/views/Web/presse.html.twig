@@ -1,0 +1,115 @@
+{% extends "WEMOOFWebBundle::Web/event.html.twig" %}
+{% block content %}
+    <article>
+        <h1>
+            <a href="/">
+                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
+            </a>
+        </h1>
+
+        <h2>Presseinformationen</h2>
+
+        <p>Am
+            <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
+            findet der {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag Offenbach</strong> in der »afip!«,
+            Ludwigstraße 112 (Goetheplatz) in 63067 Offenbach statt.
+        </p>
+
+        <p>Der <strong>Webmontag Offenbach</strong>, kurz <strong>WEMO<span class="heart">♥</span>F</strong>, bringt
+            Menschen zusammen, die sich für das Web begeistern, Teil davon sind oder es werden wollen.</p>
+
+        <p>Die Veranstaltung ist kostenlos.</p>
+
+        <h3>Das Format „Webmontag“ </h3>
+
+        <p>
+            Ein <a href="http://webmontag.de" rel="friend muse">Webmontag</a> findet in Deutschland in vielen Städten
+            regelmäßig an einem Montag Abend statt. Im Lauf des Abends werden mehrere Vorträge gehalten - üblicherweise
+            unterbrochen von einer Pause. Diese Pause, wie auch die Zeit vor und nach den Vorträgen bietet Gelegenheit
+            sich mit Kollegen, Bekannten und Unbekannte aus der Branche bei einem Bier in ungezwungener Atmosphäre über
+            die Vorträge und aktuelle Themen auszutauschen. Das "Sie" wird dabei an der Garderobe abgegeben.</p>
+
+        <h3>Links</h3>
+
+        <p>Offizielle Homepage: <a href="http://wemoof.de/">wemoof.de</a><br> Twitter:
+            <a href="http://twitter.com/wemoof" rel="me">@wemoof</a>, Hashtag:
+            <a href="https://twitter.com/search?q=%23wemoof&amp;src=hash">#wemoof</a><br> Facebook:
+            <a href="https://www.facebook.com/pages/Wemoof/435444859870520">Wemoof</a></p>
+
+        <h3>Ablauf</h3>
+
+        <ul>
+            <li>19:00 Einlass<br>
+                <small>Kostenlose Registrierung unter <a href="http://wemoof.de/">wemoof.de</a> ist erforderlich.
+                </small>
+            </li>
+            <li>19:30 Begrüßung</li>
+            <li>bis 20:30 Talks 1-3</li>
+            <li>bis 21:00 Pause<br>
+                <small>für Getränke und Snacks ist gesorgt</small>
+            </li>
+            <li>bis 22:00 Talks 4-6</li>
+            <li>anschließend Networking</li>
+        </ul>
+
+        <h3>Sprecher</h3>
+
+        <p>Sechs Sprecher werden jeweils ca. 15-Minütige Vorträge halten. Zusätzlich bieten 1-Minütige Spotlights die
+            Möglichkeit aktuelle Veranstaltungen und Szenegeschehnisse vor zu stellen.</p>
+
+        <h3>Organisatoren</h3>
+
+        <p>Der <strong>WEMO<span class="heart">♥</span>F</strong> wurde initiiert von
+            <a href="{{ path('wemoof_user', {'id': 1, 'slug': "Markus Tacker"|slug}) }}" rel="author">Markus Tacker</a>,
+            freier Webanwendungsentwickler aus Offenbach. Er wird unterstützt durch
+            <a href="{{ path('wemoof_user', {'id': 9, 'slug': "Lutz Jahnke"|slug}) }}">Lutz Jahnke</a>, Diplom Designer,
+            ebenfalls aus Offenbach.</p>
+
+        <h3>Sponsoren</h3>
+
+        <p>Der <strong>WEMO<span class="heart">♥</span>F</strong> dankt seinen Sponsoren.</p>
+
+        <ul class="sponsoren">
+            <li>
+                <a href="http://offenraum.de/" rel="met friend">
+                    <img src="http://offenraum.de/build/logo.png" alt="OFfenraum"><br>OFfenraum </a><br>
+                <small>coworking space offenbach/main</small>
+            </li>
+            <li>
+                <a href="http://afip-hessen.de/" rel="met friend">
+                    <img src="{{ asset('bundles/wemoofweb/images/afip.png') }}" alt="afip — akademie für interdisziplinäre prozesse | offenbach"><br><abbr title="akademie für interdisziplinäre prozesse | offenbach">»afip!«</abbr>
+                </a> <br>
+                <small>Locationunterstützung<br> Platz für 200 Leute</small>
+            </li>
+        </ul>
+
+        <h3>Bildmaterial</h3>
+
+        <h4>Logo</h4>
+
+        <h5>Kleine Variante</h5>
+
+        <a href="{{ asset('bundles/wemoofweb/images/logo-xxl-wide.png') }}"><img src="{{ asset('bundles/wemoofweb/images/logo-xxl-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" class="full-width"></a>
+
+        <h5>Große Variante</h5>
+
+        <a href="{{ asset('bundles/wemoofweb/images/logo-xxl.png') }}"><img src="{{ asset('bundles/wemoofweb/images/logo-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" class="full-width"></a>
+
+        <h4>Location</h4>
+
+        <p>
+            <a href="http://www.afip-hessen.de/happenings/afip-aussen-nacht-2012.jpg"><img src="http://www.afip-hessen.de/happenings/afip-aussen-nacht-2012.jpg" class="full-width" alt="»afip!« — akademie für interdisziplinäre Prozesse"></a><br>
+            <a href="http://www.afip-hessen.de/">»afip!« — Akademie für interdisziplinäre Prozesse</a> — ein altes
+            Schlecker-Ladenlokal mit 600 qm. Dort gibt es Dienstags das offene Forschungsseminar, das regelmäßig am
+            Monatsende im Forschungsbericht in Form eines Happenings mündet.</p>
+
+        <h3>Kontakt</h3>
+
+        <p><a href="http://tckr.cc/" rel="author">Markus Tacker</a><br> E-Mail:
+            <a href="mailto:m@wemoof.de">m@wemoof.de</a><br> Twitter: <a href="http://twitter.com/markustacker">@markustacker</a><br>
+            Telefon: <a href="tel:+491796678859">(01 79) 6 67 88 59</a>
+        </p>
+
+    </article>
+
+{% endblock %}
