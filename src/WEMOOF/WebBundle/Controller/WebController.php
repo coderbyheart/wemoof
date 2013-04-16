@@ -17,6 +17,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route(service="wemoof.web.controller.web")
+ *
+ * FIXME: Tests
  */
 class WebController
 {
@@ -84,8 +86,23 @@ class WebController
     {
         $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
         $talks = $this->talkRepository->getTalksForEvent($event);
+        return array(
+            'form' => $this->formFactory->create(new SignupType(), new User(), array('validation_groups' => array('signup')))->createView(),
+            'event' => $event,
+            'talks' => $talks,
+            'missing' => array_fill(0, 6 - count($talks), 1),
+        );
+    }
 
-        $form = $this->formFactory->create(new SignupType(), new User());
+    /**
+     * @Route("/{id}/signup", name="wemoof_signup")
+     * @Template()
+     */
+    public function signupAction($id)
+    {
+        $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
+
+        $form = $this->formFactory->create(new SignupType(), new User(), array('validation_groups' => array('signup')));
         $created = false;
         if ($this->request->isMethod('POST')) {
             $form->bind($this->request);
@@ -100,8 +117,6 @@ class WebController
             'form' => $form->createView(),
             'signup' => $created,
             'event' => $event,
-            'talks' => $talks,
-            'missing' => array_fill(0, 6 - count($talks), 1),
         );
     }
 

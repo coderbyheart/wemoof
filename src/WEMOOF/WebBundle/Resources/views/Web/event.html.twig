@@ -1,23 +1,4 @@
 {% extends "WEMOOFWebBundle::page.html.twig" %}
-{% form_theme form _self %}
-{% block form_row %}
-    {% spaceless %}
-        <label> {{ label|trans({}, translation_domain) }}<br>
-            {{ form_errors(form) }}
-            {{ form_widget(form) }}
-        </label>
-    {% endspaceless %}
-{% endblock form_row %}
-
-{% block form_errors %}
-    {% spaceless %}
-        {% if errors|length > 0 %}
-            {% for error in errors %}
-                <span class="error">{{ error.message }}</span><br>
-            {% endfor %}
-        {% endif %}
-    {% endspaceless %}
-{% endblock form_errors %}
 {% set meta_title %}WEMO♥F | Webmontag Offenbach #{{ event.id }} am {{ event.start|shortdate }}{% endset %}
 {% set meta_image %}{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}{% endset %}
 {% set meta_description %}Der Webmontag Offenbach bringt Menschen zusammen, die sich für das Web begeistern, Teil davon sind oder es werden wollen.{% endset %}
@@ -27,8 +8,11 @@
             <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
         </h1>
 
-        <p class="tagline">Am <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time> findet der  {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag
-                in Offenbach</strong> statt. Werde Teil davon!</p>
+        <p class="tagline">Am
+            <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
+            findet der  {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag in Offenbach</strong> statt. Werde Teil
+            davon!
+        </p>
 
         <h2>#wasfehlt</h2>
 
@@ -50,8 +34,10 @@
 
         <h3>Der Termin und die Location</h3>
 
-        <p>… stehen schonmal fest: der erste Webmontag Offenbach findet am <strong><time datetime="{{ event.start|rfc3339 }}">{{ event.start|longdate }}</time></strong> in der <a href="http://afip-hessen.de/">»afip!«</a>
-            statt.</p>
+        <p>… stehen schonmal fest: der erste Webmontag Offenbach findet am <strong>
+                <time datetime="{{ event.start|rfc3339 }}">{{ event.start|longdate }}</time>
+            </strong> in der <a href="http://afip-hessen.de/">»afip!«</a> statt.
+        </p>
 
         <h3>Die Sprecher</h3>
 
@@ -112,7 +98,8 @@
 
         <ol>
             <li>
-                <del datetime="2013-03-27T19:00:00+01:00">Mittwoch, 27.3.2013 um 19 Uhr</del> <a href="https://docs.google.com/document/d/1JeS19xdcRjpUXKjDzcenUkEmk-4I9v0kgJ2clTUD-po/edit?usp=sharing">Protokoll</a>
+                <del datetime="2013-03-27T19:00:00+01:00">Mittwoch, 27.3.2013 um 19 Uhr</del>
+                <a href="https://docs.google.com/document/d/1JeS19xdcRjpUXKjDzcenUkEmk-4I9v0kgJ2clTUD-po/edit?usp=sharing">Protokoll</a>
             </li>
             <li>
                 Mittwoch, 24.4.2013 um 19 Uhr
@@ -121,32 +108,10 @@
 
     </article>
     <article id="signupform">
+
         <h2>Teilnehmen</h2>
 
-        {% if not signup %}
-            <p>Du möchtest am ersten oder an folgenden Webmontagen teilnehmen? Dann trag' dich für den Newsletter
-                ein.</p>
-
-            <form method="POST" action="{{ app.request.get('REQUEST_URI') }}#signupform" class="clearfix">
-                {{ form_widget(form) }}
-                <button type="submit">Eintragen</button>
-            </form>
-
-            <p>
-                <small>Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</small>
-            </p>
-
-            <p>Hier geht es zum Event im sozialen Netzwerk deiner Wahl:</p>
-
-            <ul>
-                <li>… <a href="https://www.xing.com/events/webmontag-offenbach-1-1221472">auf XING</a></li>
-                <li>… <a href="https://www.facebook.com/events/478567365532237/">auf Facebook</a></li>
-                <li>… <a href="https://plus.google.com/u/0/events/cv2j1m4iivu679a0uheevot6hdk">auf Google+</a></li>
-            </ul>
-        {% else %}
-            <p>Danke! Ich melde mich!</p>
-
-        {% endif %}
+        {% include "WEMOOFWebBundle:Web:part/signupform.html.twig" with {"signup": false} %}
 
     </article>
     <article id="kontakt">
@@ -162,12 +127,14 @@
         <ul class="team">
 
             <li>
-                <a href="{{ path('wemoof_user', {'id': 1, 'slug': "Markus Tacker"|slug}) }}" rel="author"> <img src="{{ gravatar('m@tckr.cc', 125) }}" alt="Markus Tacker"><br>Markus Tacker
-                </a><br><small>Initiator</small>
+                <a href="{{ path('wemoof_user', {'id': 1, 'slug': "Markus Tacker"|slug}) }}" rel="author">
+                    <img src="{{ gravatar('m@tckr.cc', 125) }}" alt="Markus Tacker"><br>Markus Tacker </a><br>
+                <small>Initiator</small>
             </li>
             <li>
-                <a href="{{ path('wemoof_user', {'id': 9, 'slug': "Lutz Jahnke"|slug}) }}"> <img src="/upload/user/{{ "Lutz Jahnke"|slug }}-9.png" alt="Lutz Jahnke"><br>Lutz Jahnke
-                </a><br><small>Location</small>
+                <a href="{{ path('wemoof_user', {'id': 9, 'slug': "Lutz Jahnke"|slug}) }}">
+                    <img src="/upload/user/{{ "Lutz Jahnke"|slug }}-9.png" alt="Lutz Jahnke"><br>Lutz Jahnke </a><br>
+                <small>Location</small>
             </li>
             <li>
                 <a href="mailto:m@wemoof.de?subject=WEMOOF+Team">
@@ -175,25 +142,7 @@
             </li>
         </ul>
 
-        <h3>Twitter</h3>
-
-        <p>
-            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://wemoof.de/" data-text="Am {{ event.start|shortdate }} findet der  {{ "%d."|format(event.id)|numtotext }} Webmontag in Offenbach statt! Sei dabei!" data-via="wemoof" data-lang="de" data-hashtags="wemoof">Tweet</a>
-        </p>
-
-        <p>Den <strong>WEMO<span class="heart">♥</span>F</strong> findest Du auf Twitter unter
-            <a href="http://twitter.com/wemoof" rel="me">@wemoof</a>. Der offizielle Hashtag ist
-            <a href="https://twitter.com/search?q=%23wemoof&amp;src=hash">#wemoof</a>.</p>
-
-        <h3>Facebook</h3>
-
-        <div class="clearfix">
-            <div class="fb-like" data-href="http://wemoof.de/" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="tahoma" data-action="recommend"></div>
-            <br>
-        </div>
-
-        <p>Auf Facebook findest Du den <strong>WEMO<span class="heart">♥</span>F</strong> unter
-            <a href="https://www.facebook.com/pages/Wemoof/435444859870520">Wemoof</a>. </p>
+        {% include "WEMOOFWebBundle:Web:part/socialmedia.html.twig" %}
 
     </article>
 
@@ -243,14 +192,14 @@
         <ul class="sponsoren">
             <li>
                 <a href="http://offenraum.de/" rel="met friend">
-                    <img src="http://offenraum.de/build/logo.png" alt="OFfenraum"><br>OFfenraum
-                </a><br><small>coworking space offenbach/main</small>
+                    <img src="http://offenraum.de/build/logo.png" alt="OFfenraum"><br>OFfenraum </a><br>
+                <small>coworking space offenbach/main</small>
             </li>
             <li>
                 <a href="http://afip-hessen.de/" rel="met friend">
                     <img src="{{ asset('bundles/wemoofweb/images/afip.png') }}" alt="afip — akademie für interdisziplinäre prozesse | offenbach"><br><abbr title="akademie für interdisziplinäre prozesse | offenbach">»afip!«</abbr>
-                </a>
-                <br><small>Locationunterstützung<br> Platz für 200 Leute</small>
+                </a> <br>
+                <small>Locationunterstützung<br> Platz für 200 Leute</small>
             </li>
 
             <li>

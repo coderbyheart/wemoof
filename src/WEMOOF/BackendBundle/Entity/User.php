@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as AssertORM;
 /**
  * @ORM\Entity(repositoryClass="WEMOOF\BackendBundle\Repository\UserRepository")
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email",columns={"email"})})
- * @AssertORM\UniqueEntity(fields={"email"})
+ * @AssertORM\UniqueEntity(fields={"email"}, groups={"signup", "profile"})
  */
 class User
 {
@@ -25,44 +25,44 @@ class User
     protected $id;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\NotBlank(groups={"signup", "profile"})
+     * @Assert\Email(groups={"signup", "profile"})
      * @ORM\Column(type="string")
      * @var string E-Mail-Adresse
      */
     protected $email;
 
     /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string")
+     * @Assert\NotBlank(groups={"profile"})
+     * @ORM\Column(type="string", nullable=true)
      * @var string Vorname
      */
     protected $firstname;
 
     /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string")
+     * @Assert\NotBlank(groups={"profile"})
+     * @ORM\Column(type="string", nullable=true)
      * @var string Nachname
      */
     protected $lastname;
 
     /**
      * @Assert\Length(max=500)
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @var string Beschreibung
      */
     protected $description;
 
     /**
      * @Assert\Url
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @var string URL
      */
     protected $url;
 
     /**
      * @Assert\Regex(pattern="^[a-zA-Z0-9_]{1,15}$")
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      * @var string Twitter
      */
     protected $twitter;
@@ -72,7 +72,7 @@ class User
      * @ORM\Column(type="boolean", name="has_gravatar")
      * @var string Gravatar verwenden?
      */
-    protected $hasGravatar;
+    protected $hasGravatar = false;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -159,5 +159,77 @@ class User
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * @param \DateTime $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $firstname
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * @param string $hasGravatar
+     */
+    public function setHasGravatar($hasGravatar)
+    {
+        $this->hasGravatar = $hasGravatar;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param string $lastname
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * @param string $twitter
+     */
+    public function setTwitter($twitter)
+    {
+        $this->twitter = $twitter;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
     }
 }

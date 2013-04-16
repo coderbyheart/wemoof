@@ -40,6 +40,27 @@ class Event
     protected $start;
 
     /**
+     * @Assert\Url
+     * @ORM\Column(type="text", nullable=true)
+     * @var string URL
+     */
+    protected $xing;
+
+    /**
+     * @Assert\Url
+     * @ORM\Column(type="text", nullable=true)
+     * @var string URL
+     */
+    protected $facebook;
+
+    /**
+     * @Assert\Url
+     * @ORM\Column(type="text", nullable=true)
+     * @var string URL
+     */
+    protected $googleplus;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      * @var \DateTime
@@ -82,6 +103,56 @@ class Event
     {
         return $this->start;
     }
+
+
+    /**
+     * @param string $facebook
+     */
+    public function setFacebook($facebook)
+    {
+        $this->facebook = $facebook;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
+
+    /**
+     * @param string $googleplus
+     */
+    public function setGoogleplus($googleplus)
+    {
+        $this->googleplus = $googleplus;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGoogleplus()
+    {
+        return $this->googleplus;
+    }
+
+    /**
+     * @param string $xing
+     */
+    public function setXing($xing)
+    {
+        $this->xing = $xing;
+    }
+
+    /**
+     * @return string
+     */
+    public function getXing()
+    {
+        return $this->xing;
+    }
+
 
     /**
      * @return string
