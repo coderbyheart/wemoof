@@ -1,9 +1,9 @@
-<!doctype html>
+{% set info_claim %}Der Webmontag Offenbach ist eine informelle, nicht-kommerzielle und von der Communityorganisierte Veranstaltung, die Menschen zusammen bringt, die sich für das Web begeistern, Teil davon sindoder es werden wollen.{% endset %}<!doctype html>
 <html lang="de-de">
 <head>
     <meta charset="UTF-8">
     <title>{{ meta_title|striptags|trim }}</title>
-    <meta name="description" content="{{ meta_description|striptags|trim }}">
+    <meta name="description" content="{{ meta_description|default(info_claim)|striptags|trim }}">
     <meta name="author" content="Markus Tacker | http://tckr.cc/">
     <!-- See /humans.txt for more infos -->
     <meta name="viewport" content="width=device-width,initial-scale=1">
