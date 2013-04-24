@@ -12,6 +12,9 @@
             <argument type="service" id="wemoof.backend.repo.talk"/>
             <argument type="service" id="wemoof.backend.repo.user"/>
             <argument type="service" id="http_kernel"/>
+            <argument type="service" id="command_bus"/>
+            <argument type="service" id="router"/>
+            <tag name="lite_cqrs.event_handler"/>
         </service>
         <service id="wemoof.webbundle.twig.extension.date" class="WEMOOF\WebBundle\Twig\Extension\Date" public="false">
             <tag name="twig.extension"/>

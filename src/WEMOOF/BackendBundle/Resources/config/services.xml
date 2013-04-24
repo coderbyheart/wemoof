@@ -3,21 +3,40 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="wemoof.backend.userservice.class">WEMOOF\BackendBundle\Service\UserService</parameter>
+        <parameter key="wemoof.backend.mailservice.class">WEMOOF\BackendBundle\Service\MailService</parameter>
+        <parameter key="wemoof.backend.repo.event.class">WEMOOF\BackendBundle\Entity\Event</parameter>
+        <parameter key="wemoof.backend.repo.talk.class">WEMOOF\BackendBundle\Entity\Talk</parameter>
+        <parameter key="wemoof.backend.repo.user.class">WEMOOF\BackendBundle\Entity\User</parameter>
+    </parameters>
     <services>
         <service id="wemoof.backend.repo.event" factory-service="doctrine.orm.entity_manager"
                  factory-method="getRepository"
                  class="WEMOOF\BackendBundle\Repository\EventRepository">
-            <argument>WEMOOF\BackendBundle\Entity\Event</argument>
+            <argument>%wemoof.backend.repo.event.class%</argument>
         </service>
         <service id="wemoof.backend.repo.talk" factory-service="doctrine.orm.entity_manager"
                  factory-method="getRepository"
                  class="WEMOOF\BackendBundle\Repository\TalkRepository">
-            <argument>WEMOOF\BackendBundle\Entity\Talk</argument>
+            <argument>%wemoof.backend.repo.talk.class%</argument>
         </service>
         <service id="wemoof.backend.repo.user" factory-service="doctrine.orm.entity_manager"
                  factory-method="getRepository"
                  class="WEMOOF\BackendBundle\Repository\UserRepository">
-            <argument>WEMOOF\BackendBundle\Entity\User</argument>
+            <argument>%wemoof.backend.repo.user.class%</argument>
+        </service>
+        <service id="wemoof.backend.userservice" class="%wemoof.backend.userservice.class%">
+            <argument type="service" id="command_bus"/>
+            <argument type="service" id="router"/>
+            <tag name="lite_cqrs.command_handler"/>
+        </service>
+        <service id="wemoof.backend.mailservice" class="%wemoof.backend.mailservice.class%">
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="templating"/>
+            <argument>%mail_from_email%</argument>
+            <argument>%mail_from_name%</argument>
+            <tag name="lite_cqrs.command_handler"/>
         </service>
     </services>
 </container>

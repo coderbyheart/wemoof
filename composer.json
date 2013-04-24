@@ -23,7 +23,8 @@
         "gedmo/doctrine-extensions": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "phpoption/phpoption": "dev-master",
-        "dflydev/markdown": "dev-master"
+        "dflydev/markdown": "dev-master",
+        "beberlei/lite-cqrs": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
