@@ -3,17 +3,34 @@
 namespace WEMOOF\WebBundle\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use LiteCQRS\Bus\CommandBus;
+use LiteCQRS\Bus\EventExecutionFailed;
+use LiteCQRS\Plugin\CRUD\Model\Commands\UpdateResourceCommand;
+use PhpOption\None;
+use PhpOption\Some;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Routing\RouterInterface;
+use WEMOOF\BackendBundle\Command\SendLoginLinkCommand;
+use WEMOOF\BackendBundle\Command\VerifyUserCommand;
 use WEMOOF\BackendBundle\Repository\EventRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\TalkRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\UserRepositoryInterface;
-use WEMOOF\WebBundle\Form\SignupType;
+use WEMOOF\BackendBundle\Command\RegisterUserCommand;
+use WEMOOF\BackendBundle\Value\IdValue;
+use WEMOOF\BackendBundle\Value\SchemeAndHostValue;
+use WEMOOF\WebBundle\Form\RegisterType;
 use WEMOOF\BackendBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Security\Core\Util\StringUtils;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @Route(service="wemoof.web.controller.web")
@@ -57,7 +74,17 @@ class WebController
      */
     private $httpKernel;
 
-    public function __construct(Request $request, FormFactoryInterface $formFactory, ObjectManager $objectManager, EventRepositoryInterface $eventRepository, TalkRepositoryInterface $talkRepository, UserRepositoryInterface $userRepository, HttpKernelInterface $httpKernel)
+    /**
+     * @var \LiteCQRS\Bus\CommandBus
+     */
+    private $commandBus;
+
+    /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    private $router;
+
+    public function __construct(Request $request, FormFactoryInterface $formFactory, ObjectManager $objectManager, EventRepositoryInterface $eventRepository, TalkRepositoryInterface $talkRepository, UserRepositoryInterface $userRepository, HttpKernelInterface $httpKernel, CommandBus $commandBus, RouterInterface $router)
     {
         $this->request = $request;
         $this->formFactory = $formFactory;
@@ -66,16 +93,80 @@ class WebController
         $this->talkRepository = $talkRepository;
         $this->userRepository = $userRepository;
         $this->httpKernel = $httpKernel;
+        $this->commandBus = $commandBus;
+        $this->router = $router;
     }
 
     /**
-     * @Route("/")
+     * @Route("/", name="wemoof_index")
      * @Template()
      */
     public function indexAction()
     {
         $event = $this->eventRepository->getNextEvent()->get();
         return $this->forward('wemoof.web.controller.web:eventAction', array('id' => $event->getId()));
+    }
+
+    /**
+     * @Route("/register", name="wemoof_register")
+     * @Template()
+     */
+    public function registerAction()
+    {
+        $form = $this->formFactory->create(new RegisterType(), new RegisterUserCommand());
+
+        if (!$this->request->isMethod('POST')) return array(
+            'form' => $form->createView(),
+        );
+
+        if ($this->request->isMethod('POST')) {
+            $form->bind($this->request);
+            if (!$form->isValid()) return array(
+                'form' => $form->createView(),
+            );
+        }
+
+        /** @var RegisterUserCommand $command */
+        $command = $form->getData();
+        $someUser = Some::fromValue($this->userRepository->findOneByEmail($command->email));
+        if ($someUser->isEmpty()) {
+            $this->commandBus->handle($form->getData());
+            $someUser = Some::fromValue($this->userRepository->findOneByEmail($command->email));
+        }
+        $user = $someUser->getOrThrow(new HttpException(500, "Could not create user."));
+
+        $this->commandBus->handle(SendLoginLinkCommand::create($user, new SchemeAndHostValue($this->request->getSchemeAndHttpHost())));
+
+        return array(
+            'user' => $user
+        );
+    }
+
+    /**
+     * @Route("/dashboard", name="wemoof_dashboard")
+     * @Template()
+     */
+    public function dashboardAction()
+    {
+        $session = new Session();
+        $session->start();
+        $id = $session->get('user_id');
+        $user = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+
+        return array(
+            'user' => $user,
+        );
+    }
+
+    /**
+     * @Route("/logout", name="wemoof_logout")
+     */
+    public function logoutAction()
+    {
+        $session = new Session();
+        $session->start();
+        $session->invalidate();
+        return new RedirectResponse($this->router->generate('wemoof_index'));
     }
 
     /**
@@ -87,7 +178,7 @@ class WebController
         $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
         $talks = $this->talkRepository->getTalksForEvent($event);
         return array(
-            'form' => $this->formFactory->create(new SignupType(), new User(), array('validation_groups' => array('signup')))->createView(),
+            'form' => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
             'event' => $event,
             'talks' => $talks,
             'missing' => array_fill(0, 6 - count($talks), 1),
@@ -102,7 +193,7 @@ class WebController
     {
         $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
 
-        $form = $this->formFactory->create(new SignupType(), new User(), array('validation_groups' => array('signup')));
+        $form = $this->formFactory->create(new RegisterType(), new User());
         $created = false;
         if ($this->request->isMethod('POST')) {
             $form->bind($this->request);
@@ -172,5 +263,33 @@ class WebController
         $subRequest = $this->request->duplicate($query, null, $attributes);
 
         return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+    }
+
+    public function eventExecutionFailed(EventExecutionFailed $event)
+    {
+
+    }
+
+    /**
+     * @Route("/login/{id}/{key}", name="wemoof_login")
+     * @param $id
+     * @param $key
+     * @return RedirectResponse
+     */
+    public function loginAction($id, $key)
+    {
+        /** @var User $user */
+        $user = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+        if (!StringUtils::equals($user->getLoginKey(), $key)) throw new AccessDeniedHttpException("Invalid credentials.");
+
+        if (!$user->isVerified()) {
+            $this->commandBus->handle(VerifyUserCommand::create(new IdValue($user->getId())));
+        }
+
+        $session = new Session();
+        $session->start();
+        $session->set('user_id', $user->getId());
+
+        return new RedirectResponse($this->router->generate('wemoof_dashboard'));
     }
 }

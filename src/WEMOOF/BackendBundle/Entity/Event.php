@@ -3,8 +3,11 @@
 namespace WEMOOF\BackendBundle\Entity;
 
 
+use Carbon\Carbon;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use PhpOption\Option;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints as AssertORM;
 
@@ -34,8 +37,8 @@ class Event
     /**
      * @Assert\NotBlank()
      * @Assert\DateTime()
-     * @ORM\Column(type="datetime")
-     * @var string Beginnt am
+     * @ORM\Column(type="carbon")
+     * @var Carbon Beginnt am
      */
     protected $start;
 
@@ -67,9 +70,28 @@ class Event
      */
     protected $created;
 
+    /**
+     * @ORM\Column(type="carbon_optional", nullable=true, name="ticket_sales_start")
+     * @var Option
+     */
+    protected $ticketSalesStart;
+
+    /**
+     * @ORM\Column(type="integer", name="num_tickets")
+     * @var int
+     */
+    protected $numTickets = 0;
+
+    /**
+     * @ORM\OneToMany(targetEntity="WEMOOF\BackendBundle\Entity\Registration", mappedBy="event")
+     * @var Registration[]
+     */
+    protected $registrations;
+
     public function __construct()
     {
         $this->start = new \DateTime();
+        $this->registrations = new ArrayCollection();
     }
 
     /**
@@ -153,12 +175,41 @@ class Event
         return $this->xing;
     }
 
-
     /**
      * @return string
      */
     public function __toString()
     {
         return sprintf("%s am %s", $this->name, strftime("%d.%m.%Y", $this->start->getTimestamp()));
+    }
+
+    public function getNumTickets()
+    {
+        return $this->numTickets;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTicketSalesStart()
+    {
+        return $this->ticketSalesStart;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumTicketsAvailable()
+    {
+        return $this->getNumTickets() - $this->registrations->count();
+    }
+
+    /**
+     * @return float
+     */
+    public function getPercentTicketsSold()
+    {
+        $percent = $this->getNumTickets() > 0 ? $this->registrations->count() / $this->getNumTickets() : 1;
+        return sprintf("%d", $percent * 100);
     }
 }

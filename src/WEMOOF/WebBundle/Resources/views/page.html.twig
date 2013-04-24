@@ -10,7 +10,9 @@
     <meta property="og:type" content="non_profit">
     <meta property="og:title" content="{{ meta_title|striptags|trim }}">
     <meta property="og:url" content="{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ app.request.pathInfo }}">
+    {% if meta_image is defined %}
     <meta property="og:image" content="{{ meta_image|striptags|trim }}">
+    {% endif %}
     <meta property="og:site_name" content="WEMO♥F | Webmontag Offenbach">
     <meta property="fb:admins" content="1132748678">
     <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
@@ -19,6 +21,11 @@
     {% endstylesheets %}
 </head>
 <body>
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="messages">
+        <div class="message">{{ flashMessage }}</div>
+    </div>
+{% endfor %}
 {% block content %}
 {% endblock %}
 <footer>

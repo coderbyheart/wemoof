@@ -7,58 +7,25 @@
             <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
         </h1>
 
-        <p class="tagline">Am
-            <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
-            findet der  {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag in Offenbach</strong> statt. Werde Teil
-            davon!
-        </p>
-
-        <h2>#wasfehlt</h2>
-
-        <p>Offenbach ist eine der kreativsten Städte in Deutschland. Über 1.000 Werbeagenturen, IT-Dienstleister,
-            Selbständige, Freiberufler und Künstler haben ihr Herz und ihren beruflichen Mittelpunkt in der Stadt am
-            Meer. Als Gemeinschaft könnten wir viel bewegen, um Offenbach als kreativen Standort weiter voran zu
-            bringen. Was dazu fehlt, ist eine regelmäßige, durch die Community organisierte Veranstaltung, die
-            Interessierte aus allen kreativen Branchen zusammenbringt und so die Raum für neue Verbindungen und
-            Synergien schafft.</p>
-
         <p>Der <strong>Webmontag Offenbach</strong> ist eine informelle, nicht-kommerzielle und von der Community
             organisierte Veranstaltung, die Menschen zusammen bringt, die sich für das Web begeistern, Teil davon sind
             oder es werden wollen.</p>
 
-        <p>Ich bin überzeugt, dass Offenbach diese Veranstaltung braucht und glaube daran, dass wir als kreative
-            Gemeinschaft den Termin in den nächsten Wochen realisieren können.</p>
+    </article>
 
-        <h2>Damit der erste <strong>WEMO<span class="heart">♥</span>F</strong> statt finden kann benötige ich deine
-            Unterstützung!</h2>
+    <article id="event">
 
-        <h3>Der Termin und die Location</h3>
-
-        <p>… stehen schonmal fest: der erste Webmontag Offenbach findet am <strong>
-                <time datetime="{{ event.start|rfc3339 }}">{{ event.start|longdate }}</time>
-            </strong> in der <a href="http://afip-hessen.de/">»afip!«</a> statt.
-        </p>
+        <h2>Am
+            <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
+            findet der {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag Offenbach</strong> in der
+            <a href="http://afip-hessen.de/">»afip!«</a> statt.
+        </h2>
 
         <h3>Die Sprecher</h3>
 
-        <p>Gesucht sind sechs Sprecher, die einen Vortrag über ein Thema halten, das sie gerade bewegt. Der Vortrag muss
-            zwei dieser drei Kriterien erfüllen: er hat einen Bezug zum Web, er ist authentisch und er hat etwas mit
-            Offenbach zu tun. Er darf nicht länger als 15 Minuten dauern. Zusätzlich sind Spotlight-Vorträge möglich,
-            hier besteht die Möglichkeit, ein Thema, eine Veranstaltung mit einer Folie und in einer Minute an zu
-            teasern.</p>
-
-        <ol>
-            {% for talk in talks %}
-                <li>
-                    <a href="{{ path('wemoof_talk', {'slug': talk|slug, 'id': talk.id}) }}">
-                        {{ talk }}
-                    </a>
-                </li>
-            {% endfor %}
-            {% for i in missing %}
-                <li><span class="error">Sprecher fehlt!</span></li>
-            {% endfor %}
-        </ol>
+        <p>Sechs Sprecher halten einen Vortrag über ein Thema, das sie gerade bewegt. Jeder Vortrag dauert 15-20
+            Minuten. Zusätzlich werden in 1- bis 2-minütigen Spotlight-Vorträgen aktuelle Szeneereignisse
+            vorgestellt.</p>
 
         {% for talk in talks %}
             {% if loop.first %}
@@ -78,9 +45,58 @@
             {% endif %}
         {% endfor %}
 
-        <h3>Du fehlst!</h3>
+        <ol>
+            {% for talk in talks %}
+                <li>
+                    <a href="{{ path('wemoof_talk', {'slug': talk|slug, 'id': talk.id}) }}">
+                        {{ talk }}
+                    </a>
+                </li>
+            {% endfor %}
+            {% for i in missing %}
+                <li><em>Wird noch bekannt gegeben.</em></li>
+            {% endfor %}
+        </ol>
 
-        <p>Jetzt ist es an dir! Hilf' mit, den Webmontag Offenbach zu realisieren!</p>
+        <p>
+            <small><em>Die Reihenfolge der Talks wird erst am Veranstaltungsabend festgelegt.</em></small>
+        </p>
+
+    </article>
+
+    <article id="tickets" class="important">
+
+        <h2>Anmeldung</h2>
+
+        {% if event.ticketSalesStart.isEmpty() %}
+            <p>Der Zeitpunkt für die Anmeldung wurde noch nicht bekannt gegeben.</p>
+        {% else %}
+            {% if event.ticketSalesStart.get().isFuture() %}
+                <p><strong>Geduld!</strong> Ab {{ event.ticketSalesStart.get()|longdate }} kannst Du dich anmelden.</p>
+            {% else %}
+                <div class="loading">
+                    <div class="inner" style="width: {{ event.percentTicketsSold }}%;"></div>
+                </div>
+                {% if event.numTicketsAvailable > 0 %}
+                    <p>Es sind noch {{ event.numTicketsAvailable }} Tickets verfügbar.</p>
+
+                    <p>Um dich für den {{ "%d."|format(event.id)|numtotext }} Webmontag Offenbach anzumelden, fülle bitte das folgende Formular aus.</p>
+
+                    {% form_theme form 'WEMOOFWebBundle:Form:fields.html.twig' %}
+                    <form method="POST" action="{{ path("wemoof_register") }}" class="clearfix">
+                        {{ form_widget(form) }}
+                        <button type="submit">Anmelden</button>
+                    </form>
+
+                    <p>
+                        <small>Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</small>
+                    </p>
+
+                {% else %}
+                    <p>Es sind keine Tickets mehr verfügbar. Du kannst dich auf die Warteliste eintragen.</p>
+                {% endif %}
+            {% endif %}
+        {% endif %}
 
     </article>
     <article id="helfen">
@@ -91,29 +107,23 @@
             <a href="http://twitter.com/markustacker">Tweet</a> mich an oder komm' im <a href="http://offenraum.de/">OFfenraum</a>
             vorbei.</p>
 
-        <h3>Orga-Treffen</h3>
+        <h3>Beer&amp;Bytes</h3>
 
         <p>Für Unterstützer, Interessierte und Neugierige wird es zwei Orga-Termine geben, die jeweils im
             <a href="http://offenraum.de/">OFfenraum</a> statt finden:</p>
 
         <ol>
             <li>
-                <del datetime="2013-03-27T19:00:00+01:00">Mittwoch, 27.3.2013 um 19 Uhr</del>
+                <del datetime="2013-03-27T19:00:00+01:00">Mittwoch, 27.3.2013</del>
                 <a href="https://docs.google.com/document/d/1JeS19xdcRjpUXKjDzcenUkEmk-4I9v0kgJ2clTUD-po/edit?usp=sharing">Protokoll</a>
             </li>
             <li>
-                Mittwoch, 24.4.2013 um 19 Uhr
+                Mittwoch, 24.4.2013 von 19-20 Uhr (Orga-Team) und von 20-21 Uhr (Sprecher)
             </li>
         </ol>
 
     </article>
-    <article id="signupform">
 
-        <h2>Teilnehmen</h2>
-
-        {% include "WEMOOFWebBundle:Web:part/signupform.html.twig" with {"signup": false} %}
-
-    </article>
     <article id="kontakt">
 
         <h2>Kontakt</h2>

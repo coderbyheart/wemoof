@@ -30,6 +30,7 @@ class EventRepository extends DoctrineEntityRepository implements EventRepositor
     {
         $qb = $this->createQueryBuilder('e');
         $qb->andWhere('e.id = :id')->setParameter('id', $id);
+        $qb->leftJoin('e.registrations', 'er')->addSelect('er');
         $event = $qb->getQuery()->getOneOrNullResult();
         return $event === null ? None::create() : new Some($event);
     }

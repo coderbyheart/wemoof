@@ -3,8 +3,10 @@
 namespace WEMOOF\BackendBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use LiteCQRS\Plugin\CRUD\AggregateResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints as AssertORM;
 
@@ -12,9 +14,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as AssertORM;
 /**
  * @ORM\Entity(repositoryClass="WEMOOF\BackendBundle\Repository\UserRepository")
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email",columns={"email"})})
- * @AssertORM\UniqueEntity(fields={"email"}, groups={"signup", "profile"})
+ * @AssertORM\UniqueEntity(fields={"email"})
  */
-class User
+class User extends AggregateResource
 {
     /**
      * @ORM\Id
@@ -25,22 +27,20 @@ class User
     protected $id;
 
     /**
-     * @Assert\NotBlank(groups={"signup", "profile"})
-     * @Assert\Email(groups={"signup", "profile"})
+     * @Assert\NotBlank()
+     * @Assert\Email()
      * @ORM\Column(type="string")
      * @var string E-Mail-Adresse
      */
     protected $email;
 
     /**
-     * @Assert\NotBlank(groups={"profile"})
      * @ORM\Column(type="string", nullable=true)
      * @var string Vorname
      */
     protected $firstname;
 
     /**
-     * @Assert\NotBlank(groups={"profile"})
      * @ORM\Column(type="string", nullable=true)
      * @var string Nachname
      */
@@ -52,6 +52,12 @@ class User
      * @var string Beschreibung
      */
     protected $description;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="login_key")
+     * @var string Login-Key
+     */
+    protected $loginKey;
 
     /**
      * @Assert\Url
@@ -75,6 +81,13 @@ class User
     protected $hasGravatar = false;
 
     /**
+     * @Assert\NotBlank()
+     * @ORM\Column(type="boolean")
+     * @var string E-Mail-Adresse verifiziert?
+     */
+    protected $verified = false;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      * @var \DateTime
@@ -82,11 +95,23 @@ class User
     protected $created;
 
     /**
+     * @ORM\OneToMany(targetEntity="WEMOOF\BackendBundle\Entity\Registration", mappedBy="event")
+     * @var Registration[]
+     */
+    protected $registrations;
+
+    public function __construct()
+    {
+        $this->events = new ArrayCollection();
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
-        return sprintf("%s %s", $this->firstname, $this->lastname);
+        $name = trim(sprintf("%s %s", $this->firstname, $this->lastname));
+        return empty($name) ? $this->email : $name;
     }
 
     /**
@@ -231,5 +256,58 @@ class User
     public function setUrl($url)
     {
         $this->url = $url;
+    }
+
+    /**
+     * @param string $loginKey
+     */
+    public function setLoginKey($loginKey)
+    {
+        $this->loginKey = $loginKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLoginKey()
+    {
+        return $this->loginKey;
+    }
+
+    /**
+     * @param string $verified
+     */
+    public function verify()
+    {
+        $this->verified = true;
+    }
+
+    /**
+     * @return string
+     */
+    public function isVerified()
+    {
+        return $this->verified;
+    }
+
+    /**
+     * Return an array of properties that are allowed to change
+     * through the create() and update() methods.
+     *
+     * @return array
+     */
+    protected function getAccessibleProperties()
+    {
+        return array(
+            'email',
+            'firstname',
+            'lastname',
+            'description',
+            'twitter',
+            'url',
+            'hasGravatar',
+            'loginKey',
+            'verified'
+        );
     }
 }

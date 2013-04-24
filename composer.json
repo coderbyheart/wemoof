@@ -24,7 +24,8 @@
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "phpoption/phpoption": "dev-master",
         "dflydev/markdown": "dev-master",
-        "beberlei/lite-cqrs": "dev-master"
+        "beberlei/lite-cqrs": "dev-master",
+        "nesbot/carbon": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

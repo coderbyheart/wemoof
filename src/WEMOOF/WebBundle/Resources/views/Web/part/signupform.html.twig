@@ -1,27 +1,4 @@
-{% form_theme form _self %}
-{% block form_row %}
-    {% spaceless %}
-        {% if label is defined %}
-            <label> {{ label|trans({}, translation_domain) }}<br>
-                {{ form_errors(form) }}
-                {{ form_widget(form) }}
-            </label>
-        {% endif %}
-    {% endspaceless %}
-{% endblock form_row %}
-
-{% block form_errors %}
-    {% spaceless %}
-        {% if errors is defined %}
-            {% if errors|length > 0 %}
-                {% for error in errors %}
-                    <span class="error">{{ error.message }}</span><br>
-                {% endfor %}
-            {% endif %}
-        {% endif %}
-    {% endspaceless %}
-{% endblock form_errors %}
-
+{% form_theme form 'WEMOOFWebBundle:Form:fields.html.twig' %}
 {% if not signup %}
     <p>Du möchtest am ersten oder an folgenden Webmontagen teilnehmen? Dann trag' dich für den Newsletter ein.</p>
 

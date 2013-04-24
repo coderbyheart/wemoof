@@ -136,5 +136,54 @@ article.talk, article.user {
   }
 }
 
+article.important {
+  color: $warning_text;
+  input {
+    border-color: $warning;
+  }
+  button {
+    background-color: $warning;
+    color: $text;
+  }
+}
+
+// http://codepen.io/herzflimmern/pen/uFrlk
+.loading {
+
+  $loading_hei: 24px;
+  $border_width: 3px;
+
+  $loading_wid: 100%;
+
+  background-color: darken($bg, 5);
+
+  width: $loading_wid;
+  border: $border_width solid $warning;
+  overflow: hidden;
+  padding: $border_width;
+
+  .inner {
+    position: relative;
+    width: 10%;
+    height: $loading_hei;
+    background: $warning;
+  }
+}
+
+.messages {
+  width: 100%;
+  max-width: 500px;
+  margin: 1em auto;
+  .message {
+    background-color: $warning;
+    color: $warning_text;
+
+    padding: 0.25em;
+    font-size: 0.875em;
+    font-weight: bold;
+  }
+
+}
+
 @import "responsive";
 
