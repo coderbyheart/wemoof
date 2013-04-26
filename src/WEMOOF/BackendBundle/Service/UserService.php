@@ -71,6 +71,7 @@ class UserService
                 array(
                     'user' => $command->user,
                     'loginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_login', array('id' => $command->user->getId(), 'key' => $loginKey)),
-                )));
+                ),
+                'Dein Login-Link für Webmontag Offenbach'));
     }
 }

@@ -11,6 +11,12 @@
         <h2><strong>Hallo {{ user }}</strong>,<br>schön dich zu sehen!</h2>
 
         <h3>Zum Webmontag anmelden</h3>
+        {% for e in registerableEvents %}
+            {{ e.name }}
+        {% else %}
+            <p>Aktuell kannst Du dich leider zu keinem weiteren Webmontag anmelden.</p>
+        {% endfor %}
+
 
         <h3>Sonstiges</h3>
 

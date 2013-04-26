@@ -16,4 +16,9 @@ interface EventRepositoryInterface
      * @return \PhpOption\Option
      */
     function getEvent($id);
+
+    /**
+     * @return \PhpOption\Option
+     */
+    function getRegisterableEvents();
 }

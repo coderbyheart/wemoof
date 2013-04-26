@@ -152,9 +152,11 @@ class WebController
         $session->start();
         $id = $session->get('user_id');
         $user = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+        $registerableEvents = $this->eventRepository->getRegisterableEvents();
 
         return array(
             'user' => $user,
+            'registerableEvents' => $registerableEvents,
         );
     }
 
