@@ -322,4 +322,42 @@ class WebController
 
         return new RedirectResponse($this->router->generate('wemoof_dashboard'));
     }
+
+    /**
+     * @return User
+     * @throws NotFoundHttpException
+     */
+    private function getUser()
+    {
+        $session = $this->getSession();
+        $id = $session->get('user_id');
+        $user = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+        return $user;
+    }
+
+    /**
+     * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
+     */
+    private $session;
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Session\SessionInterface
+     */
+    private function getSession()
+    {
+        if ($this->session === null) {
+            $this->session = new Session();
+            $this->session->start();
+        }
+        return $this->session;
+    }
+
+    /**
+     * @param string $message
+     */
+    private function addMessage($message)
+    {
+        $session = $this->getSession();
+        $session->getFlashBag()->add('notice', $message);
+    }
 }
