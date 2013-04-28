@@ -250,8 +250,10 @@ class WebController
      */
     public function registerEventAction($id)
     {
+        /** @var Event $event  */
         $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
         $user = $this->getUser();
+        if ($event->getNumTicketsAvailable() <= 0) throw new ForbiddenHttpException(sprintf("Event %d is sold out.", $event->getId()));
 
         $command = RegisterEventCommand::create($user, $event);
         $form = $this->formFactory->create(new RegisterEventType(), $command);
