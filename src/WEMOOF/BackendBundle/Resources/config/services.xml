@@ -7,25 +7,35 @@
         <parameter key="wemoof.backend.userservice.class">WEMOOF\BackendBundle\Service\UserService</parameter>
         <parameter key="wemoof.backend.mailservice.class">WEMOOF\BackendBundle\Service\MailService</parameter>
         <parameter key="wemoof.backend.eventservice.class">WEMOOF\BackendBundle\Service\EventService</parameter>
-        <parameter key="wemoof.backend.repo.event.class">WEMOOF\BackendBundle\Entity\Event</parameter>
-        <parameter key="wemoof.backend.repo.talk.class">WEMOOF\BackendBundle\Entity\Talk</parameter>
-        <parameter key="wemoof.backend.repo.user.class">WEMOOF\BackendBundle\Entity\User</parameter>
+        <parameter key="wemoof.backend.entity.event.class">WEMOOF\BackendBundle\Entity\Event</parameter>
+        <parameter key="wemoof.backend.entity.talk.class">WEMOOF\BackendBundle\Entity\Talk</parameter>
+        <parameter key="wemoof.backend.entity.user.class">WEMOOF\BackendBundle\Entity\User</parameter>
+        <parameter key="wemoof.backend.entity.registration.class">WEMOOF\BackendBundle\Entity\Registration</parameter>
+        <parameter key="wemoof.backend.repo.event.class">WEMOOF\BackendBundle\Repository\EventRepository</parameter>
+        <parameter key="wemoof.backend.repo.user.class">WEMOOF\BackendBundle\Repository\UserRepository</parameter>
+        <parameter key="wemoof.backend.repo.talk.class">WEMOOF\BackendBundle\Repository\TalkRepository</parameter>
+        <parameter key="wemoof.backend.repo.registration.class">WEMOOF\BackendBundle\Repository\RegistrationRepository</parameter>
     </parameters>
     <services>
         <service id="wemoof.backend.repo.event" factory-service="doctrine.orm.entity_manager"
                  factory-method="getRepository"
-                 class="WEMOOF\BackendBundle\Repository\EventRepository">
-            <argument>%wemoof.backend.repo.event.class%</argument>
+                 class="%wemoof.backend.repo.event.class%">
+            <argument>%wemoof.backend.entity.event.class%</argument>
         </service>
         <service id="wemoof.backend.repo.talk" factory-service="doctrine.orm.entity_manager"
                  factory-method="getRepository"
-                 class="WEMOOF\BackendBundle\Repository\TalkRepository">
-            <argument>%wemoof.backend.repo.talk.class%</argument>
+                 class="%wemoof.backend.repo.talk.class%">
+            <argument>%wemoof.backend.entity.talk.class%</argument>
         </service>
         <service id="wemoof.backend.repo.user" factory-service="doctrine.orm.entity_manager"
                  factory-method="getRepository"
-                 class="WEMOOF\BackendBundle\Repository\UserRepository">
-            <argument>%wemoof.backend.repo.user.class%</argument>
+                 class="%wemoof.backend.repo.user.class%">
+            <argument>%wemoof.backend.entity.user.class%</argument>
+        </service>
+        <service id="wemoof.backend.repo.registration" factory-service="doctrine.orm.entity_manager"
+                 factory-method="getRepository"
+                 class="%wemoof.backend.repo.registration.class%">
+            <argument>%wemoof.backend.entity.registration.class%</argument>
         </service>
         <service id="wemoof.backend.userservice" class="%wemoof.backend.userservice.class%">
             <argument type="service" id="command_bus"/>

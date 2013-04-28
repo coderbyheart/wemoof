@@ -16,10 +16,13 @@
 
         <h3>Zu einem Webmontag anmelden</h3>
 
-        <p>Zu diesen Webmontagen kannst Du dich jetzt anmelden.</p>
         {% for registerableEvent in registerableEvents %}
+            {% if loop.first %}
+                <p>Zu diesen Webmontagen kannst Du dich jetzt anmelden.</p>
+            {% endif %}
             {% form_theme registerableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
-            <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}" class="clearfix">
+            <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}"
+                  class="clearfix">
                 <p>{{ registerableEvent.event.name }}, am {{ registerableEvent.event.start|shortdate }}</p>
                 {{ form_widget(registerableEvent.form) }}
                 <button type="submit">Anmelden</button>

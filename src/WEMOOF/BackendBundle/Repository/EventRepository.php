@@ -59,4 +59,5 @@ class EventRepository extends DoctrineEntityRepository implements EventRepositor
         return $return;
     }
 
+
 }

@@ -11,6 +11,7 @@
             <argument type="service" id="wemoof.backend.repo.event"/>
             <argument type="service" id="wemoof.backend.repo.talk"/>
             <argument type="service" id="wemoof.backend.repo.user"/>
+            <argument type="service" id="wemoof.backend.repo.registration"/>
             <argument type="service" id="http_kernel"/>
             <argument type="service" id="command_bus"/>
             <argument type="service" id="router"/>

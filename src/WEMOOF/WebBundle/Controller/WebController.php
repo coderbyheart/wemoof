@@ -22,6 +22,7 @@ use WEMOOF\BackendBundle\Command\VerifyUserCommand;
 use WEMOOF\BackendBundle\Repository\EventRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\TalkRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\UserRepositoryInterface;
+use WEMOOF\BackendBundle\Repository\RegistrationRepositoryInterface;
 use WEMOOF\BackendBundle\Command\RegisterUserCommand;
 use WEMOOF\BackendBundle\Command\RegisterEventCommand;
 use WEMOOF\BackendBundle\Value\IdValue;
@@ -29,6 +30,7 @@ use WEMOOF\BackendBundle\Value\SchemeAndHostValue;
 use WEMOOF\WebBundle\Form\RegisterType;
 use WEMOOF\WebBundle\Form\RegisterEventType;
 use WEMOOF\BackendBundle\Entity\User;
+use WEMOOF\BackendBundle\Entity\Registration;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\Util\StringUtils;
@@ -86,7 +88,7 @@ class WebController
      */
     private $router;
 
-    public function __construct(Request $request, FormFactoryInterface $formFactory, ObjectManager $objectManager, EventRepositoryInterface $eventRepository, TalkRepositoryInterface $talkRepository, UserRepositoryInterface $userRepository, HttpKernelInterface $httpKernel, CommandBus $commandBus, RouterInterface $router)
+    public function __construct(Request $request, FormFactoryInterface $formFactory, ObjectManager $objectManager, EventRepositoryInterface $eventRepository, TalkRepositoryInterface $talkRepository, UserRepositoryInterface $userRepository, RegistrationRepositoryInterface $registrationRepository, HttpKernelInterface $httpKernel, CommandBus $commandBus, RouterInterface $router)
     {
         $this->request = $request;
         $this->formFactory = $formFactory;
@@ -94,6 +96,7 @@ class WebController
         $this->eventRepository = $eventRepository;
         $this->talkRepository = $talkRepository;
         $this->userRepository = $userRepository;
+        $this->registrationRepository = $registrationRepository;
         $this->httpKernel = $httpKernel;
         $this->commandBus = $commandBus;
         $this->router = $router;
@@ -151,8 +154,12 @@ class WebController
     public function dashboardAction()
     {
         $user = $this->getUser();
+        $registeredEvents = array_map(function (Registration $registration) {
+            return $registration->getEvent()->getId();
+        }, $this->registrationRepository->getRegistrations($this->getUser()));
         $registerableEvents = array();
         foreach ($this->eventRepository->getRegisterableEvents() as $event) {
+            if (in_array($event->getId(), $registeredEvents)) continue;
             $form = $this->formFactory->create(new RegisterEventType(), RegisterEventCommand::create($user, $event));
             $registerableEvents[] = array(
                 'form' => $form->createView(),

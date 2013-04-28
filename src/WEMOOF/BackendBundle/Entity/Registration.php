@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use LiteCQRS\Plugin\CRUD\AggregateResource;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="WEMOOF\BackendBundle\Repository\RegistrationRepository")
  * @ORM\Table(name="registration", uniqueConstraints={@ORM\UniqueConstraint(name="event_user",columns={"event_id", "user_id"})})
  */
 class Registration extends AggregateResource
@@ -33,7 +33,7 @@ class Registration extends AggregateResource
      * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="WEMOOF\BackendBundle\Entity\User", inversedBy="registrations")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-     * @var Event
+     * @var User
      */
     protected $user;
 
@@ -43,6 +43,22 @@ class Registration extends AggregateResource
      * @var \DateTime
      */
     protected $created;
+
+    /**
+     * @return \WEMOOF\BackendBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return \WEMOOF\BackendBundle\Entity\Event
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
 
     /**
      * Return an array of properties that are allowed to change

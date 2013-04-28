@@ -212,4 +212,12 @@ class Event
         $percent = $this->getNumTickets() > 0 ? $this->registrations->count() / $this->getNumTickets() : 1;
         return sprintf("%d", $percent * 100);
     }
+
+    /**
+     * @return Registration[]
+     */
+    public function getRegistrations()
+    {
+        return $this->registrations;
+    }
 }
