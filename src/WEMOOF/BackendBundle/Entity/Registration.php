@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use LiteCQRS\Plugin\CRUD\AggregateResource;
+use PhpOption\Option;
 
 /**
  * @ORM\Entity(repositoryClass="WEMOOF\BackendBundle\Repository\RegistrationRepository")
@@ -45,6 +46,12 @@ class Registration extends AggregateResource
     protected $created;
 
     /**
+     * @ORM\Column(type="carbon_optional", nullable=true)
+     * @var Option
+     */
+    protected $confirmed;
+
+    /**
      * @return int
      */
     public function getId()
@@ -79,7 +86,8 @@ class Registration extends AggregateResource
         return array(
             'event',
             'user',
-            'created'
+            'created',
+            'confirmed',
         );
     }
 }

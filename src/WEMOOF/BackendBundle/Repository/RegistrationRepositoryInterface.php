@@ -13,6 +13,12 @@ interface RegistrationRepositoryInterface
      */
     function getRegistrations(User $user);
 
+
+    /**
+     * @return Registration[]
+     */
+    function getUnconfirmedRegistrations();
+
     /**
      * @param int $id
      * @return \PhpOption\Option

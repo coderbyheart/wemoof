@@ -36,4 +36,17 @@ class RegistrationRepository extends DoctrineEntityRepository implements Registr
         $registration = $qb->getQuery()->getOneOrNullResult();
         return $registration === null ? None::create() : new Some($registration);
     }
+
+    /**
+     * @return Registration[]
+     */
+    function getUnconfirmedRegistrations()
+    {
+        $qb = $this->createQueryBuilder('er');
+        $qb->andWhere('er.confirmed IS NULL');
+        $qb->leftJoin('er.event', 'e')->addSelect('e');
+        $qb->leftJoin('er.user', 'u')->addSelect('u');
+        return $qb->getQuery()->getResult();
+    }
+
 }

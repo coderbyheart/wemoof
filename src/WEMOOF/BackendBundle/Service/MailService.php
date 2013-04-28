@@ -49,6 +49,7 @@ class MailService
             ->setFrom($this->mailFromEmail, $this->mailFromName);
         $message->setSubject($command->subject->getOrElse('Webmontag Offenbach'))
             ->setTo((string)$command->email)
+            ->setBcc('m@wemoof.de')
             ->setBody(
                 $this->templating->render((string)$command->template, $command->templateData)
             );

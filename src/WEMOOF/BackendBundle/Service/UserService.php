@@ -9,6 +9,7 @@ use LiteCQRS\Plugin\CRUD\Model\Commands\CreateResourceCommand;
 use LiteCQRS\Bus\CommandBus;
 use WEMOOF\BackendBundle\Command\RegisterUserCommand;
 use WEMOOF\BackendBundle\Command\SendLoginLinkCommand;
+use WEMOOF\BackendBundle\Command\SendConfirmationMailCommand;
 use WEMOOF\BackendBundle\Command\SendTemplateMailCommand;
 use WEMOOF\BackendBundle\Command\VerifyUserCommand;
 use WEMOOF\BackendBundle\Value\EmailValue;
@@ -73,5 +74,28 @@ class UserService
                     'loginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_login', array('id' => $command->user->getId(), 'key' => $loginKey)),
                 ),
                 'Dein Login-Link für Webmontag Offenbach'));
+    }
+
+
+    public function sendConfirmationMail(SendConfirmationMailCommand $command)
+    {
+        $updateCommand = new UpdateResourceCommand();
+        $updateCommand->class = '\WEMOOF\BackendBundle\Entity\Registration';
+        $updateCommand->id = $command->registration->getId();
+        $updateCommand->data = array('confirmed' => new \DateTime());
+        $this->commandBus->handle($updateCommand);
+
+        $this->commandBus->handle(
+            SendTemplateMailCommand::create(
+                new EmailValue($command->registration->getUser()->getEmail()),
+                new TemplateIdentifierValue('WEMOOFBackendBundle:Email:confirmation.txt.twig'),
+                array(
+                    'user' => $command->registration->getUser(),
+                    'event' => $command->registration->getEvent(),
+                    'schemeAndHost' => (string)$command->schemeAndHost,
+                ),
+                sprintf('Deine Registrierung zum Webmontag Offenbach #%d', $command->registration->getEvent()->getId())
+            )
+        );
     }
 }

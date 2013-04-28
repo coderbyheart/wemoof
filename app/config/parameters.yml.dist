@@ -10,6 +10,11 @@ parameters:
     mailer_host:       127.0.0.1
     mailer_user:       ~
     mailer_password:   ~
+    mailer_port:       ~
+    mail_from_email:   m@wemoof.de
+    mail_from_name:    Webmontag Offenbach
+
+    scheme_and_host:   http://wemoof.de
 
     locale:            de
     secret:            changeme
