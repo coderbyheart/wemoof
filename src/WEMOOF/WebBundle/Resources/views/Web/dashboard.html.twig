@@ -4,15 +4,26 @@
     <article class="dashboard">
         <h1>
             <a href="/">
-                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
+                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}"
+                     alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
             </a>
         </h1>
 
         <h2><strong>Hallo {{ user }}</strong>,<br>schön dich zu sehen!</h2>
 
-        <h3>Zum Webmontag anmelden</h3>
-        {% for e in registerableEvents %}
-            {{ e.name }}
+        <p>Du befindest dich nun in deinem persönlichen Bereich. Hier kannst Du dich zu unseren Veranstaltungen anmelden
+            und dein Profil bearbeiten.</p>
+
+        <h3>Zu einem Webmontag anmelden</h3>
+
+        <p>Zu diesen Webmontagen kannst Du dich jetzt anmelden.</p>
+        {% for registerableEvent in registerableEvents %}
+            {% form_theme registerableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
+            <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}" class="clearfix">
+                <p>{{ registerableEvent.event.name }}, am {{ registerableEvent.event.start|shortdate }}</p>
+                {{ form_widget(registerableEvent.form) }}
+                <button type="submit">Anmelden</button>
+            </form>
         {% else %}
             <p>Aktuell kannst Du dich leider zu keinem weiteren Webmontag anmelden.</p>
         {% endfor %}

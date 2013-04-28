@@ -5,12 +5,13 @@ namespace WEMOOF\BackendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use LiteCQRS\Plugin\CRUD\AggregateResource;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="registration", uniqueConstraints={@ORM\UniqueConstraint(name="event_user",columns={"event_id", "user_id"})})
  */
-class Registration
+class Registration extends AggregateResource
 {
     /**
      * @ORM\Id
@@ -42,4 +43,19 @@ class Registration
      * @var \DateTime
      */
     protected $created;
+
+    /**
+     * Return an array of properties that are allowed to change
+     * through the create() and update() methods.
+     *
+     * @return array
+     */
+    protected function getAccessibleProperties()
+    {
+        return array(
+            'event',
+            'user',
+            'created'
+        );
+    }
 }

@@ -23,9 +23,11 @@ use WEMOOF\BackendBundle\Repository\EventRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\TalkRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\UserRepositoryInterface;
 use WEMOOF\BackendBundle\Command\RegisterUserCommand;
+use WEMOOF\BackendBundle\Command\RegisterEventCommand;
 use WEMOOF\BackendBundle\Value\IdValue;
 use WEMOOF\BackendBundle\Value\SchemeAndHostValue;
 use WEMOOF\WebBundle\Form\RegisterType;
+use WEMOOF\WebBundle\Form\RegisterEventType;
 use WEMOOF\BackendBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -148,11 +150,15 @@ class WebController
      */
     public function dashboardAction()
     {
-        $session = new Session();
-        $session->start();
-        $id = $session->get('user_id');
-        $user = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
-        $registerableEvents = $this->eventRepository->getRegisterableEvents();
+        $user = $this->getUser();
+        $registerableEvents = array();
+        foreach ($this->eventRepository->getRegisterableEvents() as $event) {
+            $form = $this->formFactory->create(new RegisterEventType(), RegisterEventCommand::create($user, $event));
+            $registerableEvents[] = array(
+                'form' => $form->createView(),
+                'event' => $event
+            );
+        }
 
         return array(
             'user' => $user,
@@ -211,6 +217,28 @@ class WebController
             'signup' => $created,
             'event' => $event,
         );
+    }
+
+    /**
+     * @Route("/{id}/register", name="wemoof_register_event", methods={"POST"})
+     * @Template()
+     */
+    public function registerEventAction($id)
+    {
+        $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
+        $user = $this->getUser();
+
+        $command = RegisterEventCommand::create($user, $event);
+        $form = $this->formFactory->create(new RegisterEventType(), $command);
+        if ($this->request->isMethod('POST')) {
+            $form->bind($this->request);
+            if ($form->isValid()) {
+                $this->commandBus->handle($command);
+                $this->addMessage("Du wurdest erfolgreich angemeldet.");
+            }
+        }
+
+        return new RedirectResponse($this->router->generate('wemoof_dashboard'));
     }
 
     /**

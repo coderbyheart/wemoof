@@ -6,6 +6,7 @@
     <parameters>
         <parameter key="wemoof.backend.userservice.class">WEMOOF\BackendBundle\Service\UserService</parameter>
         <parameter key="wemoof.backend.mailservice.class">WEMOOF\BackendBundle\Service\MailService</parameter>
+        <parameter key="wemoof.backend.eventservice.class">WEMOOF\BackendBundle\Service\EventService</parameter>
         <parameter key="wemoof.backend.repo.event.class">WEMOOF\BackendBundle\Entity\Event</parameter>
         <parameter key="wemoof.backend.repo.talk.class">WEMOOF\BackendBundle\Entity\Talk</parameter>
         <parameter key="wemoof.backend.repo.user.class">WEMOOF\BackendBundle\Entity\User</parameter>
@@ -29,6 +30,10 @@
         <service id="wemoof.backend.userservice" class="%wemoof.backend.userservice.class%">
             <argument type="service" id="command_bus"/>
             <argument type="service" id="router"/>
+            <tag name="lite_cqrs.command_handler"/>
+        </service>
+        <service id="wemoof.backend.eventservice" class="%wemoof.backend.eventservice.class%">
+            <argument type="service" id="command_bus"/>
             <tag name="lite_cqrs.command_handler"/>
         </service>
         <service id="wemoof.backend.mailservice" class="%wemoof.backend.mailservice.class%">
