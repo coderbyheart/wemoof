@@ -42,20 +42,21 @@ class EventRepository extends DoctrineEntityRepository implements EventRepositor
      */
     function getRegisterableEvents()
     {
-        // SELECT ON REGISTRATIONS
         $qb = $this->createQueryBuilder('e');
+        $qb->select('e', 'COUNT(er.id) AS num_registrations');
         $qb->andWhere('e.ticketSalesStart <= :now');
         $qb->andWhere('e.start >= :now');
         $qb->andWhere('e.numTickets > 0');
-        $qb->leftJoin('e.registrations', 'er')->addSelect($qb->expr()->count('er.id'));
+        $qb->leftJoin('e.registrations', 'er');
         $qb->andHaving('num_registrations < e.numTickets');
         $qb->setParameter('now', new \DateTime());
         $result = $qb->getQuery()->getResult();
+        $return = array();
         foreach($result as $r) {
-
-            Debug::dump($r);
+            $return[] = $r[0];
+            // $r["num_registrations"]
         }
-        return $result;
+        return $return;
     }
 
 }
