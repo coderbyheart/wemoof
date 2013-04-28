@@ -19,26 +19,24 @@
         </p>
 
     </article>
+    <article class="dashboard register">
+        <h2>Zu einem Webmontag anmelden</h2>
+        {% for registerableEvent in registerableEvents %}
+            {% if loop.first %}
+                <p>Zu diesen Webmontagen kannst Du dich jetzt anmelden.</p>
+            {% endif %}
+            {% form_theme registerableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
+            <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}"
+                  class="clearfix">
+                <h3>{{ registerableEvent.event.name }}, am {{ registerableEvent.event.start|shortdate }}</h3>
 
-    {% for registerableEvent in registerableEvents %}
-        {% if loop.first %}
-            <article class="dashboard register">
-
-            <h2>Zu einem Webmontag anmelden</h2>
-            <p>Zu diesen Webmontagen kannst Du dich jetzt anmelden.</p>
-        {% endif %}
-        {% form_theme registerableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
-        <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}"
-              class="clearfix">
-            <h3>{{ registerableEvent.event.name }}, am {{ registerableEvent.event.start|shortdate }}</h3>
-            <p>{{ form_widget(registerableEvent.form) }}</p>
-            <button type="submit">Anmelden</button>
-        </form>
-        {% if loop.last %}
-            </article>
-        {% endif %}
-    {% endfor %}
-
+                <p>{{ form_widget(registerableEvent.form) }}</p>
+                <button type="submit">Anmelden</button>
+            </form>
+        {% else %}
+            <p>Zur Zeit kannst Du dich nicht für eine Veranstaltung anmelden.</p>
+        {% endfor %}
+    </article>
     {% for unregisterableEvent in unregisterableEvents %}
         {% if loop.first %}
             <article class="dashboard unregister">

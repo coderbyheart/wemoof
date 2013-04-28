@@ -4,7 +4,8 @@
 {% block content %}
     <article>
         <h1>
-            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
+            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}"
+                 alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
         </h1>
 
         <p>Der <strong>Webmontag Offenbach</strong> ist eine informelle, nicht-kommerzielle und von der Community
@@ -66,13 +67,14 @@
 
     <article id="tickets" class="important">
 
-        <h2>Anmeldung</h2>
+        <h2>Registrierung</h2>
 
         {% if event.ticketSalesStart.isEmpty() %}
-            <p>Der Zeitpunkt für die Anmeldung wurde noch nicht bekannt gegeben.</p>
+            <p>Der Zeitpunkt für die Registrierung wurde noch nicht bekannt gegeben.</p>
         {% else %}
             {% if event.ticketSalesStart.get().isFuture() %}
-                <p><strong>Geduld!</strong> Ab {{ event.ticketSalesStart.get()|longdate }} kannst Du dich anmelden.</p>
+                <p><strong>Geduld!</strong> Ab {{ event.ticketSalesStart.get()|longdate }} kannst Du dich für den
+                    Webmontag Offenbach registrieren.</p>
             {% else %}
                 <div class="loading">
                     <div class="inner" style="width: {{ event.percentTicketsSold }}%;"></div>
@@ -80,47 +82,25 @@
                 {% if event.numTicketsAvailable > 0 %}
                     <p>Es sind noch {{ event.numTicketsAvailable }} Tickets verfügbar.</p>
 
-                    <p>Um dich für den {{ "%d."|format(event.id)|numtotext }} Webmontag Offenbach anzumelden, fülle bitte das folgende Formular aus.</p>
-
-                    {% form_theme form 'WEMOOFWebBundle:Form:fields.html.twig' %}
-                    <form method="POST" action="{{ path("wemoof_register") }}" class="clearfix">
-                        {{ form_widget(form) }}
-                        <button type="submit">Anmelden</button>
-                    </form>
-
-                    <p>
-                        <small>Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</small>
-                    </p>
+                    <p>Um dich für den {{ "%d."|format(event.id) }} Webmontag Offenbach zu registrieren, melde dich
+                        bitte mit deiner E-Mail-Adresse an.</p>
 
                 {% else %}
-                    <p>Es sind keine Tickets mehr verfügbar. Du kannst dich auf die Warteliste eintragen.</p>
+                    <p>Es sind keine Tickets mehr verfügbar. Du kannst aber deine E-Mail-Adresse hinterlassen und Du
+                        wirst benachrichtigt, sobald wieder Plätze frei sind.</p>
                 {% endif %}
             {% endif %}
         {% endif %}
 
-    </article>
-    <article id="helfen">
-        <h2>Du möchtest mich bei der Realisierung des <strong>WEMO<span class="heart">♥</span>F</strong> unterstützen?
-        </h2>
+        {% form_theme form 'WEMOOFWebBundle:Form:fields.html.twig' %}
+        <form method="POST" action="{{ path("wemoof_register") }}" class="clearfix">
+            {{ form_widget(form) }}
+            <button type="submit">Registrieren</button>
+        </form>
 
-        <p>Super! <a href="mailto:m@wemoof.de">Mail</a> / <a href="tel:+491796678859">Ruf</a> /
-            <a href="http://twitter.com/markustacker">Tweet</a> mich an oder komm' im <a href="http://offenraum.de/">OFfenraum</a>
-            vorbei.</p>
-
-        <h3>Beer&amp;Bytes</h3>
-
-        <p>Für Unterstützer, Interessierte und Neugierige wird es zwei Orga-Termine geben, die jeweils im
-            <a href="http://offenraum.de/">OFfenraum</a> statt finden:</p>
-
-        <ol>
-            <li>
-                <del datetime="2013-03-27T19:00:00+01:00">Mittwoch, 27.3.2013</del>
-                <a href="https://docs.google.com/document/d/1JeS19xdcRjpUXKjDzcenUkEmk-4I9v0kgJ2clTUD-po/edit?usp=sharing">Protokoll</a>
-            </li>
-            <li>
-                Mittwoch, 24.4.2013 von 19-20 Uhr (Orga-Team) und von 20-21 Uhr (Sprecher)
-            </li>
-        </ol>
+        <p>
+            <small>Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</small>
+        </p>
 
     </article>
 
@@ -156,6 +136,17 @@
 
     </article>
 
+    <article id="helfen">
+
+        <h2>Du möchtest mich bei der Realisierung des <strong>WEMO<span class="heart">♥</span>F</strong> unterstützen?
+        </h2>
+
+        <p>Super! <a href="mailto:m@wemoof.de">Mail</a> / <a href="tel:+491796678859">Ruf</a> /
+            <a href="http://twitter.com/markustacker">Tweet</a> mich an oder komm' im <a href="http://offenraum.de/">OFfenraum</a>
+            vorbei.</p>
+
+    </article>
+
     <article id="faq">
 
         <h2>Warum …</h2>
@@ -163,7 +154,7 @@
         <h3 id="faq-wmfra">Parallel zum Webmontag Frankfurt?</h3>
 
         <p><em>Der <a href="http://wmfra.de/" rel="friend met muse">Webmontag Frankfurt</a> findet am gleichen Tag in
-                der Brotfabrik in Hausen statt.</em></p>
+            der Brotfabrik in Hausen statt.</em></p>
 
         <p>Ich bin in den letzten Monaten regelmäßig der einzige Offenbacher in der Brotfabrik &ndash; daher sehe ich
             kaum Überschneidungen bei den Besuchern der Veranstaltungen.</p>
@@ -207,7 +198,9 @@
             </li>
             <li>
                 <a href="http://afip-hessen.de/" rel="met friend">
-                    <img src="{{ asset('bundles/wemoofweb/images/afip.png') }}" alt="afip — akademie für interdisziplinäre prozesse | offenbach"><br><abbr title="akademie für interdisziplinäre prozesse | offenbach">»afip!«</abbr>
+                    <img src="{{ asset('bundles/wemoofweb/images/afip.png') }}"
+                         alt="afip — akademie für interdisziplinäre prozesse | offenbach"><br><abbr
+                        title="akademie für interdisziplinäre prozesse | offenbach">»afip!«</abbr>
                 </a> <br>
                 <small>Locationunterstützung<br> Platz für 200 Leute</small>
             </li>
