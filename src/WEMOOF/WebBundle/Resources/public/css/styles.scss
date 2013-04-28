@@ -28,6 +28,7 @@ span.heart {
   color: $warning;
 }
 
+
 article {
   max-width: 500px;
   background: #fff;
@@ -56,6 +57,7 @@ p.tagline {
 
 form {
   @extend .clearfix;
+  margin-bottom: 2em;
 }
 
 input {
@@ -76,6 +78,11 @@ button {
   height: 30px;
   margin-left: 10px;
 }
+
+button.danger {
+  background-color: darken($error, 20);
+}
+
 
 ul.imagelist {
   @extend .clearfix;

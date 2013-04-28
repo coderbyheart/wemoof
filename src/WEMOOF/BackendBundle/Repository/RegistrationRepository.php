@@ -24,4 +24,16 @@ class RegistrationRepository extends DoctrineEntityRepository implements Registr
         $qb->leftJoin('er.event', 'e')->addSelect('e');
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @param int $id
+     * @return \PhpOption\Option
+     */
+    function getRegistration($id)
+    {
+        $qb = $this->createQueryBuilder('er');
+        $qb->andWhere('er.id = :id')->setParameter('id', $id);
+        $registration = $qb->getQuery()->getOneOrNullResult();
+        return $registration === null ? None::create() : new Some($registration);
+    }
 }

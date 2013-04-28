@@ -45,6 +45,14 @@ class Registration extends AggregateResource
     protected $created;
 
     /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return \WEMOOF\BackendBundle\Entity\User
      */
     public function getUser()

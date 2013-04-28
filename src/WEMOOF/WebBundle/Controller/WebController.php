@@ -25,10 +25,12 @@ use WEMOOF\BackendBundle\Repository\UserRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\RegistrationRepositoryInterface;
 use WEMOOF\BackendBundle\Command\RegisterUserCommand;
 use WEMOOF\BackendBundle\Command\RegisterEventCommand;
+use WEMOOF\BackendBundle\Command\UnregisterEventCommand;
 use WEMOOF\BackendBundle\Value\IdValue;
 use WEMOOF\BackendBundle\Value\SchemeAndHostValue;
 use WEMOOF\WebBundle\Form\RegisterType;
 use WEMOOF\WebBundle\Form\RegisterEventType;
+use WEMOOF\WebBundle\Form\UnregisterEventType;
 use WEMOOF\BackendBundle\Entity\User;
 use WEMOOF\BackendBundle\Entity\Registration;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -154,22 +156,38 @@ class WebController
     public function dashboardAction()
     {
         $user = $this->getUser();
+        $registrations = $this->registrationRepository->getRegistrations($this->getUser());
         $registeredEvents = array_map(function (Registration $registration) {
             return $registration->getEvent()->getId();
-        }, $this->registrationRepository->getRegistrations($this->getUser()));
+        }, $registrations);
+        $registration2Events = array();
+        foreach($registrations as $registration) {
+            $registration2Events[$registration->getEvent()->getId()] = $registration;
+        }
         $registerableEvents = array();
+        $unregisterableEvents = array();
         foreach ($this->eventRepository->getRegisterableEvents() as $event) {
-            if (in_array($event->getId(), $registeredEvents)) continue;
-            $form = $this->formFactory->create(new RegisterEventType(), RegisterEventCommand::create($user, $event));
-            $registerableEvents[] = array(
-                'form' => $form->createView(),
-                'event' => $event
-            );
+            if (in_array($event->getId(), $registeredEvents)) {
+                $registration = $registration2Events[$event->getId()];
+                $form = $this->formFactory->create(new UnregisterEventType(), UnregisterEventCommand::create($registration));
+                $unregisterableEvents[] = array(
+                    'form' => $form->createView(),
+                    'event' => $event,
+                    'registration' => $registration,
+                );
+            } else {
+                $form = $this->formFactory->create(new RegisterEventType(), RegisterEventCommand::create($user, $event));
+                $registerableEvents[] = array(
+                    'form' => $form->createView(),
+                    'event' => $event
+                );
+            }
         }
 
         return array(
             'user' => $user,
             'registerableEvents' => $registerableEvents,
+            'unregisterableEvents' => $unregisterableEvents,
         );
     }
 
@@ -255,6 +273,27 @@ class WebController
     public function presseAction($id)
     {
         return $this->eventAction($id);
+    }
+
+    /**
+     * @Route("/registration/{id}", name="wemoof_unregister_event", methods={"POST", "DELETE"})
+     * @Template()
+     */
+    public function unregisterEventAction($id)
+    {
+        $registration = $this->registrationRepository->getRegistration($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown registration: %d", $id)));
+        if ($registration->getUser()->getId() !== $this->getUser()->getId()) throw new ForbiddenHttpException();
+        $command = UnregisterEventCommand::create($registration);
+        $form = $this->formFactory->create(new UnregisterEventType(), $command);
+        if ($this->request->isMethod('POST')) {
+            $form->bind($this->request);
+            if ($form->isValid()) {
+                $this->commandBus->handle($command);
+                $this->addMessage("Du wurdest erfolgreich abgemeldet.");
+            }
+        }
+
+        return new RedirectResponse($this->router->generate('wemoof_dashboard'));
     }
 
     /**

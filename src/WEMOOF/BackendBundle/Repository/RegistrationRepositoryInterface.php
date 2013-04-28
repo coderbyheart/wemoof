@@ -12,4 +12,10 @@ interface RegistrationRepositoryInterface
      * @return Registration[]
      */
     function getRegistrations(User $user);
+
+    /**
+     * @param int $id
+     * @return \PhpOption\Option
+     */
+    function getRegistration($id);
 }
