@@ -91,9 +91,10 @@ ul.imagelist {
     float: left;
     display: inline-block;
     margin-right: 10px;
-    width: 126px;
+    margin-bottom: 20px;
+    width: 123px;
     img {
-      width: 126px;
+      width: 123px;
     }
   }
   li:last-child {
@@ -107,9 +108,10 @@ ul.team, ul.sponsoren, ul.partner {
 
 ul.speaker {
   @extend ul.imagelist;
+  margin-left: 10px;
   li {
     img {
-      width: 58px;
+      width: 110px;
     }
   }
 }
