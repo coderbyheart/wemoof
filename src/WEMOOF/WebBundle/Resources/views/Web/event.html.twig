@@ -37,7 +37,7 @@
                     {% if talk.speaker.hasGravatar %}
                         <img src="{{ gravatar(talk.speaker.email) }}" alt="{{ talk.speaker }}">
                     {% else %}
-                        <img src="/upload/user/{{ talk.speaker|slug }}-{{talk.speaker.id }}.png" alt="{{ talk.speaker }}">
+                        <img src="/upload/user/{{ talk.speaker|slug }}-{{talk.speaker.id }}.jpg" alt="{{ talk.speaker }}">
                     {% endif %}
                     <br><abbr title="{{ talk.speaker }}">{{ talk.speaker.firstname }}</abbr> </a>
             </li>
@@ -126,7 +126,7 @@
             </li>
             <li>
                 <a href="{{ path('wemoof_user', {'id': 9, 'slug': "Lutz Jahnke"|slug}) }}">
-                    <img src="/upload/user/{{ "Lutz Jahnke"|slug }}-9.png" alt="Lutz Jahnke"><br>Lutz Jahnke </a><br>
+                    <img src="/upload/user/{{ "Lutz Jahnke"|slug }}-9.jpg" alt="Lutz Jahnke"><br>Lutz Jahnke </a><br>
                 <small>Location</small>
             </li>
             <li>

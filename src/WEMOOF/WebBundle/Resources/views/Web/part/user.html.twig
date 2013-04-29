@@ -2,7 +2,7 @@
 {% if user.hasGravatar %}
     <img src="{{ gravatar(user.email, 150) }}" alt="{{ user }}" class="user">
 {% else %}
-    <img src="/upload/user/{{ user|slug }}-{{ user.id }}.png" alt="{{ user }}" class="user">
+    <img src="/upload/user/{{ user|slug }}-{{ user.id }}.jpg" alt="{{ user }}" class="user">
 {% endif %}
 {% if user.url %}</a>{% endif %}
 
