@@ -24,6 +24,8 @@
         {% for registerableEvent in registerableEvents %}
             {% if loop.first %}
                 <p>Zu diesen Webmontagen kannst Du dich jetzt anmelden.</p>
+                <p>Die Teilnahme an der Veranstaltung ist Dank unserer <a href="#sponsoren">Sponsoren</a> kostenfrei
+                    möglich.</p>
             {% endif %}
             {% form_theme registerableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
             <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}"
