@@ -16,6 +16,7 @@ class Slug extends \Twig_Extension
         $str = strtolower($str);
         $str = preg_replace('/ [-–—] /', '-', $str);
         $str = str_replace(' ', '-', $str);
+        $str = iconv("UTF-8", "ASCII//TRANSLIT", $str);
         $str = preg_replace('/[^a-z0-9-]/', '', $str);
         return $str;
     }
