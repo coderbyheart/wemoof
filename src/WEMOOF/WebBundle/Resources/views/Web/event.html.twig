@@ -37,7 +37,7 @@
                     {% if talk.speaker.hasGravatar %}
                         <img src="{{ gravatar(talk.speaker.email) }}" alt="{{ talk.speaker }}">
                     {% else %}
-                        <img src="/upload/speaker/{{ talk.speaker|slug }}.png" alt="{{ talk.speaker }}">
+                        <img src="/upload/user/{{ talk.speaker|slug }}-{{talk.speaker.id }}.png" alt="{{ talk.speaker }}">
                     {% endif %}
                     <br><abbr title="{{ talk.speaker }}">{{ talk.speaker.firstname }}</abbr> </a>
             </li>
