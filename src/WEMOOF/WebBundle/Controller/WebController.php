@@ -210,6 +210,7 @@ class WebController
     {
         $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
         $talks = $this->talkRepository->getTalksForEvent($event);
+        shuffle($talks);
         return array(
             'form' => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
             'event' => $event,
