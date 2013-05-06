@@ -1,4 +1,5 @@
-{% set info_claim %}Der Webmontag Offenbach ist eine informelle, nicht-kommerzielle und von der Communityorganisierte Veranstaltung, die Menschen zusammen bringt, die sich für das Web begeistern, Teil davon sindoder es werden wollen.{% endset %}<!doctype html>
+{% set info_claim %}Der Webmontag Offenbach ist eine informelle, nicht-kommerzielle und von der Communityorganisierte Veranstaltung, die Menschen zusammen bringt, die sich für das Web begeistern, Teil davon sind oder es werden wollen.{% endset %}
+<!doctype html>
 <html lang="de-de">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +12,7 @@
     <meta property="og:title" content="{{ meta_title|striptags|trim }}">
     <meta property="og:url" content="{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ app.request.pathInfo }}">
     {% if meta_image is defined %}
-    <meta property="og:image" content="{{ meta_image|striptags|trim }}">
+        <meta property="og:image" content="{{ meta_image|striptags|trim }}">
     {% endif %}
     <meta property="og:site_name" content="WEMO♥F | Webmontag Offenbach">
     <meta property="fb:admins" content="1132748678">
