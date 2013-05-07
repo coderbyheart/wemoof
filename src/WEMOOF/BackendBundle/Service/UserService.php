@@ -35,35 +35,35 @@ class UserService
     public function __construct(CommandBus $commandBus, RouterInterface $router)
     {
         $this->commandBus = $commandBus;
-        $this->router = $router;
+        $this->router     = $router;
     }
 
     public function registerUser(RegisterUserCommand $command)
     {
-        $createUserCommand = new CreateResourceCommand();
+        $createUserCommand        = new CreateResourceCommand();
         $createUserCommand->class = '\WEMOOF\BackendBundle\Entity\User';
-        $createUserCommand->data = array('email' => $command->email);
+        $createUserCommand->data  = array('email' => $command->email);
         $this->commandBus->handle($createUserCommand);
     }
 
 
     public function verifyUser(VerifyUserCommand $command)
     {
-        $updateUserCommand = new UpdateResourceCommand();
+        $updateUserCommand        = new UpdateResourceCommand();
         $updateUserCommand->class = '\WEMOOF\BackendBundle\Entity\User';
-        $updateUserCommand->id = (string)$command->id;
-        $updateUserCommand->data = array('verified' => true);
+        $updateUserCommand->id    = (string)$command->id;
+        $updateUserCommand->data  = array('verified' => true);
         $this->commandBus->handle($updateUserCommand);
     }
 
     public function sendLoginLink(SendLoginLinkCommand $command)
     {
-        $generator = new SecureRandom();
-        $loginKey = sha1($generator->nextBytes(32));
-        $updateUserCommand = new UpdateResourceCommand();
+        $generator                = new SecureRandom();
+        $loginKey                 = sha1($generator->nextBytes(32));
+        $updateUserCommand        = new UpdateResourceCommand();
         $updateUserCommand->class = '\WEMOOF\BackendBundle\Entity\User';
-        $updateUserCommand->id = $command->user->getId();
-        $updateUserCommand->data = array('loginKey' => $loginKey);
+        $updateUserCommand->id    = $command->user->getId();
+        $updateUserCommand->data  = array('loginKey' => $loginKey);
         $this->commandBus->handle($updateUserCommand);
 
         $this->commandBus->handle(
@@ -71,7 +71,7 @@ class UserService
                 new EmailValue($command->user->getEmail()),
                 new TemplateIdentifierValue('WEMOOFBackendBundle:Email:login.txt.twig'),
                 array(
-                    'user' => $command->user,
+                    'user'      => $command->user,
                     'loginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_login', array('id' => $command->user->getId(), 'key' => $loginKey)),
                 ),
                 'Dein Login-Link für Webmontag Offenbach'));
@@ -80,10 +80,10 @@ class UserService
 
     public function sendConfirmationMail(SendConfirmationMailCommand $command)
     {
-        $updateCommand = new UpdateResourceCommand();
+        $updateCommand        = new UpdateResourceCommand();
         $updateCommand->class = '\WEMOOF\BackendBundle\Entity\Registration';
-        $updateCommand->id = $command->registration->getId();
-        $updateCommand->data = array('confirmed' => new \DateTime());
+        $updateCommand->id    = $command->registration->getId();
+        $updateCommand->data  = array('confirmed' => new \DateTime());
         $this->commandBus->handle($updateCommand);
 
         $this->commandBus->handle(
@@ -91,8 +91,8 @@ class UserService
                 new EmailValue($command->registration->getUser()->getEmail()),
                 new TemplateIdentifierValue('WEMOOFBackendBundle:Email:confirmation.txt.twig'),
                 array(
-                    'user' => $command->registration->getUser(),
-                    'event' => $command->registration->getEvent(),
+                    'user'          => $command->registration->getUser(),
+                    'event'         => $command->registration->getEvent(),
                     'schemeAndHost' => (string)$command->schemeAndHost,
                 ),
                 sprintf('Deine Registrierung zum Webmontag Offenbach #%d', $command->registration->getEvent()->getId())

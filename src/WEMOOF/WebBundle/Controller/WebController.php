@@ -93,16 +93,16 @@ class WebController
 
     public function __construct(Request $request, FormFactoryInterface $formFactory, ObjectManager $objectManager, EventRepositoryInterface $eventRepository, TalkRepositoryInterface $talkRepository, UserRepositoryInterface $userRepository, RegistrationRepositoryInterface $registrationRepository, HttpKernelInterface $httpKernel, CommandBus $commandBus, RouterInterface $router)
     {
-        $this->request = $request;
-        $this->formFactory = $formFactory;
-        $this->objectManager = $objectManager;
-        $this->eventRepository = $eventRepository;
-        $this->talkRepository = $talkRepository;
-        $this->userRepository = $userRepository;
+        $this->request                = $request;
+        $this->formFactory            = $formFactory;
+        $this->objectManager          = $objectManager;
+        $this->eventRepository        = $eventRepository;
+        $this->talkRepository         = $talkRepository;
+        $this->userRepository         = $userRepository;
         $this->registrationRepository = $registrationRepository;
-        $this->httpKernel = $httpKernel;
-        $this->commandBus = $commandBus;
-        $this->router = $router;
+        $this->httpKernel             = $httpKernel;
+        $this->commandBus             = $commandBus;
+        $this->router                 = $router;
     }
 
     /**
@@ -135,7 +135,7 @@ class WebController
         }
 
         /** @var RegisterUserCommand $command */
-        $command = $form->getData();
+        $command  = $form->getData();
         $someUser = Some::fromValue($this->userRepository->findOneByEmail($command->email));
         if ($someUser->isEmpty()) {
             $this->commandBus->handle($form->getData());
@@ -156,38 +156,38 @@ class WebController
      */
     public function dashboardAction()
     {
-        $user = $this->getUser();
-        $registrations = $this->registrationRepository->getRegistrations($this->getUser());
-        $registeredEvents = array_map(function (Registration $registration) {
+        $user                = $this->getUser();
+        $registrations       = $this->registrationRepository->getRegistrations($this->getUser());
+        $registeredEvents    = array_map(function (Registration $registration) {
             return $registration->getEvent()->getId();
         }, $registrations);
         $registration2Events = array();
-        foreach($registrations as $registration) {
+        foreach ($registrations as $registration) {
             $registration2Events[$registration->getEvent()->getId()] = $registration;
         }
-        $registerableEvents = array();
+        $registerableEvents   = array();
         $unregisterableEvents = array();
         foreach ($this->eventRepository->getRegisterableEvents() as $event) {
             if (in_array($event->getId(), $registeredEvents)) {
-                $registration = $registration2Events[$event->getId()];
-                $form = $this->formFactory->create(new UnregisterEventType(), UnregisterEventCommand::create($registration));
+                $registration           = $registration2Events[$event->getId()];
+                $form                   = $this->formFactory->create(new UnregisterEventType(), UnregisterEventCommand::create($registration));
                 $unregisterableEvents[] = array(
-                    'form' => $form->createView(),
-                    'event' => $event,
+                    'form'         => $form->createView(),
+                    'event'        => $event,
                     'registration' => $registration,
                 );
             } else {
-                $form = $this->formFactory->create(new RegisterEventType(), RegisterEventCommand::create($user, $event));
+                $form                 = $this->formFactory->create(new RegisterEventType(), RegisterEventCommand::create($user, $event));
                 $registerableEvents[] = array(
-                    'form' => $form->createView(),
+                    'form'  => $form->createView(),
                     'event' => $event
                 );
             }
         }
 
         return array(
-            'user' => $user,
-            'registerableEvents' => $registerableEvents,
+            'user'                 => $user,
+            'registerableEvents'   => $registerableEvents,
             'unregisterableEvents' => $unregisterableEvents,
         );
     }
@@ -214,9 +214,9 @@ class WebController
         shuffle($talks);
         $missing = count($talks) < 6 ? array_fill(0, 6 - count($talks), 1) : array();
         return array(
-            'form' => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
-            'event' => $event,
-            'talks' => $talks,
+            'form'    => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
+            'event'   => $event,
+            'talks'   => $talks,
             'missing' => $missing,
         );
     }
@@ -229,7 +229,7 @@ class WebController
     {
         $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
 
-        $form = $this->formFactory->create(new RegisterType(), new User());
+        $form    = $this->formFactory->create(new RegisterType(), new User());
         $created = false;
         if ($this->request->isMethod('POST')) {
             $form->bind($this->request);
@@ -241,9 +241,9 @@ class WebController
         }
 
         return array(
-            'form' => $form->createView(),
+            'form'   => $form->createView(),
             'signup' => $created,
-            'event' => $event,
+            'event'  => $event,
         );
     }
 
@@ -253,13 +253,13 @@ class WebController
      */
     public function registerEventAction($id)
     {
-        /** @var Event $event  */
+        /** @var Event $event */
         $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
-        $user = $this->getUser();
+        $user  = $this->getUser();
         if ($event->getNumTicketsAvailable() <= 0) throw new ForbiddenHttpException(sprintf("Event %d is sold out.", $event->getId()));
 
         $command = RegisterEventCommand::create($user, $event);
-        $form = $this->formFactory->create(new RegisterEventType(), $command);
+        $form    = $this->formFactory->create(new RegisterEventType(), $command);
         if ($this->request->isMethod('POST')) {
             $form->bind($this->request);
             if ($form->isValid()) {
@@ -289,7 +289,7 @@ class WebController
         $registration = $this->registrationRepository->getRegistration($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown registration: %d", $id)));
         if ($registration->getUser()->getId() !== $this->getUser()->getId()) throw new ForbiddenHttpException();
         $command = UnregisterEventCommand::create($registration);
-        $form = $this->formFactory->create(new UnregisterEventType(), $command);
+        $form    = $this->formFactory->create(new UnregisterEventType(), $command);
         if ($this->request->isMethod('POST')) {
             $form->bind($this->request);
             if ($form->isValid()) {
@@ -310,7 +310,7 @@ class WebController
         $talk = $this->talkRepository->getTalk($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown talk: %d", $id)));
         return array(
             'event' => $talk->getEvent(),
-            'talk' => $talk,
+            'talk'  => $talk,
         );
 
     }
@@ -330,10 +330,10 @@ class WebController
      */
     public function userAction($slug, $id)
     {
-        $user = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+        $user  = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
         $talks = $this->talkRepository->getTalksForUser($user);
         return array(
-            'user' => $user,
+            'user'  => $user,
             'talks' => $talks,
         );
     }
@@ -341,7 +341,7 @@ class WebController
     protected function forward($controller, array $attributes = array(), array $query = array())
     {
         $attributes['_controller'] = $controller;
-        $subRequest = $this->request->duplicate($query, null, $attributes);
+        $subRequest                = $this->request->duplicate($query, null, $attributes);
 
         return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }
@@ -359,16 +359,16 @@ class WebController
      */
     public function loginAction($id, $key)
     {
+        $session = new Session();
+        $session->start();
         /** @var User $user */
         $user = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
         if (!StringUtils::equals($user->getLoginKey(), $key)) throw new AccessDeniedHttpException("Invalid credentials.");
-
         if (!$user->isVerified()) {
             $this->commandBus->handle(VerifyUserCommand::create(new IdValue($user->getId())));
         }
 
-        $session = new Session();
-        $session->start();
+        $this->commandBus->handle(ClearLoginKeyCommand::create(new IdValue($user->getId())));
         $session->set('user_id', $user->getId());
 
         return new RedirectResponse($this->router->generate('wemoof_dashboard'));
@@ -381,8 +381,8 @@ class WebController
     private function getUser()
     {
         $session = $this->getSession();
-        $id = $session->get('user_id');
-        $user = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+        $id      = $session->get('user_id');
+        $user    = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
         return $user;
     }
 
