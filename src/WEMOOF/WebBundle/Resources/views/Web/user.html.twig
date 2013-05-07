@@ -16,10 +16,7 @@
             </a>
         </h1>
 
-        <h2><strong>{{ user }}</strong>
-        </h2>
-
-        {% include "WEMOOFWebBundle:Web:part/user.html.twig" %}
+        {% include "WEMOOFWebBundle:Web:part/user.html.twig" with {"hl": 2} %}
 
         {% for talk in talks %}
             {% if loop.first %}

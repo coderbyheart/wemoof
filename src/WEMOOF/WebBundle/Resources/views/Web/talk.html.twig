@@ -34,9 +34,7 @@
 
         <div class="fb-like" data-href="{{ share_url }}" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="tahoma" data-action="recommend"></div>
 
-        <h3>Über <strong>{{ talk.speaker }}</strong></h3>
-
-        {% include "WEMOOFWebBundle:Web:part/user.html.twig" with {"user": talk.speaker } %}
+        {% include "WEMOOFWebBundle:Web:part/user.html.twig" with {"user": talk.speaker, "hl": 3, "hl-prefix": "Über " } %}
 
     </article>
 {% endblock %}
