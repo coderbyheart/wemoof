@@ -35,6 +35,14 @@ class BooleanValue implements ValueObject
     }
 
     /**
+     * @return string
+     */
+    public function getBoolean()
+    {
+        return $this->boolean;
+    }
+
+    /**
      * @param $string
      * @return EmailValue
      * @throws \WEMOOF\BackendBundle\Exception\ValueException

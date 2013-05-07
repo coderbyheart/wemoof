@@ -24,6 +24,18 @@ class BooleanValueTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\WEMOOF\BackendBundle\Value\BooleanValue', $value, 'Parsing a Boolean value should return the value object.');
     }
 
+
+    /**
+     * @test
+     */
+    public function ItShouldReturnBoolean()
+    {
+        $true = \WEMOOF\BackendBundle\Value\BooleanValue::parse('1');
+        $this->assertEquals(true, $true->getBoolean());
+        $false = \WEMOOF\BackendBundle\Value\BooleanValue::parse('0');
+        $this->assertEquals(false, $false->getBoolean());
+    }
+
     /**
      * @test
      * @expectedException \WEMOOF\BackendBundle\Exception\ValueException
