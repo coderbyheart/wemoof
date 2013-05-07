@@ -7,6 +7,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Util\SecureRandom;
 use LiteCQRS\Plugin\CRUD\Model\Commands\CreateResourceCommand;
 use LiteCQRS\Bus\CommandBus;
+use WEMOOF\BackendBundle\Command\ClearLoginKeyCommand;
 use WEMOOF\BackendBundle\Command\RegisterUserCommand;
 use WEMOOF\BackendBundle\Command\SendLoginLinkCommand;
 use WEMOOF\BackendBundle\Command\SendConfirmationMailCommand;
@@ -97,5 +98,14 @@ class UserService
                 sprintf('Deine Registrierung zum Webmontag Offenbach #%d', $command->registration->getEvent()->getId())
             )
         );
+    }
+
+    public function clearLoginKey(ClearLoginKeyCommand $command)
+    {
+        $updateCommand        = new UpdateResourceCommand();
+        $updateCommand->class = '\WEMOOF\BackendBundle\Entity\User';
+        $updateCommand->id    = (string)$command->id;
+        $updateCommand->data  = array('loginKey' => null);
+        $this->commandBus->handle($updateCommand);
     }
 }

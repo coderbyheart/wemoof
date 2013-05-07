@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\RouterInterface;
+use WEMOOF\BackendBundle\Command\ClearLoginKeyCommand;
 use WEMOOF\BackendBundle\Command\SendLoginLinkCommand;
 use WEMOOF\BackendBundle\Command\VerifyUserCommand;
 use WEMOOF\BackendBundle\Repository\EventRepositoryInterface;
