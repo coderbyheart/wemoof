@@ -9,6 +9,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use LiteCQRS\Plugin\CRUD\AggregateResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints as AssertORM;
+use WEMOOF\BackendBundle\Value\MarkdownTextValue;
+use WEMOOF\BackendBundle\Value\NameValue;
+use WEMOOF\BackendBundle\Value\TwitterHandleValue;
+use WEMOOF\BackendBundle\Value\URLValue;
 
 
 /**
@@ -76,9 +80,16 @@ class User extends AggregateResource
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="boolean", name="has_gravatar")
-     * @var string Gravatar verwenden?
+     * @var boolean Gravatar verwenden?
      */
     protected $hasGravatar = false;
+
+    /**
+     * @Assert\NotBlank()
+     * @ORM\Column(type="boolean")
+     * @var boolean Öffentliches Profil?
+     */
+    protected $public = false;
 
     /**
      * @Assert\NotBlank()
@@ -149,7 +160,7 @@ class User extends AggregateResource
     /**
      * @return string
      */
-    public function getHasGravatar()
+    public function hasGravatar()
     {
         return $this->hasGravatar;
     }
@@ -291,6 +302,30 @@ class User extends AggregateResource
     }
 
     /**
+     * Make profile public
+     */
+    public function publish()
+    {
+        $this->public = true;
+    }
+
+    /**
+     * Make profile private
+     */
+    public function unpublish()
+    {
+        $this->public = false;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPublic()
+    {
+        return $this->public;
+    }
+
+    /**
      * Return an array of properties that are allowed to change
      * through the create() and update() methods.
      *
@@ -306,8 +341,9 @@ class User extends AggregateResource
             'twitter',
             'url',
             'hasGravatar',
+            'public',
             'loginKey',
-            'verified'
+            'verified',
         );
     }
 }

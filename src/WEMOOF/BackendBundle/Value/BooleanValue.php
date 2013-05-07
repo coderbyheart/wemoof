@@ -66,7 +66,7 @@ class BooleanValue implements ValueObject
 
     /**
      * Creates a new true value
-     * 
+     *
      * @return BooleanValue
      */
     public static function true()

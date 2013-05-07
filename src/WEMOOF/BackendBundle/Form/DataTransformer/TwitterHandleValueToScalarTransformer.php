@@ -3,18 +3,18 @@
 namespace WEMOOF\BackendBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use WEMOOF\BackendBundle\Value\UrlValue;
+use WEMOOF\BackendBundle\Value\TwitterHandleValue;
 
-class UrlValueToScalarTransformer implements DataTransformerInterface
+class TwitterHandleValueToScalarTransformer implements DataTransformerInterface
 {
     public function transform($value)
     {
-        /** @var UrlValue $value */
+        /** @var TwitterHandleValue $value */
         return (string)$value;
     }
 
     public function reverseTransform($value)
     {
-        return UrlValue::parse($value);
+        return TwitterHandleValue::parse($value);
     }
 }

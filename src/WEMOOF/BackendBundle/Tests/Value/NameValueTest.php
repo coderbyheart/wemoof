@@ -7,10 +7,10 @@ class NameValueTest extends \PHPUnit_Framework_TestCase
      */
     public function ItShouldCastToString()
     {
-        $email = new \WEMOOF\BackendBundle\Value\NameValue('Markus');
+        $value = new \WEMOOF\BackendBundle\Value\NameValue('Markus');
         $this->assertEquals(
             'Markus',
-            (string)$email,
+            (string)$value,
             "Casting a name value to a string should return the string version of the name"
         );
     }
@@ -20,8 +20,8 @@ class NameValueTest extends \PHPUnit_Framework_TestCase
      */
     public function ItShouldParseAString()
     {
-        $email = \WEMOOF\BackendBundle\Value\NameValue::parse('Markus');
-        $this->assertInstanceOf('\WEMOOF\BackendBundle\Value\NameValue', $email, 'Parsing a name value should return the value object.');
+        $value = \WEMOOF\BackendBundle\Value\NameValue::parse('Markus');
+        $this->assertInstanceOf('\WEMOOF\BackendBundle\Value\NameValue', $value, 'Parsing a name value should return the value object.');
     }
 
     /**

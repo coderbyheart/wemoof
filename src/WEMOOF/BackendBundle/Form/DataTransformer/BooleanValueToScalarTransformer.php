@@ -2,21 +2,19 @@
 
 namespace WEMOOF\BackendBundle\Form\DataTransformer;
 
-use PhpOption\Option;
-use PhpOption\Some;
 use Symfony\Component\Form\DataTransformerInterface;
+use WEMOOF\BackendBundle\Value\BooleanValue;
 
-
-class OptionToScalarTransformer implements DataTransformerInterface
+class BooleanValueToScalarTransformer implements DataTransformerInterface
 {
     public function transform($value)
     {
-        /** @var Option $value */
-        return $value->isEmpty() ? null : (string)$value->get();
+        /** @var BooleanValue $value */
+        return $value->getBoolean();
     }
 
     public function reverseTransform($value)
     {
-        return Some::create($value);
+        return BooleanValue::parse($value);
     }
 }

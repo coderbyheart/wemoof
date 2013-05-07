@@ -9,7 +9,7 @@
 {% endspaceless %}{% endset %}
 {% set meta_description %}{{ talk.description|md }}{% endset %}
 {% block content %}
-    <article class="talk">
+    <article class="talk clearfix">
         <h1>
             <a href="/">
                 <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
@@ -29,7 +29,7 @@
         {% set share_url %}{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ app.request.pathInfo }}{% endset %}
 
         <a href="https://twitter.com/share" class="twitter-share-button" data-text="Auf dem @wemoof spricht {% spaceless %}
-        {% if talk.speaker.twitter %}@{{ talk.speaker.twitter }}{% else %}{{ talk.speaker }}{% endif %}
+        {% if talk.speaker.twitter %}{{ talk.speaker.twitter }}{% else %}{{ talk.speaker }}{% endif %}
         {% endspaceless %} über {{ talk.name }}:" data-lang="de" data-hashtags="wemoof">Tweet</a>
 
         <div class="fb-like" data-href="{{ share_url }}" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="tahoma" data-action="recommend"></div>

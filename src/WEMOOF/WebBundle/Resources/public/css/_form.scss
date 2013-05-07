@@ -1,0 +1,47 @@
+label {
+  @extend .headline;
+}
+
+label + label {
+  @extend .clearfix;
+}
+
+.textinput {
+  border: 3px solid $blue;
+  width: 100%;
+}
+
+input[type=text], input[type=email], input[type=url] {
+  @extend .textinput;
+  height: 30px;
+  padding: 5px;
+}
+
+textarea {
+  @extend .textinput;
+  height: 250px;
+}
+
+button {
+  background-color: $blue;
+  color: #fff;
+  border: 0;
+  padding: 5px 10px;
+  height: 30px;
+}
+
+button.danger {
+  background-color: darken($error, 20);
+}
+
+form.oneline {
+  .textinput {
+    width: 60%;
+    float: left;
+  }
+  button {
+    float: left;
+    width: 35%;
+    margin-left: 10px;
+  }
+}

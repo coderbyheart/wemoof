@@ -119,7 +119,7 @@
         {% endif %}
 
         {% form_theme form 'WEMOOFWebBundle:Form:fields.html.twig' %}
-        <form method="POST" action="{{ path("wemoof_register") }}" class="clearfix">
+        <form method="POST" action="{{ path("wemoof_register") }}" class="clearfix oneline">
             {{ form_widget(form) }}
             <button type="submit">Registrieren</button>
         </form>

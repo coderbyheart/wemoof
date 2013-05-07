@@ -17,9 +17,11 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Validator\Constraints\UrlValidator;
 use WEMOOF\BackendBundle\Command\ClearLoginKeyCommand;
 use WEMOOF\BackendBundle\Command\SendLoginLinkCommand;
 use WEMOOF\BackendBundle\Command\VerifyUserCommand;
+use WEMOOF\BackendBundle\Command\EditProfileCommand;
 use WEMOOF\BackendBundle\Repository\EventRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\TalkRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\UserRepositoryInterface;
@@ -27,8 +29,14 @@ use WEMOOF\BackendBundle\Repository\RegistrationRepositoryInterface;
 use WEMOOF\BackendBundle\Command\RegisterUserCommand;
 use WEMOOF\BackendBundle\Command\RegisterEventCommand;
 use WEMOOF\BackendBundle\Command\UnregisterEventCommand;
+use WEMOOF\BackendBundle\Value\BooleanValue;
 use WEMOOF\BackendBundle\Value\IdValue;
+use WEMOOF\BackendBundle\Value\MarkdownTextValue;
+use WEMOOF\BackendBundle\Value\NameValue;
 use WEMOOF\BackendBundle\Value\SchemeAndHostValue;
+use WEMOOF\BackendBundle\Value\TwitterHandleValue;
+use WEMOOF\BackendBundle\Value\URLValue;
+use WEMOOF\WebBundle\Form\EditProfileType;
 use WEMOOF\WebBundle\Form\RegisterType;
 use WEMOOF\WebBundle\Form\RegisterEventType;
 use WEMOOF\WebBundle\Form\UnregisterEventType;
@@ -38,6 +46,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\Util\StringUtils;
 use Symfony\Component\HttpFoundation\Session\Session;
+use WEMOOF\WebBundle\Model\EditProfileModel;
 
 /**
  * @Route(service="wemoof.web.controller.web")
@@ -185,10 +194,34 @@ class WebController
             }
         }
 
+        $editProfileForm = $this->formFactory->create(new EditProfileType(), EditProfileModel::factory($user));
+        if ($this->request->isMethod('POST')) {
+            $editProfileForm->bind($this->request);
+            if ($editProfileForm->isValid()) {
+                /** @var EditProfileModel $model */
+                $model                           = $editProfileForm->getData();
+                $editProfileCommand              = new EditProfileCommand();
+                $editProfileCommand->id          = new IdValue($user->getId());
+                $description                     = $model->getDescription();
+                $editProfileCommand->description = empty($description) ? None::create() : Some::create(MarkdownTextValue::parse($description));
+                $editProfileCommand->firstname   = empty($model->firstname) ? None::create() : Some::create(NameValue::parse($model->firstname));
+                $editProfileCommand->lastname    = empty($model->lastname) ? None::create() : Some::create(NameValue::parse($model->lastname));
+                $editProfileCommand->hasGravatar = new BooleanValue($model->hasGravatar);
+                $editProfileCommand->public      = new BooleanValue($model->public);
+                $editProfileCommand->twitter     = empty($model->twitter) ? None::create() : Some::create(TwitterHandleValue::parse($model->twitter));
+                $editProfileCommand->url         = empty($model->url) ? None::create() : Some::create(URLValue::parse($model->url));
+                $this->commandBus->handle($editProfileCommand);
+                $this->addMessage("Profil aktualisiert.");
+                $user            = $this->getUser();
+                $editProfileForm = $this->formFactory->create(new EditProfileType(), EditProfileModel::factory($user));
+            }
+        }
+
         return array(
             'user'                 => $user,
             'registerableEvents'   => $registerableEvents,
             'unregisterableEvents' => $unregisterableEvents,
+            'editProfileForm'      => $editProfileForm->createView(),
         );
     }
 
@@ -331,6 +364,7 @@ class WebController
     public function userAction($slug, $id)
     {
         $user  = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+        if (!$user->isPublic()) throw new AccessDeniedHttpException("Private profile.");
         $talks = $this->talkRepository->getTalksForUser($user);
         return array(
             'user'  => $user,

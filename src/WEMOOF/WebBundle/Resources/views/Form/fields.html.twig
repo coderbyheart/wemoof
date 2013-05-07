@@ -20,3 +20,13 @@
         {% endif %}
     {% endspaceless %}
 {% endblock form_errors %}
+
+{% block checkbox_row %}
+    {% spaceless %}
+        {% if label is defined %}
+            <label> {{ form_errors(form) }}
+                {{ form_widget(form) }} {{ label|trans({}, translation_domain) }}
+            </label>
+        {% endif %}
+    {% endspaceless %}
+{% endblock checkbox_row %}

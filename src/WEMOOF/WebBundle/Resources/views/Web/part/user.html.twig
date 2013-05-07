@@ -17,7 +17,7 @@
     {% if user.twitter %}
         <li>
             <i class="icon-twitter"></i>
-            <a href="https://twitter.com/{{ user.twitter }}" title="{{ user }} auf Twitter">@{{ user.twitter }}</a>
+            <a href="https://twitter.com/{{ user.twitter|slice(1) }}" title="{{ user }} auf Twitter">{{ user.twitter }}</a>
         </li>
     {% endif %}
 </ul>

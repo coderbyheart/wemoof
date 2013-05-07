@@ -28,7 +28,6 @@ span.heart {
   color: $warning;
 }
 
-
 article {
   max-width: 500px;
   background: #fff;
@@ -41,9 +40,13 @@ hr {
   border-bottom: 1px solid rgba($blue, 0.5);
 }
 
-h2, h3, h4, label, p.tagline {
+.headline {
   font-family: 'Varela Round', sans-serif;
   line-height: 1.25em;
+}
+
+h2, h3, h4, p.tagline {
+  @extend .headline;
 }
 
 article > h1, article > h2 {
@@ -60,29 +63,7 @@ form {
   margin-bottom: 2em;
 }
 
-input {
-  border: 3px solid $blue;
-  width: 60%;
-  float: left;
-  height: 30px;
-  padding: 5px;
-}
-
-button {
-  float: left;
-  background-color: $blue;
-  color: #fff;
-  border: 0;
-  padding: 5px 10px;
-  width: 35%;
-  height: 30px;
-  margin-left: 10px;
-}
-
-button.danger {
-  background-color: darken($error, 20);
-}
-
+//
 
 ul.imagelist {
   @extend .clearfix;
@@ -156,7 +137,6 @@ article.important {
   }
 }
 
-
 // http://codepen.io/herzflimmern/pen/uFrlk
 .loading {
 
@@ -181,9 +161,9 @@ article.important {
 }
 
 .messages {
-  width: 100%;
-  max-width: 500px;
-  margin: 1em auto;
+  width: 50%;
+  margin: 0 25%;
+  position: fixed;
   .message {
     background-color: $warning;
     color: $warning_text;
@@ -195,5 +175,6 @@ article.important {
 
 }
 
+@import "form";
 @import "responsive";
 

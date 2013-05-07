@@ -3,18 +3,18 @@
 namespace WEMOOF\BackendBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use WEMOOF\BackendBundle\Value\UrlValue;
+use WEMOOF\BackendBundle\Value\MarkdownTextValue;
 
-class UrlValueToScalarTransformer implements DataTransformerInterface
+class MarkdownTextValueToScalarTransformer implements DataTransformerInterface
 {
     public function transform($value)
     {
-        /** @var UrlValue $value */
+        /** @var MarkdownTextValue $value */
         return (string)$value;
     }
 
     public function reverseTransform($value)
     {
-        return UrlValue::parse($value);
+        return MarkdownTextValue::parse($value);
     }
 }
