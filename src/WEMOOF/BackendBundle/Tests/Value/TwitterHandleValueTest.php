@@ -1,13 +1,13 @@
 <?php
 
-class TwitterValueTest extends \PHPUnit_Framework_TestCase
+class TwitterHandleValueTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
      */
     public function ItShouldCastToString()
     {
-        $value = new \WEMOOF\BackendBundle\Value\TwitterValue('@markustacker');
+        $value = new \WEMOOF\BackendBundle\Value\TwitterHandleValue('@markustacker');
         $this->assertEquals(
             '@markustacker',
             (string)$value,
@@ -20,7 +20,7 @@ class TwitterValueTest extends \PHPUnit_Framework_TestCase
      */
     public function ItShouldParseAString()
     {
-        $value = \WEMOOF\BackendBundle\Value\TwitterValue::parse('@markustacker');
+        $value = \WEMOOF\BackendBundle\Value\TwitterHandleValue::parse('@markustacker');
         $this->assertInstanceOf('\WEMOOF\BackendBundle\Value\TwitterValue', $value, 'Parsing an twitter value should return the value object.');
     }
 
@@ -30,7 +30,7 @@ class TwitterValueTest extends \PHPUnit_Framework_TestCase
      */
     public function ItShouldThrowExceptionOnInvalidString()
     {
-        new \WEMOOF\BackendBundle\Value\TwitterValue('abc');
+        new \WEMOOF\BackendBundle\Value\TwitterHandleValue('abc');
         $this->fail('Parsing an invalid twitter address should throw an exception.');
     }
 }

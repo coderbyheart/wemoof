@@ -9,7 +9,7 @@ use WEMOOF\BackendBundle\Exception\ValueException;
  *
  * @package WEMOOF\BackendBundle\Value
  */
-class TwitterValue implements ValueObject
+class TwitterHandleValue implements ValueObject
 {
     /**
      * @var string
@@ -36,7 +36,7 @@ class TwitterValue implements ValueObject
 
     /**
      * @param $string
-     * @return TwitterValue
+     * @return TwitterHandleValue
      * @throws \WEMOOF\BackendBundle\Exception\ValueException
      */
     public static function parse($string)
