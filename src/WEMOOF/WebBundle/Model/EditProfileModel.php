@@ -35,9 +35,15 @@ class EditProfileModel
 
     /**
      * @var string
-     * @Assert\Regex("/@[a-zA-Z0-9_]{1,15}/")
+     * @Assert\Regex(pattern="/^@[a-zA-Z0-9_]{1,15}$/")
      */
     public $twitter;
+
+    /**
+     * @var string
+     * @Assert\Regex(pattern="/^#[a-zA-Z0-9_]{1,15}( #[a-zA-Z0-9_]{1,15}){0,2}$/")
+     */
+    public $tags;
 
     /**
      * @var boolean
@@ -62,14 +68,15 @@ class EditProfileModel
      */
     public static function factory(User $user)
     {
-        $model              = new self();
-        $model->id          = $user->getId();
-        $model->firstname   = $user->getFirstname();
-        $model->lastname    = $user->getLastname();
-        $model->title       = $user->getTitle();
-        $model->url         = $user->getUrl();
-        $model->twitter     = $user->getTwitter();
-        $model->public      = $user->isPublic();
+        $model = new self();
+        $model->id = $user->getId();
+        $model->firstname = $user->getFirstname();
+        $model->lastname = $user->getLastname();
+        $model->title = $user->getTitle();
+        $model->url = $user->getUrl();
+        $model->twitter = $user->getTwitter();
+        $model->tags = $user->getTags();
+        $model->public = $user->isPublic();
         $model->hasGravatar = $user->hasGravatar();
         $model->setDescription($user->getDescription());
         return $model;
@@ -96,7 +103,7 @@ class EditProfileModel
      */
     public function setLastname($lastname)
     {
-        $this->lastname = filter_var($lastname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW);;
+        $this->lastname = filter_var($lastname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW);
     }
 
     /**
@@ -112,7 +119,7 @@ class EditProfileModel
      */
     public function setFirstname($firstname)
     {
-        $this->firstname = filter_var($firstname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW);;
+        $this->firstname = filter_var($firstname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW);
     }
 
     /**
@@ -128,7 +135,7 @@ class EditProfileModel
      */
     public function setTitle($title)
     {
-        $this->title = filter_var($title, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW);;
+        $this->title = filter_var($title, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW);
     }
 
     /**
@@ -138,4 +145,22 @@ class EditProfileModel
     {
         return $this->title;
     }
+
+    /**
+     * @param string $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = filter_var($tags, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+
 }

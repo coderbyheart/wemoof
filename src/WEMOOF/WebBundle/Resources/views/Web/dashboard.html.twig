@@ -4,7 +4,8 @@
     <article class="dashboard">
         <h1>
             <a href="/">
-                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
+                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}"
+                     alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
             </a>
         </h1>
 
@@ -27,7 +28,8 @@
                     möglich.</p>
             {% endif %}
             {% form_theme registerableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
-            <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}" class="clearfix">
+            <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}"
+                  class="clearfix">
                 <h3>{{ registerableEvent.event.name }}, am {{ registerableEvent.event.start|shortdate }}</h3>
 
                 <p>{{ form_widget(registerableEvent.form) }}</p>
@@ -45,7 +47,8 @@
                 so deinen Platz für andere zur Verfügung stellen.</p>
         {% endif %}
         {% form_theme unregisterableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
-        <form method="POST" action="{{ path("wemoof_unregister_event", {"id": unregisterableEvent.registration.id }) }}" class="clearfix">
+        <form method="POST" action="{{ path("wemoof_unregister_event", {"id": unregisterableEvent.registration.id }) }}"
+              class="clearfix">
             <h3>{{ unregisterableEvent.event.name }}, am {{ unregisterableEvent.event.start|shortdate }}</h3>
             {{ form_widget(unregisterableEvent.form) }}
             <p>
@@ -60,11 +63,10 @@
     <article class="dashboard editprofile" id="editprofile">
         <h2>Dein Profil bearbeiten</h2>
 
-        {% if user.public %}
-            <p>Die URL zu deiner WEMO♥F-Profilseite lautet:<br>
-                <a href="{{ path('wemoof_user', {'id': user.id, 'slug': user|slug }) }}">{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ path('wemoof_user', {'id': user.id, 'slug': user|slug }) }}</a>
-            </p>
-        {% endif %}
+        <p>Die Profilinformationen verwenden wir, um öffentliche Profile unserer Gäste zu erzeugen. Ein Teil der
+            Informationen (Name, Titel, Twitter, Tags) wird auch auf ein Namensschild gderuckt, dass Du am Einlass
+            erhältst. So kannst Du leichter mit anderen Gästen ins Gespräch kommen.</p>
+
         {% form_theme editProfileForm 'WEMOOFWebBundle:Form:fields.html.twig' %}
         <form method="POST" action="{{ path("wemoof_dashboard") }}#editprofile" class="clearfix">
             <p>{{ form_widget(editProfileForm) }}</p>
@@ -84,6 +86,13 @@
     </article>
 
     <article class="dashboard profile user clearfix">
+        {% if user.public %}
+            <p>Die URL zu deiner WEMO♥F-Profilseite lautet:<br>
+                <a href="{{ path('wemoof_user', {'id': user.id, 'slug': user|slug }) }}">{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ path('wemoof_user', {'id': user.id, 'slug': user|slug }) }}</a>
+            </p>
+        {% else %}
+            <p><em>Nur zur Vorschau, dein Profil ist leider nicht öffentlich.</em></p>
+        {% endif %}
         {% include "WEMOOFWebBundle:Web:part/user.html.twig" %}
     </article>
 

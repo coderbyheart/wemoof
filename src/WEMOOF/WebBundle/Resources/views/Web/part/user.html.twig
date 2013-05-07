@@ -1,18 +1,31 @@
 <h{{ hl|default(2) }}>{{ prefix|default("") }}<strong>{{ user }}</strong>
     {% if user.title %}
-        <br><small>{{ user.title }}</small>
+        <br>
+        <small>{{ user.title }}</small>
     {% endif %}
 </h{{ hl|default(2) }}>
 
 {% if user.url %}<a href="{{ user.url }}">{% endif %}
-{% if user.hasGravatar %}
-    <img src="{{ gravatar(user.email, 150) }}" alt="{{ user }}" class="user">
-{% else %}
-    <img src="/upload/user/{{ user|slug }}-{{ user.id }}.jpg" alt="{{ user }}" class="user">
-{% endif %}
-{% if user.url %}</a>{% endif %}
+    {% if user.hasGravatar %}
+        <img src="{{ gravatar(user.email, 150) }}" alt="{{ user }}" class="user">
+    {% else %}
+        <img src="/upload/user/{{ user|slug }}-{{ user.id }}.jpg" alt="{{ user }}" class="user">
+    {% endif %}
+    {% if user.url %}</a>{% endif %}
 
 {{ user.description|md }}
+
+{% if user.tags|length > 0 %}
+    {% for tag in user.tags|split(" ") %}
+        {% spaceless %}
+            {% if loop.first %}
+                <p><em>Sprich mit mir über<br>
+            {% endif %}
+            {% if not loop.first and loop.last %} und {% endif %}
+            <strong>{{ tag }}</strong>{% if loop.first and not loop.last %}, {% endif %}{% if loop.last %}!</em></p>{% endif %}
+        {% endspaceless %}
+    {% endfor %}
+{% endif %}
 
 <ul class="links">
     {% if user.url %}
@@ -23,7 +36,8 @@
     {% if user.twitter %}
         <li>
             <i class="icon-twitter"></i>
-            <a href="https://twitter.com/{{ user.twitter|slice(1) }}" title="{{ user }} auf Twitter">{{ user.twitter }}</a>
+            <a href="https://twitter.com/{{ user.twitter|slice(1) }}"
+               title="{{ user }} auf Twitter">{{ user.twitter }}</a>
         </li>
     {% endif %}
 </ul>

@@ -20,6 +20,7 @@ class EditProfileType extends AbstractType
             ->add('url', 'url', array('label' => 'Link', 'required' => false, 'attr' => array('placeholder' => 'https://www.xing.com/profile/Max_Mustermann')))
             ->add('twitter', 'text', array('label' => 'Twitter-Name', 'required' => false, 'attr' => array('placeholder' => '@max_mustermann', 'pattern' => '@[a-zA-Z0-9_]{1,15}')))
             ->add('description', 'textarea', array('label' => 'Beschreibung', 'required' => false))
+            ->add('tags', 'text', array('label' => 'Max. 3 Tags, je 15 Zeichen', 'required' => false, 'attr' => array('placeholder' => '#wemoof #webmontag #Offenbach', 'pattern' => '#[a-zA-Z0-9_]{1,15}( #[a-zA-Z0-9_]{1,15}){0,2}')))
         ;
     }
 

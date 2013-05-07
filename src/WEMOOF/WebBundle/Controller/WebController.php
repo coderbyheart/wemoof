@@ -207,10 +207,12 @@ class WebController
                 $title                           = $model->getTitle();
                 $firstname                       = $model->getFirstname();
                 $lastname                        = $model->getLastname();
+                $tags                            = $model->getTags();
                 $editProfileCommand->description = empty($description) ? None::create() : Some::create(MarkdownTextValue::parse($description));
                 $editProfileCommand->firstname   = empty($firstname) ? None::create() : Some::create(NameValue::parse($firstname));
                 $editProfileCommand->lastname    = empty($lastname) ? None::create() : Some::create(NameValue::parse($lastname));
                 $editProfileCommand->title       = empty($title) ? None::create() : Some::create(PlainTextValue::parse($title));
+                $editProfileCommand->tags        = empty($tags) ? None::create() : Some::create(PlainTextValue::parse($tags));
                 $editProfileCommand->hasGravatar = new BooleanValue($model->hasGravatar);
                 $editProfileCommand->public      = new BooleanValue($model->public);
                 $editProfileCommand->twitter     = empty($model->twitter) ? None::create() : Some::create(TwitterHandleValue::parse($model->twitter));

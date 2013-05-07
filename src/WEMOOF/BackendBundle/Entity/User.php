@@ -78,11 +78,18 @@ class User extends AggregateResource
     protected $url;
 
     /**
-     * @Assert\Regex(pattern="^[a-zA-Z0-9_]{1,15}$")
-     * @ORM\Column(nullable=true)
+     * @Assert\Regex(pattern="/^@[a-zA-Z0-9_]{1,15}$/")
+     * @ORM\Column(type="string", nullable=true)
      * @var string Twitter
      */
     protected $twitter;
+
+    /**
+     * @Assert\Regex(pattern="/^#[a-zA-Z0-9_]{1,15}( #[a-zA-Z0-9_]{1,15}){0,2}$/")
+     * @ORM\Column(type="string", nullable=true)
+     * @var string Tags
+     */
+    protected $tags;
 
     /**
      * @Assert\NotBlank()
@@ -285,6 +292,22 @@ class User extends AggregateResource
     }
 
     /**
+     * @param string $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
      * @param string $url
      */
     public function setUrl($url)
@@ -362,6 +385,7 @@ class User extends AggregateResource
             'lastname',
             'title',
             'description',
+            'tags',
             'twitter',
             'url',
             'hasGravatar',

@@ -121,6 +121,7 @@ class UserService
             'title'       => $command->title->isEmpty() ? null : (string)$command->title->get(),
             'url'         => $command->url->isEmpty() ? null : (string)$command->url->get(),
             'twitter'     => $command->twitter->isEmpty() ? null : (string)$command->twitter->get(),
+            'tags'        => $command->tags->isEmpty() ? null : (string)$command->tags->get(),
             'description' => $command->description->isEmpty() ? null : (string)$command->description->get(),
             'public'      => $command->public->getBoolean(),
             'hasGravatar' => $command->hasGravatar->getBoolean(),

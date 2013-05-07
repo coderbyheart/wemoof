@@ -38,6 +38,11 @@ class EditProfileCommand
     public $twitter;
 
     /**
+     * @var Option
+     */
+    public $tags;
+
+    /**
      * @var BooleanValue
      */
     public $public;
