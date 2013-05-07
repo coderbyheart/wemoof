@@ -21,7 +21,7 @@ class TwitterHandleValueTest extends \PHPUnit_Framework_TestCase
     public function ItShouldParseAString()
     {
         $value = \WEMOOF\BackendBundle\Value\TwitterHandleValue::parse('@markustacker');
-        $this->assertInstanceOf('\WEMOOF\BackendBundle\Value\TwitterValue', $value, 'Parsing an twitter value should return the value object.');
+        $this->assertInstanceOf('\WEMOOF\BackendBundle\Value\TwitterHandleValue', $value, 'Parsing an twitter value should return the value object.');
     }
 
     /**
