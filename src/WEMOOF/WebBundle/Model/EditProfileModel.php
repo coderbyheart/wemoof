@@ -15,12 +15,12 @@ class EditProfileModel
     /**
      * @var string
      */
-    public $firstname;
+    private $firstname;
 
     /**
      * @var string
      */
-    public $lastname;
+    private $lastname;
 
     /**
      * @var string
@@ -91,6 +91,37 @@ class EditProfileModel
         return $this->description;
     }
 
+    /**
+     * @param string $lastname
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = filter_var($lastname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW);;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string $firstname
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = filter_var($firstname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW);;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
 
     /**
      * @param string $title

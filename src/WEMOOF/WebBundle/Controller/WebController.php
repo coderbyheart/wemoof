@@ -205,9 +205,11 @@ class WebController
                 $editProfileCommand->id          = new IdValue($user->getId());
                 $description                     = $model->getDescription();
                 $title                           = $model->getTitle();
+                $firstname                       = $model->getFirstname();
+                $lastname                        = $model->getLastname();
                 $editProfileCommand->description = empty($description) ? None::create() : Some::create(MarkdownTextValue::parse($description));
-                $editProfileCommand->firstname   = empty($model->firstname) ? None::create() : Some::create(NameValue::parse($model->firstname));
-                $editProfileCommand->lastname    = empty($model->lastname) ? None::create() : Some::create(NameValue::parse($model->lastname));
+                $editProfileCommand->firstname   = empty($firstname) ? None::create() : Some::create(NameValue::parse($firstname));
+                $editProfileCommand->lastname    = empty($lastname) ? None::create() : Some::create(NameValue::parse($lastname));
                 $editProfileCommand->title       = empty($title) ? None::create() : Some::create(PlainTextValue::parse($title));
                 $editProfileCommand->hasGravatar = new BooleanValue($model->hasGravatar);
                 $editProfileCommand->public      = new BooleanValue($model->public);
