@@ -166,7 +166,7 @@ class WebController
     public function dashboardAction()
     {
         $user                = $this->getUser();
-        $registrations       = $this->registrationRepository->getRegistrations($this->getUser());
+        $registrations       = $this->registrationRepository->getRegistrationsForUser($this->getUser());
         $registeredEvents    = array_map(function (Registration $registration) {
             return $registration->getEvent()->getId();
         }, $registrations);

@@ -11,7 +11,7 @@ interface RegistrationRepositoryInterface
      * @param User $user
      * @return Registration[]
      */
-    function getRegistrations(User $user);
+    function getRegistrationsForUser(User $user);
 
 
     /**

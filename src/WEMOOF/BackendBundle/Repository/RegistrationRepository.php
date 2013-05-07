@@ -15,7 +15,7 @@ class RegistrationRepository extends DoctrineEntityRepository implements Registr
      * @param User $user
      * @return Registration[]
      */
-    function getRegistrations(User $user)
+    function getRegistrationsForUser(User $user)
     {
         $qb = $this->createQueryBuilder('er');
         $qb->select('er');
