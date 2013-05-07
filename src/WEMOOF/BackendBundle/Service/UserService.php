@@ -118,6 +118,7 @@ class UserService
         $updateCommand->data  = array(
             'firstname'   => $command->firstname->isEmpty() ? null : (string)$command->firstname->get(),
             'lastname'    => $command->lastname->isEmpty() ? null : (string)$command->lastname->get(),
+            'title'       => $command->title->isEmpty() ? null : (string)$command->title->get(),
             'url'         => $command->url->isEmpty() ? null : (string)$command->url->get(),
             'twitter'     => $command->twitter->isEmpty() ? null : (string)$command->twitter->get(),
             'description' => $command->description->isEmpty() ? null : (string)$command->description->get(),

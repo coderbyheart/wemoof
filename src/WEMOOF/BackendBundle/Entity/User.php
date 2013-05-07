@@ -51,6 +51,13 @@ class User extends AggregateResource
     protected $lastname;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Length(max=128)
+     * @var string Title
+     */
+    protected $title;
+
+    /**
      * @Assert\Length(max=500)
      * @ORM\Column(type="text", nullable=true)
      * @var string Beschreibung
@@ -155,6 +162,22 @@ class User extends AggregateResource
     public function getFirstname()
     {
         return $this->firstname;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -337,6 +360,7 @@ class User extends AggregateResource
             'email',
             'firstname',
             'lastname',
+            'title',
             'description',
             'twitter',
             'url',

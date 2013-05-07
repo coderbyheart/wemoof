@@ -16,6 +16,7 @@ class EditProfileType extends AbstractType
             ->add('hasGravatar', 'checkbox', array('label' => 'Gravatar verwenden?', 'required' => false))
             ->add('firstname', 'text', array('label' => 'Vorname', 'required' => false, 'attr' => array('placeholder' => 'Max')))
             ->add('lastname', 'text', array('label' => 'Nachname', 'required' => false, 'attr' => array('placeholder' => 'Mustermann')))
+            ->add('title', 'text', array('label' => 'Titel / Berufsbezeichnung', 'required' => false, 'max_length' => 100, 'attr' => array('placeholder' => 'Mann vom Fach')))
             ->add('url', 'url', array('label' => 'Link', 'required' => false, 'attr' => array('placeholder' => 'https://www.xing.com/profile/Max_Mustermann')))
             ->add('twitter', 'text', array('label' => 'Twitter-Name', 'required' => false, 'attr' => array('placeholder' => '@max_mustermann', 'pattern' => '@[a-zA-Z0-9_]{1,15}')))
             ->add('description', 'textarea', array('label' => 'Beschreibung', 'required' => false))

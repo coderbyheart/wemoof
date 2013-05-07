@@ -1,3 +1,6 @@
+    {% if user.title %}
+        <br><small>{{ user.title }}</small>
+    {% endif %}
 {% if user.url %}<a href="{{ user.url }}">{% endif %}
 {% if user.hasGravatar %}
     <img src="{{ gravatar(user.email, 150) }}" alt="{{ user }}" class="user">

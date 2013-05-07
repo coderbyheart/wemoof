@@ -24,6 +24,11 @@ class EditProfileModel
 
     /**
      * @var string
+     */
+    private $title;
+
+    /**
+     * @var string
      * @Assert\Url
      */
     public $url;
@@ -61,6 +66,7 @@ class EditProfileModel
         $model->id          = $user->getId();
         $model->firstname   = $user->getFirstname();
         $model->lastname    = $user->getLastname();
+        $model->title       = $user->getTitle();
         $model->url         = $user->getUrl();
         $model->twitter     = $user->getTwitter();
         $model->public      = $user->isPublic();
@@ -86,4 +92,19 @@ class EditProfileModel
     }
 
 
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = filter_var($title, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW);;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 }

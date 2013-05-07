@@ -25,6 +25,11 @@ class EditProfileCommand
     /**
      * @var Option
      */
+    public $title;
+
+    /**
+     * @var Option
+     */
     public $url;
 
     /**
