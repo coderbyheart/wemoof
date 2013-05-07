@@ -45,4 +45,20 @@ class BooleanValueTest extends \PHPUnit_Framework_TestCase
         new \WEMOOF\BackendBundle\Value\BooleanValue('a');
         $this->fail('Parsing an invalid email address should throw an exception.');
     }
+
+    /**
+     * @test
+     */
+    public function ItShouldBeCreateabledFalse()
+    {
+        $this->assertFalse(\WEMOOF\BackendBundle\Value\BooleanValue::false()->getBoolean());
+    }
+
+    /**
+     * @test
+     */
+    public function ItShouldBeCreateabledTrue()
+    {
+        $this->assertTrue(\WEMOOF\BackendBundle\Value\BooleanValue::true()->getBoolean());
+    }
 }

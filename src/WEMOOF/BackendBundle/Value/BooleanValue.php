@@ -53,4 +53,24 @@ class BooleanValue implements ValueObject
         if ($string === 'true' || $string === '1') return new self(true);
         if ($string === 'false' || $string === '0') return new self(false);
     }
+
+    /**
+     * Creates a new false value
+     *
+     * @return BooleanValue
+     */
+    public static function false()
+    {
+        return new self(false);
+    }
+
+    /**
+     * Creates a new true value
+     * 
+     * @return BooleanValue
+     */
+    public static function true()
+    {
+        return new self(true);
+    }
 }
