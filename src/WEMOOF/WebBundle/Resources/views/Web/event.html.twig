@@ -4,7 +4,8 @@
 {% block content %}
     <article>
         <h1>
-            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
+            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}"
+                 alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
         </h1>
 
         <p>Der <strong>Webmontag Offenbach</strong> ist eine informelle, nicht-kommerzielle und von der Community
@@ -36,7 +37,8 @@
                     {% if talk.speaker.hasGravatar %}
                         <img src="{{ gravatar(talk.speaker.email) }}" alt="{{ talk.speaker }}">
                     {% else %}
-                        <img src="/upload/user/{{ talk.speaker|slug }}-{{ talk.speaker.id }}.jpg" alt="{{ talk.speaker }}">
+                        <img src="/upload/user/{{ talk.speaker|slug }}-{{ talk.speaker.id }}.jpg"
+                             alt="{{ talk.speaker }}">
                     {% endif %}
                     <br><abbr title="{{ talk.speaker }}">{{ talk.speaker.firstname }}</abbr> </a>
             </li>
@@ -86,6 +88,30 @@
             <li>ab ca. 22:00 Uhr Networking</li>
         </ul>
 
+        <h3>Gästeliste</h3>
+
+        {% for registration in registrations %}
+            {% if loop.first %}
+                <ul class="attendees">
+            {% endif %}
+            <li>
+                {% if registration.user.public %}
+                    <a href="{{ path("wemoof_user", {"id": registration.user.id, "slug": registration.user|slug}) }}">
+                        {% if registration.user.hasGravatar %}
+                            <img src="{{ gravatar(registration.user.email, 50) }}" alt="{{ registration.user }}" class="user">
+                        {% else %}
+                            <img src="{{ asset('bundles/wemoofweb/images/avatar.png') }}" alt="{{ registration.user }}" class="user">
+                        {% endif %}
+                    </a>
+                {% else %}
+                    <img src="{{ asset('bundles/wemoofweb/images/avatar.png') }}" alt="Anonymer Gast" class="user">
+                {% endif %}
+            </li>
+            {% if loop.last %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+
     </article>
 
     <article id="tickets" class="important">
@@ -102,6 +128,7 @@
                 <div class="loading">
                     <div class="inner" style="width: {{ event.percentTicketsSold }}%;"></div>
                 </div>
+
                 {% if event.numTicketsAvailable > 0 %}
                     <p>Es sind noch {{ event.numTicketsAvailable }} Tickets verfügbar.</p>
 
@@ -190,7 +217,7 @@
         <h3 id="faq-wmfra">Parallel zum Webmontag Frankfurt?</h3>
 
         <p><em>Der <a href="http://wmfra.de/" rel="friend met muse">Webmontag Frankfurt</a> findet am gleichen Tag in
-                der Brotfabrik in Hausen statt.</em></p>
+            der Brotfabrik in Hausen statt.</em></p>
 
         <p>Ich bin in den letzten Monaten regelmäßig der einzige Offenbacher in der Brotfabrik &ndash; daher sehe ich
             kaum Überschneidungen bei den Besuchern der Veranstaltungen.</p>
@@ -234,7 +261,9 @@
             </li>
             <li>
                 <a href="http://afip-hessen.de/" rel="met friend">
-                    <img src="{{ asset('bundles/wemoofweb/images/afip.png') }}" alt="afip — akademie für interdisziplinäre prozesse | offenbach"><br><abbr title="akademie für interdisziplinäre prozesse | offenbach">»afip!«</abbr>
+                    <img src="{{ asset('bundles/wemoofweb/images/afip.png') }}"
+                         alt="afip — akademie für interdisziplinäre prozesse | offenbach"><br><abbr
+                        title="akademie für interdisziplinäre prozesse | offenbach">»afip!«</abbr>
                 </a> <br>
                 <small>Locationunterstützung<br> Platz für 200 Leute</small>
             </li>
