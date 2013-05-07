@@ -246,11 +246,13 @@ class WebController
         $talks = $this->talkRepository->getTalksForEvent($event);
         shuffle($talks);
         $missing = count($talks) < 6 ? array_fill(0, 6 - count($talks), 1) : array();
+        $registrations = $this->registrationRepository->getRegistrationsForEvent($event);
         return array(
-            'form'    => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
-            'event'   => $event,
-            'talks'   => $talks,
-            'missing' => $missing,
+            'form'          => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
+            'event'         => $event,
+            'registrations' => $registrations,
+            'talks'         => $talks,
+            'missing'       => $missing,
         );
     }
 

@@ -2,6 +2,7 @@
 
 namespace WEMOOF\BackendBundle\Repository;
 
+use WEMOOF\BackendBundle\Entity\Event;
 use WEMOOF\BackendBundle\Entity\User;
 use WEMOOF\BackendBundle\Entity\Registration;
 
@@ -12,6 +13,12 @@ interface RegistrationRepositoryInterface
      * @return Registration[]
      */
     function getRegistrationsForUser(User $user);
+
+    /**
+     * @param Event $event
+     * @return Registration[]
+     */
+    function getRegistrationsForEvent(Event $event);
 
 
     /**

@@ -6,6 +6,7 @@ use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\EntityRepository AS DoctrineEntityRepository;
 use \PhpOption\Some;
 use \PhpOption\None;
+use WEMOOF\BackendBundle\Entity\Event;
 use WEMOOF\BackendBundle\Entity\User;
 use WEMOOF\BackendBundle\Entity\Registration;
 
@@ -24,6 +25,21 @@ class RegistrationRepository extends DoctrineEntityRepository implements Registr
         $qb->leftJoin('er.event', 'e')->addSelect('e');
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @param Event $event
+     * @return Registration[]
+     */
+    function getRegistrationsForEvent(Event $event)
+    {
+        $qb = $this->createQueryBuilder('er');
+        $qb->select('er');
+        $qb->andWhere('er.event = :event');
+        $qb->setParameter('event', $event);
+        $qb->leftJoin('er.user', 'u')->addSelect('u');
+        return $qb->getQuery()->getResult();
+    }
+
 
     /**
      * @param int $id
