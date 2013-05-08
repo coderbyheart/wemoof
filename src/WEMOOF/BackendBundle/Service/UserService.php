@@ -12,6 +12,7 @@ use WEMOOF\BackendBundle\Command\EditProfileCommand;
 use WEMOOF\BackendBundle\Command\RegisterUserCommand;
 use WEMOOF\BackendBundle\Command\SendLoginLinkCommand;
 use WEMOOF\BackendBundle\Command\SendConfirmationMailCommand;
+use WEMOOF\BackendBundle\Command\SendProfileMailCommand;
 use WEMOOF\BackendBundle\Command\SendTemplateMailCommand;
 use WEMOOF\BackendBundle\Command\VerifyUserCommand;
 use WEMOOF\BackendBundle\Value\EmailValue;
@@ -72,12 +73,37 @@ class UserService
                 new EmailValue($command->user->getEmail()),
                 new TemplateIdentifierValue('WEMOOFBackendBundle:Email:login.txt.twig'),
                 array(
-                    'user'      => $command->user,
-                    'loginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_login', array('id' => $command->user->getId(), 'key' => $loginKey)),
+                    'user'         => $command->user,
+                    'loginlink'    => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_login', array('id' => $command->user->getId(), 'key' => $loginKey)),
+                    'newloginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_requestlogin'),
                 ),
                 'Dein Login-Link für Webmontag Offenbach'));
     }
 
+    public function sendProfileMail(SendProfileMailCommand $command)
+    {
+        $loginKey = $command->user->getLoginKey();
+        if (empty($loginKey)) {
+            $generator                = new SecureRandom();
+            $loginKey                 = sha1($generator->nextBytes(32));
+            $updateUserCommand        = new UpdateResourceCommand();
+            $updateUserCommand->class = '\WEMOOF\BackendBundle\Entity\User';
+            $updateUserCommand->id    = $command->user->getId();
+            $updateUserCommand->data  = array('loginKey' => $loginKey);
+            $this->commandBus->handle($updateUserCommand);
+        }
+
+        $this->commandBus->handle(
+            SendTemplateMailCommand::create(
+                new EmailValue($command->user->getEmail()),
+                new TemplateIdentifierValue('WEMOOFBackendBundle:Email:profile.txt.twig'),
+                array(
+                    'user'         => $command->user,
+                    'loginlink'    => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_login', array('id' => $command->user->getId(), 'key' => $loginKey)),
+                    'newloginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_requestlogin'),
+                ),
+                'Dein Webmontag Offenbach Profil'));
+    }
 
     public function sendConfirmationMail(SendConfirmationMailCommand $command)
     {

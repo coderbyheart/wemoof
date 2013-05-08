@@ -4,6 +4,7 @@ namespace WEMOOF\BackendBundle\Repository;
 
 use WEMOOF\BackendBundle\Entity\Event;
 use \PhpOption\Option;
+use WEMOOF\BackendBundle\Entity\User;
 
 interface UserRepositoryInterface
 {
@@ -12,4 +13,9 @@ interface UserRepositoryInterface
      * @return \PhpOption\Option
      */
     function getUser($id);
+
+    /**
+     * @return User[]
+     */
+    function getUsersWithoutPublicProfile();
 }

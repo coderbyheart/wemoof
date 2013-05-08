@@ -1,0 +1,20 @@
+Hallo {{ user }},
+
+ab sofort kannst Du dein WEMO♥F-Profil bearbeiten!
+
+Die Profilinformationen werden verwendet, um öffentliche Profile der
+Webmontag-Gäste zu erzeugen. Ein Teil der Informationen (Name, Titel,
+Twitter, Tags) wird auch auf ein Namensschild gedruckt, dass Du am
+Einlass erhältst. So kannst Du leichter mit anderen Gästen ins Gespräch
+kommen.
+
+Klicke dazu auf diesen Link, um dich einzuloggen:
+{{ loginlink }}
+
+Anschließend kannst Du deine perönlichen Details hinterlegen, ich habe das schon gemacht:
+http://wemoof.de/user/markus-tacker/1
+
+{% include "WEMOOFBackendBundle:Email:loginlink.txt.twig" %}
+
+
+{% include "WEMOOFBackendBundle:Email:sponsors.txt.twig" %}
