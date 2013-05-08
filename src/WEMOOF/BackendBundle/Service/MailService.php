@@ -46,7 +46,7 @@ class MailService
     public function sendTemplateMail(SendTemplateMailCommand $command)
     {
         $message = \Swift_Message::newInstance();
-        $message->setCharset('utf-8');
+        $message->setCharset('UTF-8');
         $message->setFrom($this->mailFromEmail, $this->mailFromName)
             ->setSubject($command->subject->getOrElse('Webmontag Offenbach'))
             ->setTo((string)$command->email)
