@@ -88,10 +88,9 @@
             <li>ab ca. 22:00 Uhr Networking</li>
         </ul>
 
-        <h3>Gästeliste</h3>
-
         {% for registration in registrations %}
             {% if loop.first %}
+                <h3>Gästeliste</h3>
                 <ul class="attendees">
             {% endif %}
             <li>
