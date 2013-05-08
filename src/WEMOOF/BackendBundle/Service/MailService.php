@@ -45,9 +45,10 @@ class MailService
 
     public function sendTemplateMail(SendTemplateMailCommand $command)
     {
-        $message = \Swift_Message::newInstance()
-            ->setFrom($this->mailFromEmail, $this->mailFromName);
-        $message->setSubject($command->subject->getOrElse('Webmontag Offenbach'))
+        $message = \Swift_Message::newInstance();
+        $message->setCharset('utf-8');
+        $message->setFrom($this->mailFromEmail, $this->mailFromName)
+            ->setSubject($command->subject->getOrElse('Webmontag Offenbach'))
             ->setTo((string)$command->email)
             ->setBcc('m@wemoof.de')
             ->setBody(
