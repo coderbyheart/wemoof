@@ -395,6 +395,18 @@ class WebController
     }
 
     /**
+     * @Route("/login/new", name="wemoof_requestlogin")
+     * @Template()
+     */
+    public function newLoginAction()
+    {
+        $form = $this->formFactory->create(new RegisterType(), new RegisterUserCommand());
+        return array(
+            'form' => $form->createView(),
+        );
+    }
+
+    /**
      * @Route("/login/{id}/{key}", name="wemoof_login")
      * @param $id
      * @param $key
