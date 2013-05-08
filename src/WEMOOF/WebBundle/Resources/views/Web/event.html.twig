@@ -100,7 +100,7 @@
                         {% if registration.user.hasGravatar %}
                             <img src="{{ gravatar(registration.user.email, 50) }}" alt="{{ registration.user }}" class="user">
                         {% else %}
-                            <img src="{{ asset('bundles/wemoofweb/images/avatar.png') }}" alt="{{ registration.user }}" class="user">
+                            <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}" alt="{{ registration.user }}" class="user">
                         {% endif %}
                     </a>
                 {% else %}
