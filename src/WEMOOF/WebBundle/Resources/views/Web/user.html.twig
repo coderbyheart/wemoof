@@ -18,6 +18,9 @@
 
         {% include "WEMOOFWebBundle:Web:part/user.html.twig" with {"hl": 2} %}
 
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="#wemoof Profil {% spaceless %}
+        {% if user.twitter %}{{ user.twitter }}{% else %}{{ user }}{% endif %}: {{ user.title }}{% endspaceless %} {{ user.tags }}" data-lang="de">Tweet</a>
+
         {% for talk in talks %}
             {% if loop.first %}
                 <h3>Talks von <strong>{{ user }}</strong></h3>
