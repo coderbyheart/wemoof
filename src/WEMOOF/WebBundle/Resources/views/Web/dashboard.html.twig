@@ -4,8 +4,7 @@
     <article class="dashboard">
         <h1>
             <a href="/">
-                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}"
-                     alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
+                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
             </a>
         </h1>
 
@@ -28,8 +27,7 @@
                     möglich.</p>
             {% endif %}
             {% form_theme registerableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
-            <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}"
-                  class="clearfix">
+            <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}" class="clearfix">
                 <h3>{{ registerableEvent.event.name }}, am {{ registerableEvent.event.start|shortdate }}</h3>
 
                 <p>{{ form_widget(registerableEvent.form) }}</p>
@@ -47,8 +45,7 @@
                 so deinen Platz für andere zur Verfügung stellen.</p>
         {% endif %}
         {% form_theme unregisterableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
-        <form method="POST" action="{{ path("wemoof_unregister_event", {"id": unregisterableEvent.registration.id }) }}"
-              class="clearfix">
+        <form method="POST" action="{{ path("wemoof_unregister_event", {"id": unregisterableEvent.registration.id }) }}" class="clearfix">
             <h3>{{ unregisterableEvent.event.name }}, am {{ unregisterableEvent.event.start|shortdate }}</h3>
             {{ form_widget(unregisterableEvent.form) }}
             <p>
@@ -69,8 +66,10 @@
 
         {% form_theme editProfileForm 'WEMOOFWebBundle:Form:fields.html.twig' %}
         <form method="POST" action="{{ path("wemoof_dashboard") }}#editprofile" class="clearfix">
-            <p>{{ form_widget(editProfileForm) }}</p>
-            <button type="submit">Aktualisieren</button>
+            {{ form_widget(editProfileForm) }}
+            <p>
+                <button type="submit">Aktualisieren</button>
+            </p>
         </form>
 
         <dl>

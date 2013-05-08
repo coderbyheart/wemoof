@@ -5,10 +5,8 @@ namespace WEMOOF\WebBundle\Controller;
 use Doctrine\Common\Persistence\ObjectManager;
 use LiteCQRS\Bus\CommandBus;
 use LiteCQRS\Bus\EventExecutionFailed;
-use LiteCQRS\Plugin\CRUD\Model\Commands\UpdateResourceCommand;
 use PhpOption\None;
 use PhpOption\Some;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +15,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Validator\Constraints\UrlValidator;
 use WEMOOF\BackendBundle\Command\ClearLoginKeyCommand;
 use WEMOOF\BackendBundle\Command\SendLoginLinkCommand;
 use WEMOOF\BackendBundle\Command\VerifyUserCommand;
@@ -252,7 +249,7 @@ class WebController
         $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
         $talks = $this->talkRepository->getTalksForEvent($event);
         shuffle($talks);
-        $missing = count($talks) < 6 ? array_fill(0, 6 - count($talks), 1) : array();
+        $missing       = count($talks) < 6 ? array_fill(0, 6 - count($talks), 1) : array();
         $registrations = $this->registrationRepository->getRegistrationsForEvent($event);
         return array(
             'form'          => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
@@ -372,7 +369,7 @@ class WebController
      */
     public function userAction($slug, $id)
     {
-        $user  = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+        $user = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
         if (!$user->isPublic()) throw new AccessDeniedHttpException("Private profile.");
         $talks = $this->talkRepository->getTalksForUser($user);
         return array(
