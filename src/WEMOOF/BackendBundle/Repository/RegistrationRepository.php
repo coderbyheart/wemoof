@@ -73,7 +73,7 @@ class RegistrationRepository extends DoctrineEntityRepository implements Registr
         $qb = $this->createQueryBuilder('er');
         $qb->leftJoin('er.event', 'e')->addSelect('e');
         $qb->leftJoin('er.user', 'u')->addSelect('u');
-        $qb->andWhere('e.start > :now')->setParameter('now', time());
+        $qb->andWhere('e.start > :now')->setParameter('now', new \DateTime());
         $qb->andWhere('u.firstname IS NULL AND u.lastname IS NULL');
         return $qb->getQuery()->getResult();
     }

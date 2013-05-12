@@ -17,7 +17,7 @@ class EventRepository extends DoctrineEntityRepository implements EventRepositor
     {
         $qb = $this->createQueryBuilder('e');
         $qb->andWhere('e.start >= :now');
-        $qb->setParameter('now', time());
+        $qb->setParameter('now', new \DateTime());
         $qb->setMaxResults(1);
         $qb->orderBy('e.start', 'ASC');
         $event = $qb->getQuery()->getOneOrNullResult();
