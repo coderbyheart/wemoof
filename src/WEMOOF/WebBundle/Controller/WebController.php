@@ -19,6 +19,7 @@ use WEMOOF\BackendBundle\Command\ClearLoginKeyCommand;
 use WEMOOF\BackendBundle\Command\SendLoginLinkCommand;
 use WEMOOF\BackendBundle\Command\VerifyUserCommand;
 use WEMOOF\BackendBundle\Command\EditProfileCommand;
+use WEMOOF\BackendBundle\Entity\Event;
 use WEMOOF\BackendBundle\Repository\EventRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\TalkRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\UserRepositoryInterface;
@@ -45,6 +46,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\Util\StringUtils;
 use Symfony\Component\HttpFoundation\Session\Session;
 use WEMOOF\WebBundle\Model\EditProfileModel;
+use WEMOOF\WebBundle\Slugger;
 
 /**
  * @Route(service="wemoof.web.controller.web")
@@ -238,6 +240,17 @@ class WebController
         $session->start();
         $session->invalidate();
         return new RedirectResponse($this->router->generate('wemoof_index'));
+    }
+
+    /**
+     * @Route("/~{id}")
+     * @Template()
+     */
+    public function userIdAction($id)
+    {
+        $user    = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+        $slugger = new Slugger();
+        return new RedirectResponse($this->router->generate('wemoof_user', array('id' => $id, 'slug' => $slugger->slugify((string)$user))));
     }
 
     /**
