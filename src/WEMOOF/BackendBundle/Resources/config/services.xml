@@ -15,6 +15,7 @@
         <parameter key="wemoof.backend.repo.user.class">WEMOOF\BackendBundle\Repository\UserRepository</parameter>
         <parameter key="wemoof.backend.repo.talk.class">WEMOOF\BackendBundle\Repository\TalkRepository</parameter>
         <parameter key="wemoof.backend.repo.registration.class">WEMOOF\BackendBundle\Repository\RegistrationRepository</parameter>
+        <parameter key="wemoof.backend.urlshortener.class">WEMOOF\BackendBundle\Service\UrlShortener</parameter>
     </parameters>
     <services>
         <service id="wemoof.backend.repo.event" factory-service="doctrine.orm.entity_manager"
@@ -52,6 +53,12 @@
             <argument>%mail_from_email%</argument>
             <argument>%mail_from_name%</argument>
             <tag name="lite_cqrs.command_handler"/>
+        </service>
+        <service id="wemoof.backend.urlshortener" class="%wemoof.backend.urlshortener.class%">
+            <argument type="service" id="router"/>
+            <argument type="service" id="liip_doctrine_cache.ns.googl"/>
+            <argument>%scheme_and_host%</argument>
+            <argument>%google_api_key%</argument>
         </service>
     </services>
 </container>

@@ -22,3 +22,5 @@ parameters:
     sass_bin:          /usr/bin/sass
 
     assets_version:    2
+
+    google_api_key:    changeme
