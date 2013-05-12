@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Ornicar\GravatarBundle\OrnicarGravatarBundle(),
             new LiteCQRS\Plugin\SymfonyBundle\LiteCQRSBundle(),
+            new Liip\DoctrineCacheBundle\LiipDoctrineCacheBundle(),
             new WEMOOF\WebBundle\WEMOOFWebBundle(),
             new WEMOOF\BackendBundle\WEMOOFBackendBundle(),
         );
