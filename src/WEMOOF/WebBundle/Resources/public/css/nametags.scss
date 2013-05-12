@@ -1,0 +1,43 @@
+@import "normalize";
+@import "helpers";
+@import "colors";
+@import "fonts";
+
+html {
+  background: white;
+  color: black;
+  font-family: 'Varela Round', sans-serif;
+}
+
+table.nametag {
+  border: 1px solid #000;
+  td {
+    width: 80mm;
+    height: 50mm;
+    padding: 5mm;
+    vertical-align: top;
+
+    div.content {
+      position: relative;
+      width: 80mm;
+      overflow: hidden;
+      span.name {
+        font-weight: bold;
+        font-size: 1.5em;
+      }
+      span.title {
+        font-size: 0.875em;
+      }
+      span.twitter {
+      }
+      span.public {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-weight: bold;
+        font-size: 1.5em;
+      }
+    }
+  }
+
+}

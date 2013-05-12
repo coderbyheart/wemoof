@@ -18,6 +18,12 @@ interface RegistrationRepositoryInterface
      * @param Event $event
      * @return Registration[]
      */
+    function getGuestsForEvent(Event $event);
+
+    /**
+     * @param Event $event
+     * @return Registration[]
+     */
     function getRegistrationsForEvent(Event $event);
 
     /**

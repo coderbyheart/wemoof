@@ -263,7 +263,7 @@ class WebController
         $talks = $this->talkRepository->getTalksForEvent($event);
         shuffle($talks);
         $missing       = count($talks) < 6 ? array_fill(0, 6 - count($talks), 1) : array();
-        $registrations = $this->registrationRepository->getRegistrationsForEvent($event);
+        $registrations = $this->registrationRepository->getGuestsForEvent($event);
         return array(
             'form'          => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
             'event'         => $event,
@@ -330,6 +330,38 @@ class WebController
     public function presseAction($id)
     {
         return $this->eventAction($id);
+    }
+
+    /**
+     * @Route("/{id}/nametags")
+     * @Template()
+     */
+    public function nametagsAction($id)
+    {
+        $event         = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
+        $registrations = $this->registrationRepository->getRegistrationsForEvent($event);
+        $numcols       = 2;
+        $numrows       = 3;
+
+        $pages = array();
+        $page  = 0;
+        $row   = 0;
+        foreach ($registrations as $registration) {
+            if (!isset($pages[$page])) $pages[$page] = array();
+            if (!isset($pages[$page][$row])) $pages[$page][$row] = array();
+            $user = $registration->getUser();
+            if ($user->getFirstname() === null) continue;
+            $pages[$page][$row][] = $registration;
+            if (count($pages[$page][$row]) % $numcols === 0) {
+                $row++;
+                if (count($pages[$page]) % $numrows === 0) $page++;
+            }
+        }
+
+        return array(
+            'event' => $event,
+            'pages' => $pages,
+        );
     }
 
     /**

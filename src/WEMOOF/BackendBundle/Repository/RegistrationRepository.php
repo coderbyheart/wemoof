@@ -30,12 +30,25 @@ class RegistrationRepository extends DoctrineEntityRepository implements Registr
      * @param Event $event
      * @return Registration[]
      */
-    function getRegistrationsForEvent(Event $event)
+    function getGuestsForEvent(Event $event)
     {
         $qb = $this->createQueryBuilder('er');
         $qb->select('er');
         $qb->andWhere('er.event = :event')->setParameter('event', $event);
         $qb->andWhere('er.role = :role')->setParameter('role', Registration::ROLE_GUEST);
+        $qb->leftJoin('er.user', 'u')->addSelect('u');
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Event $event
+     * @return Registration[]
+     */
+    function getRegistrationsForEvent(Event $event)
+    {
+        $qb = $this->createQueryBuilder('er');
+        $qb->select('er');
+        $qb->andWhere('er.event = :event')->setParameter('event', $event);
         $qb->leftJoin('er.user', 'u')->addSelect('u');
         return $qb->getQuery()->getResult();
     }
