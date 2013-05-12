@@ -21,14 +21,16 @@
                     {% set user = registration.user %}
                     <td>
                         <div class="content">
-                            {% if registration.role == 3 %}<span class="role">♥ VIP</span><br>{% endif %}
-                            {% if registration.role == 2 %}<span class="role">♥ Team</span><br>{% endif %}
+                            {% if registration.role == 3 %}<span class="role">WEMO♥F VIP</span><br>{% endif %}
+                            {% if registration.role == 2 %}<span class="role">WEMO♥F Team</span><br>{% endif %}
                             <span class="name">{{ user }}</span><br>
                             {% if user.title %}<span class="title">{{ user.title }}</span><br>{% endif %}
-                            {% if user.twitter %}<br><span class="twitter"><i class="icon-twitter"></i>&nbsp;{{ user.twitter }}</span>{% endif %}
+                            {% if user.tags %}<span class="tags">{% for tag in user.tags|split(" ") %}{{ tag }}<br>{% endfor %}</span>{% endif %}
+                            {% if user.twitter %}<br><span class="twitter"><i class="icon-twitter"></i>&nbsp;{{ user.twitter|slice(1) }}</span>{% endif %}
                             {% if user.url %}<br><span class="url"><i class="icon-home"></i>&nbsp;{{ user.url|compacturl }}</span>{% endif %}
                             {% if user.public %}<span class="public">~{{ user.id }}</span>{% endif %}
                         </div>
+                        {% if user.public %}<img src="{{ shorturls.get(user.id) }}.qr" alt="QR-Code für die URL {{ shorturls.get(user.id) }}" class="qrcode">{% endif %}
                     </td>
                 {% endfor %}
             </tr>

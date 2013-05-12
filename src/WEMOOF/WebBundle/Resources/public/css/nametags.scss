@@ -7,19 +7,21 @@ html {
   background: white;
   color: black;
   font-family: 'Varela Round', sans-serif;
+  width: 21cm;
+  margin: 1.5cm 0 0 2cm;
 }
 
 table.nametag {
   border: 1px solid #000;
   td {
-    width: 80mm;
-    height: 50mm;
+    width: 85mm;
+    height: 55mm;
     padding: 5mm;
     vertical-align: top;
-
+    position: relative;
     div.content {
       position: relative;
-      width: 80mm;
+      width: 85mm;
       overflow: hidden;
       span.name {
         font-weight: bold;
@@ -30,13 +32,27 @@ table.nametag {
       }
       span.twitter {
       }
+      span.role {
+        color: rgba(#000, 0.75);
+      }
       span.public {
         position: absolute;
         top: 0;
-        right: 0;
+        right: 3px;
         font-weight: bold;
         font-size: 1.5em;
+        color: rgba(#000, 0.75);
       }
+      span.tags {
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+    }
+    img.qrcode {
+      width: 25mm;
+      position: absolute;
+      bottom: 0;
+      right: 0;
     }
   }
 
