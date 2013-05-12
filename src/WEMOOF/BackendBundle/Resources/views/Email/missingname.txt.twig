@@ -1,0 +1,17 @@
+Hallo {{ user }},
+
+vielen Dank für deine Registrierung zum Webmontag Offenbach.
+
+Damit wir am Einlass ein gedrucktes Namensschild für dich bereit halten können, benötigen wir
+mindestens deinen Vor- und deinen Nachnamen. Du kannst auch weitere Informationen auf deinem
+Namensschild unterbringen (Titel, Twitter-Handle, Tags), so wird das Netzwerken noch einfacher!
+
+Bitte klicke auf diesen Link, um dich einzuloggen:
+{{ loginlink }}
+
+Anschließend kannst Du deine persönlichen Details hinterlegen…
+
+{% include "WEMOOFBackendBundle:Email:loginlink.txt.twig" %}
+
+
+{% include "WEMOOFBackendBundle:Email:sponsors.txt.twig" %}

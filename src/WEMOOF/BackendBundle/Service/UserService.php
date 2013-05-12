@@ -12,9 +12,11 @@ use WEMOOF\BackendBundle\Command\EditProfileCommand;
 use WEMOOF\BackendBundle\Command\RegisterUserCommand;
 use WEMOOF\BackendBundle\Command\SendLoginLinkCommand;
 use WEMOOF\BackendBundle\Command\SendConfirmationMailCommand;
+use WEMOOF\BackendBundle\Command\SendMissingNameMailCommand;
 use WEMOOF\BackendBundle\Command\SendProfileMailCommand;
 use WEMOOF\BackendBundle\Command\SendTemplateMailCommand;
 use WEMOOF\BackendBundle\Command\VerifyUserCommand;
+use WEMOOF\BackendBundle\Entity\User;
 use WEMOOF\BackendBundle\Value\EmailValue;
 use WEMOOF\BackendBundle\Value\TemplateIdentifierValue;
 
@@ -82,16 +84,7 @@ class UserService
 
     public function sendProfileMail(SendProfileMailCommand $command)
     {
-        $loginKey = $command->user->getLoginKey();
-        if (empty($loginKey)) {
-            $generator                = new SecureRandom();
-            $loginKey                 = sha1($generator->nextBytes(32));
-            $updateUserCommand        = new UpdateResourceCommand();
-            $updateUserCommand->class = '\WEMOOF\BackendBundle\Entity\User';
-            $updateUserCommand->id    = $command->user->getId();
-            $updateUserCommand->data  = array('loginKey' => $loginKey);
-            $this->commandBus->handle($updateUserCommand);
-        }
+        $loginKey = $this->getLoginKeyForUser($command->user);
 
         $this->commandBus->handle(
             SendTemplateMailCommand::create(
@@ -103,6 +96,38 @@ class UserService
                     'newloginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_requestlogin'),
                 ),
                 'Dein Webmontag Offenbach Profil'));
+    }
+
+
+    public function sendMissingNameMail(SendMissingNameMailCommand $command)
+    {
+        $loginKey = $this->getLoginKeyForUser($command->user);
+
+        $this->commandBus->handle(
+            SendTemplateMailCommand::create(
+                new EmailValue($command->user->getEmail()),
+                new TemplateIdentifierValue('WEMOOFBackendBundle:Email:missingname.txt.twig'),
+                array(
+                    'user'         => $command->user,
+                    'loginlink'    => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_login', array('id' => $command->user->getId(), 'key' => $loginKey)),
+                    'newloginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_requestlogin'),
+                ),
+                'Dein Webmontag Offenbach Namensschild'));
+    }
+
+    protected function getLoginKeyForUser(User $user)
+    {
+        $loginKey = $user->getLoginKey();
+        if (empty($loginKey)) {
+            $generator                = new SecureRandom();
+            $loginKey                 = sha1($generator->nextBytes(32));
+            $updateUserCommand        = new UpdateResourceCommand();
+            $updateUserCommand->class = '\WEMOOF\BackendBundle\Entity\User';
+            $updateUserCommand->id    = $user->getId();
+            $updateUserCommand->data  = array('loginKey' => $loginKey);
+            $this->commandBus->handle($updateUserCommand);
+        }
+        return $loginKey;
     }
 
     public function sendConfirmationMail(SendConfirmationMailCommand $command)

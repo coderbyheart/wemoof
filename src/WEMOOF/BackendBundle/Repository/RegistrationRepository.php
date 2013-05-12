@@ -65,4 +65,17 @@ class RegistrationRepository extends DoctrineEntityRepository implements Registr
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @return Registration[]
+     */
+    function getMissingNameRegistrations()
+    {
+        $qb = $this->createQueryBuilder('er');
+        $qb->leftJoin('er.event', 'e')->addSelect('e');
+        $qb->leftJoin('er.user', 'u')->addSelect('u');
+        $qb->andWhere('e.start > :now')->setParameter('now', time());
+        $qb->andWhere('u.firstname IS NULL AND u.lastname IS NULL');
+        return $qb->getQuery()->getResult();
+    }
+
 }

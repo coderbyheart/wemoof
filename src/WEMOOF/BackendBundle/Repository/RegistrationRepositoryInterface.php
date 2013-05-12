@@ -31,4 +31,9 @@ interface RegistrationRepositoryInterface
      * @return \PhpOption\Option
      */
     function getRegistration($id);
+
+    /**
+     * @return Registration[]
+     */
+    function getMissingNameRegistrations();
 }
