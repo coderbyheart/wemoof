@@ -308,7 +308,7 @@ class WebController
         /** @var Event $event */
         $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
         $user  = $this->getUser();
-        if ($event->getNumTicketsAvailable() <= 0) throw new ForbiddenHttpException(sprintf("Event %d is sold out.", $event->getId()));
+        if ($event->getNumTicketsAvailable() <= 0) throw new AccessDeniedHttpException(sprintf("Event %d is sold out.", $event->getId()));
 
         $command = RegisterEventCommand::create($user, $event);
         $form    = $this->formFactory->create(new RegisterEventType(), $command);
@@ -339,7 +339,7 @@ class WebController
     public function unregisterEventAction($id)
     {
         $registration = $this->registrationRepository->getRegistration($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown registration: %d", $id)));
-        if ($registration->getUser()->getId() !== $this->getUser()->getId()) throw new ForbiddenHttpException();
+        if ($registration->getUser()->getId() !== $this->getUser()->getId()) throw new AccessDeniedHttpException();
         $command = UnregisterEventCommand::create($registration);
         $form    = $this->formFactory->create(new UnregisterEventType(), $command);
         if ($this->request->isMethod('POST')) {

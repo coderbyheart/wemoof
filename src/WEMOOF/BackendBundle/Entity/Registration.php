@@ -14,6 +14,10 @@ use PhpOption\Option;
  */
 class Registration extends AggregateResource
 {
+    const ROLE_GUEST   = 1;
+    const ROLE_SPEAKER = 2;
+    const ROLE_TEAM    = 3;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -37,6 +41,14 @@ class Registration extends AggregateResource
      * @var User
      */
     protected $user;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Range(min=1,max=3)
+     * @ORM\Column(type="integer")
+     * @var int Type of registration
+     */
+    protected $role = self::ROLE_GUEST;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -76,6 +88,22 @@ class Registration extends AggregateResource
     }
 
     /**
+     * @param int $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
      * Return an array of properties that are allowed to change
      * through the create() and update() methods.
      *
@@ -86,6 +114,7 @@ class Registration extends AggregateResource
         return array(
             'event',
             'user',
+            'role',
             'created',
             'confirmed',
         );

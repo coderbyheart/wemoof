@@ -20,7 +20,6 @@ interface RegistrationRepositoryInterface
      */
     function getRegistrationsForEvent(Event $event);
 
-
     /**
      * @return Registration[]
      */
