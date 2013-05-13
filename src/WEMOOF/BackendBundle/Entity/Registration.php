@@ -104,6 +104,22 @@ class Registration extends AggregateResource
     }
 
     /**
+     * @param \DateTime $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
      * Return an array of properties that are allowed to change
      * through the create() and update() methods.
      *
