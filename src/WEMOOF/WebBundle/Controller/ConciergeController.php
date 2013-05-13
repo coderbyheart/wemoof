@@ -79,8 +79,8 @@ class ConciergeController
     )
     {
         $this->registrationRepository = $registrationRepository;
-        $this->eventRepository = $eventRepository;
-        $this->shortener = $shortener;
+        $this->eventRepository        = $eventRepository;
+        $this->shortener              = $shortener;
     }
 
     /**
@@ -89,15 +89,20 @@ class ConciergeController
      */
     public function nametagsAction($id)
     {
-        $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
+        $event         = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
         $registrations = $this->registrationRepository->getRegistrationsForEvent($event);
-        $numcols = 2;
-        $numrows = 3;
 
-        $pages = array();
+        // Sort
+        $sort = array();
+        foreach ($registrations as $registration) $sort[] = $registration->getUser()->getFirstname() . $registration->getUser()->getLastname();
+        array_multisort($sort, SORT_ASC, $registrations);
+
+        $numcols   = 2;
+        $numrows   = 5;
+        $pages     = array();
         $shorturls = new ArrayCollection();
-        $page = 0;
-        $row = 0;
+        $page      = 0;
+        $row       = 0;
         foreach ($registrations as $registration) {
             if (!isset($pages[$page])) $pages[$page] = array();
             if (!isset($pages[$page][$row])) $pages[$page][$row] = array();
@@ -112,8 +117,8 @@ class ConciergeController
         }
 
         return array(
-            'event' => $event,
-            'pages' => $pages,
+            'event'     => $event,
+            'pages'     => $pages,
             'shorturls' => $shorturls,
         );
     }

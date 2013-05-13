@@ -8,20 +8,20 @@ html {
   color: black;
   font-family: 'Varela Round', sans-serif;
   width: 21cm;
-  margin: 1.5cm 0 0 2cm;
+  margin: 0;
 }
 
 table.nametag {
-  border: 1px solid #000;
+  margin: 23mm 0 16mm 2mm;
   td {
-    width: 85mm;
-    height: 55mm;
-    padding: 5mm;
+    width: 98mm;
+    height: 56mm;
     vertical-align: top;
     position: relative;
     div.content {
+      margin: 0 5mm;
+      width: 88mm;
       position: relative;
-      width: 85mm;
       overflow: hidden;
       span.name {
         font-weight: bold;
@@ -48,12 +48,5 @@ table.nametag {
         text-transform: uppercase;
       }
     }
-    img.qrcode {
-      width: 25mm;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-    }
   }
-
 }
