@@ -22,7 +22,7 @@
                 <p><em>Sprich mit mir über<br>
             {% endif %}
             {% if not loop.first and loop.last %} und {% endif %}
-            <strong>{{ tag }}</strong>{% if loop.first and not loop.last %}, {% endif %}{% if loop.last %}!</em></p>{% endif %}
+            {% if not loop.first and not loop.last %}, {% endif %}<strong>{{ tag }}</strong>{% if loop.last %}!</em></p>{% endif %}
         {% endspaceless %}
     {% endfor %}
 {% endif %}
