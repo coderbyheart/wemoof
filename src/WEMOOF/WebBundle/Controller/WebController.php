@@ -261,16 +261,19 @@ class WebController
      */
     public function eventAction($id)
     {
-        $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
-        $talks = $this->talkRepository->getTalksForEvent($event);
-        shuffle($talks);
+        $event         = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
+        $talks         = $this->talkRepository->getTalksForEvent($event);
+        $spotlights    = $this->talkRepository->getSpotlightsForEvent($event);
         $missing       = count($talks) < 6 ? array_fill(0, 6 - count($talks), 1) : array();
         $registrations = $this->registrationRepository->getGuestsForEvent($event);
+        shuffle($talks);
+        shuffle($spotlights);
         return array(
             'form'          => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
             'event'         => $event,
             'registrations' => $registrations,
             'talks'         => $talks,
+            'spotlights'    => $spotlights,
             'missing'       => $missing,
         );
     }

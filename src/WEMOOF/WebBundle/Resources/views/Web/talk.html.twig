@@ -20,11 +20,15 @@
             {{ talk.name }}
         </h2>
 
-        <p><em>Ein Vortrag von
+        <p><em>Ein {% if talk.isSpotlight() %}Spotlight{% else %}Vortrag{% endif %} von
                 <a href="{{ path('wemoof_speaker', {'slug': talk.speaker|slug, 'id': talk.speaker.id}) }}">{{ talk.speaker }}</a>
                 auf dem <a href="{{ path('wemoof_event', {'id': talk.event.id}) }}">{{ talk.event }}</a>.</em></p>
 
         {{ talk.description|md }}
+
+        {% if talk.url %}
+            <p><em><a href="{{ talk.url }}">Zur Präsentation</a></em></p>
+        {% endif %}
 
         {% set share_url %}{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ app.request.pathInfo }}{% endset %}
 

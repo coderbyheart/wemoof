@@ -16,6 +16,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as AssertORM;
  */
 class Talk
 {
+    const ROLE_TALK      = 1;
+    const ROLE_SPOTLIGHT = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -48,6 +51,14 @@ class Talk
 
     /**
      * @Assert\NotBlank()
+     * @Assert\Range(min=1,max=2)
+     * @ORM\Column(type="integer")
+     * @var int Type of talk
+     */
+    protected $role = self::ROLE_TALK;
+
+    /**
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="WEMOOF\BackendBundle\Entity\User")
      * @ORM\JoinColumn(name="speaker_id", referencedColumnName="id")
      * @var User
@@ -77,7 +88,7 @@ class Talk
     public function __construct()
     {
         $this->speaker = new User();
-        $this->event = new Event();
+        $this->event   = new Event();
     }
 
     /**
@@ -150,5 +161,29 @@ class Talk
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * @param int $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSpotlight()
+    {
+        return $this->getRole() === self::ROLE_SPOTLIGHT;
     }
 }

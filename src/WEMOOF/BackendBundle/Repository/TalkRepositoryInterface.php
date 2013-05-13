@@ -15,6 +15,12 @@ interface TalkRepositoryInterface
     function getTalksForEvent(Event $event);
 
     /**
+     * @param Event $event
+     * @return mixed
+     */
+    function getSpotlightsForEvent(Event $event);
+
+    /**
      * @param User $user
      * @return \PhpOption\Option
      */

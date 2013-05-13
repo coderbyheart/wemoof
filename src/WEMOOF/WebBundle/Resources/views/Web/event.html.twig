@@ -4,8 +4,7 @@
 {% block content %}
     <article>
         <h1>
-            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}"
-                 alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
+            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
         </h1>
 
         <p>Der <strong>Webmontag Offenbach</strong> ist eine informelle, nicht-kommerzielle und von der Community
@@ -37,8 +36,7 @@
                     {% if talk.speaker.hasGravatar %}
                         <img src="{{ gravatar(talk.speaker.email) }}" alt="{{ talk.speaker }}">
                     {% else %}
-                        <img src="/upload/user/{{ talk.speaker|slug }}-{{ talk.speaker.id }}.jpg"
-                             alt="{{ talk.speaker }}">
+                        <img src="/upload/user/{{ talk.speaker|slug }}-{{ talk.speaker.id }}.jpg" alt="{{ talk.speaker }}">
                     {% endif %}
                     <br><abbr title="{{ talk.speaker }}">{{ talk.speaker.firstname }}</abbr> </a>
             </li>
@@ -65,6 +63,22 @@
         <p>
             <small><em>Die Reihenfolge der Talks wird erst am Veranstaltungsabend festgelegt.</em></small>
         </p>
+
+        {% for talk in spotlights %}
+            {% if loop.first %}
+                <h4>Spotlights</h4>
+                <ul>
+            {% endif %}
+            <li>
+                <a href="{{ path('wemoof_talk', {'slug': talk|slug, 'id': talk.id}) }}">
+                    {{ talk }}
+                </a>
+            </li>
+            {% if loop.last %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+
 
         <h3>Location</h3>
 
@@ -154,7 +168,8 @@
             <small>Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</small>
         </p>
 
-        <p>Du kannst dich <a href="{{ path('wemoof_requestlogin') }}">hier einloggen</a>, um deine Registrierungen und dein Profil zu bearbeiten.</p>
+        <p>Du kannst dich <a href="{{ path('wemoof_requestlogin') }}">hier einloggen</a>, um deine Registrierungen und
+            dein Profil zu bearbeiten.</p>
 
     </article>
 
@@ -218,7 +233,7 @@
         <h3 id="faq-wmfra">Parallel zum Webmontag Frankfurt?</h3>
 
         <p><em>Der <a href="http://wmfra.de/" rel="friend met muse">Webmontag Frankfurt</a> findet am gleichen Tag in
-            der Brotfabrik in Hausen statt.</em></p>
+                der Brotfabrik in Hausen statt.</em></p>
 
         <p>Ich bin in den letzten Monaten regelmäßig der einzige Offenbacher in der Brotfabrik &ndash; daher sehe ich
             kaum Überschneidungen bei den Besuchern der Veranstaltungen.</p>
@@ -262,9 +277,7 @@
             </li>
             <li>
                 <a href="http://afip-hessen.de/" rel="met friend">
-                    <img src="{{ asset('bundles/wemoofweb/images/afip.png') }}"
-                         alt="afip — akademie für interdisziplinäre prozesse | offenbach"><br><abbr
-                        title="akademie für interdisziplinäre prozesse | offenbach">»afip!«</abbr>
+                    <img src="{{ asset('bundles/wemoofweb/images/afip.png') }}" alt="afip — akademie für interdisziplinäre prozesse | offenbach"><br><abbr title="akademie für interdisziplinäre prozesse | offenbach">»afip!«</abbr>
                 </a> <br>
                 <small>Locationunterstützung<br> Platz für 200 Leute</small>
             </li>

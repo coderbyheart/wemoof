@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository AS DoctrineEntityRepository;
 use PhpOption\None;
 use PhpOption\Some;
 use WEMOOF\BackendBundle\Entity\Event;
+use WEMOOF\BackendBundle\Entity\Talk;
 use WEMOOF\BackendBundle\Entity\User;
 
 class TalkRepository extends DoctrineEntityRepository implements TalkRepositoryInterface
@@ -18,6 +19,21 @@ class TalkRepository extends DoctrineEntityRepository implements TalkRepositoryI
     {
         $qb = $this->createQueryBuilder('t');
         $qb->andWhere('t.event = :event')->setParameter('event', $event->getId());
+        $qb->andWhere('t.role = :role')->setParameter('role', Talk::ROLE_TALK);
+        $qb->orderBy('t.order', 'ASC');
+        $qb->leftJoin('t.speaker', 'u')->addSelect('u');
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Event $event
+     * @return \PhpOption\Option
+     */
+    function getSpotlightsForEvent(Event $event)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->andWhere('t.event = :event')->setParameter('event', $event->getId());
+        $qb->andWhere('t.role = :role')->setParameter('role', Talk::ROLE_SPOTLIGHT);
         $qb->orderBy('t.order', 'ASC');
         $qb->leftJoin('t.speaker', 'u')->addSelect('u');
         return $qb->getQuery()->getResult();
