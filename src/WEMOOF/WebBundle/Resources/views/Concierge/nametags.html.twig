@@ -20,7 +20,7 @@
                 {% for registration in row %}
                     {% set user = registration.user %}
                     <td
-                            {% if user.public %}style="background: url({{ shorturls.get(user.id) }}.qr) no-repeat 100% 100%; background-size: 80px 80px;"{% endif %}
+                            {% if user.public %}style="background: url({{ shorturls.get(user.id) }}.qr) no-repeat 95% 70%; background-size: 80px 80px;"{% endif %}
                             >
                         <div class="content">
                             {% if registration.role == 3 %}<span class="role">WEMO♥F VIP</span><br>{% endif %}
