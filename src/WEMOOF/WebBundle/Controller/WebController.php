@@ -174,24 +174,26 @@ class WebController
         foreach ($registrations as $registration) {
             $registration2Events[$registration->getEvent()->getId()] = $registration;
         }
-        $registerableEvents   = array();
-        $unregisterableEvents = array();
+        $registerableEvents = array();
+
         foreach ($this->eventRepository->getRegisterableEvents() as $event) {
-            if (in_array($event->getId(), $registeredEvents)) {
-                $registration           = $registration2Events[$event->getId()];
-                $form                   = $this->formFactory->create(new UnregisterEventType(), UnregisterEventCommand::create($registration));
-                $unregisterableEvents[] = array(
-                    'form'         => $form->createView(),
-                    'event'        => $event,
-                    'registration' => $registration,
-                );
-            } else {
-                $form                 = $this->formFactory->create(new RegisterEventType(), RegisterEventCommand::create($user, $event));
-                $registerableEvents[] = array(
-                    'form'  => $form->createView(),
-                    'event' => $event
-                );
-            }
+            if (in_array($event->getId(), $registeredEvents)) continue;
+            $form                 = $this->formFactory->create(new RegisterEventType(), RegisterEventCommand::create($user, $event));
+            $registerableEvents[] = array(
+                'form'  => $form->createView(),
+                'event' => $event
+            );
+        }
+
+        // Unregisterable events
+        $unregisterableEvents = array();
+        foreach ($this->registrationRepository->getCancelableRegistrationsForUser($user) as $registration) {
+            $form                   = $this->formFactory->create(new UnregisterEventType(), UnregisterEventCommand::create($registration));
+            $unregisterableEvents[] = array(
+                'form'         => $form->createView(),
+                'event'        => $registration->getEvent(),
+                'registration' => $registration,
+            );
         }
 
         $editProfileForm = $this->formFactory->create(new EditProfileType(), EditProfileModel::factory($user));

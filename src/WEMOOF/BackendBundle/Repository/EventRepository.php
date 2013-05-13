@@ -38,7 +38,7 @@ class EventRepository extends DoctrineEntityRepository implements EventRepositor
     }
 
     /**
-     * @return Event
+     * @return Event[]
      */
     function getRegisterableEvents()
     {
@@ -58,6 +58,4 @@ class EventRepository extends DoctrineEntityRepository implements EventRepositor
         }
         return $return;
     }
-
-
 }

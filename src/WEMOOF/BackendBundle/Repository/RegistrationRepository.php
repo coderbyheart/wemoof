@@ -27,6 +27,21 @@ class RegistrationRepository extends DoctrineEntityRepository implements Registr
     }
 
     /**
+     * @param User $user
+     * @return Registration[]
+     */
+    function getCancelableRegistrationsForUser(User $user)
+    {
+        $qb = $this->createQueryBuilder('er');
+        $qb->select('er');
+        $qb->andWhere('er.user = :user');
+        $qb->setParameter('user', $user);
+        $qb->leftJoin('er.event', 'e')->addSelect('e');
+        $qb->andWhere('e.start > :now')->setParameter('now', new \DateTime());
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * @param Event $event
      * @return Registration[]
      */

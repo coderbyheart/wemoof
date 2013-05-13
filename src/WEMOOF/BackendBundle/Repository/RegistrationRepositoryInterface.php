@@ -15,6 +15,12 @@ interface RegistrationRepositoryInterface
     function getRegistrationsForUser(User $user);
 
     /**
+     * @param User $user
+     * @return Registration[]
+     */
+    function getCancelableRegistrationsForUser(User $user);
+
+    /**
      * @param Event $event
      * @return Registration[]
      */

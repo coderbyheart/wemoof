@@ -3,6 +3,7 @@
 namespace WEMOOF\BackendBundle\Repository;
 
 use \PhpOption\Option;
+use WEMOOF\BackendBundle\Entity\Event;
 
 interface EventRepositoryInterface
 {
@@ -18,7 +19,7 @@ interface EventRepositoryInterface
     function getEvent($id);
 
     /**
-     * @return \PhpOption\Option
+     * @return Event[]
      */
     function getRegisterableEvents();
 }
