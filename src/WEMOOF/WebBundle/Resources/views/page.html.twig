@@ -3,7 +3,7 @@
 <html lang="de-de">
 <head>
     <meta charset="UTF-8">
-    <title>{{ meta_title|striptags|trim }}</title>
+    <title>{{ meta_title|default()|striptags|trim }}</title>
     <meta name="description" content="{{ meta_description|default(info_claim)|striptags|trim }}">
     <meta name="author" content="Markus Tacker | http://tckr.cc/">
     <!-- See /humans.txt for more infos -->
