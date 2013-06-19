@@ -131,29 +131,37 @@
 
         <h2>Registrierung</h2>
 
-        {% if event.ticketSalesStart.isEmpty() %}
-            <p>Der Zeitpunkt für die Registrierung wurde noch nicht bekannt gegeben.</p>
+        {% if event.start.isPast() %}
+            <p><em>Dieser Webmontag ist bereits rum.</em></p>
+            <p>Du kannst aber Deine E-Mail-Adresse hinterlassen um benachrichtigt zu werden, sobald die Registrierung
+                für den nächsten Webmontag frei geschaltet wurde.</p>
         {% else %}
-            {% if event.ticketSalesStart.get().isFuture() %}
-                <p><strong>Geduld!</strong> Ab {{ event.ticketSalesStart.get()|longdate }} kannst Du dich für den
-                    Webmontag Offenbach registrieren.</p>
+            {% if event.ticketSalesStart.isEmpty() %}
+                <p><em>Der Zeitpunkt für die Registrierung wurde noch nicht bekannt gegeben.</em></p>
+                <p>Du kannst aber Deine E-Mail-Adresse hinterlassen. Du wirst benachrichtigt, sobald die Registrierung
+                    frei geschaltet wurde.</p>
             {% else %}
-                <div class="loading">
-                    <div class="inner" style="width: {{ event.percentTicketsSold }}%;"></div>
-                </div>
-
-                {% if event.numTicketsAvailable > 0 %}
-                    <p>Es sind noch {{ event.numTicketsAvailable }} Tickets verfügbar.</p>
-
-                    <p>Um dich für den {{ "%d."|format(event.id) }} Webmontag Offenbach zu registrieren, melde dich
-                        bitte mit deiner E-Mail-Adresse an.</p>
-
-                    <p>Die Teilnahme an der Veranstaltung ist Dank unserer <a href="#sponsoren">Sponsoren</a> kostenfrei
-                        möglich.</p>
-
+                {% if event.ticketSalesStart.get().isFuture() %}
+                    <p><strong>Geduld!</strong> Ab {{ event.ticketSalesStart.get()|longdate }} kannst Du dich für den
+                        Webmontag Offenbach registrieren.</p>
                 {% else %}
-                    <p>Es sind keine Tickets mehr verfügbar. Du kannst aber deine E-Mail-Adresse hinterlassen und Du
-                        wirst benachrichtigt, sobald wieder Plätze frei sind.</p>
+                    <div class="loading">
+                        <div class="inner" style="width: {{ event.percentTicketsSold }}%;"></div>
+                    </div>
+
+                    {% if event.numTicketsAvailable > 0 %}
+                        <p>Es sind noch {{ event.numTicketsAvailable }} Tickets verfügbar.</p>
+
+                        <p>Um dich für den {{ "%d."|format(event.id) }} Webmontag Offenbach zu registrieren, melde dich
+                            bitte mit deiner E-Mail-Adresse an.</p>
+
+                        <p>Die Teilnahme an der Veranstaltung ist Dank unserer <a href="#sponsoren">Sponsoren</a>
+                            kostenfrei möglich.</p>
+
+                    {% else %}
+                        <p>Es sind keine Tickets mehr verfügbar. Du kannst aber deine E-Mail-Adresse hinterlassen und Du
+                            wirst benachrichtigt, sobald wieder Plätze frei sind.</p>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         {% endif %}
@@ -182,7 +190,8 @@
         <li>
             Am
             <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
-            fand der<br><a href="{{ path('wemoof_event', {'id': event.id}) }}#event">{{ "%d."|format(event.id)|numtotext }}
+            fand
+            der<br><a href="{{ path('wemoof_event', {'id': event.id}) }}#event">{{ "%d."|format(event.id)|numtotext }}
                 <strong>Webmontag Offenbach</strong></a> statt.
         </li>
         {% if loop.last %}
