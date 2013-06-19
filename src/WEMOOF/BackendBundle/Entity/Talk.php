@@ -16,7 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as AssertORM;
  */
 class Talk
 {
-    const ROLE_TALK      = 1;
+    const ROLE_TALK = 1;
+
     const ROLE_SPOTLIGHT = 2;
 
     /**
@@ -36,7 +37,7 @@ class Talk
 
     /**
      * @Assert\Length(max=500)
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @var string Beschreibung
      */
     protected $description;
@@ -67,10 +68,17 @@ class Talk
 
     /**
      * @Assert\Url
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @var string URL
      */
     protected $url;
+
+    /**
+     * @Assert\Url
+     * @ORM\Column(type="text", nullable=true)
+     * @var string Youtube-URL
+     */
+    protected $youtube;
 
     /**
      * @ORM\Column(type="integer")
@@ -164,11 +172,11 @@ class Talk
     }
 
     /**
-     * @param int $role
+     * @return bool
      */
-    public function setRole($role)
+    public function isSpotlight()
     {
-        $this->role = $role;
+        return $this->getRole() === self::ROLE_SPOTLIGHT;
     }
 
     /**
@@ -180,10 +188,26 @@ class Talk
     }
 
     /**
-     * @return bool
+     * @param int $role
      */
-    public function isSpotlight()
+    public function setRole($role)
     {
-        return $this->getRole() === self::ROLE_SPOTLIGHT;
+        $this->role = $role;
+    }
+
+    /**
+     * @return string
+     */
+    public function getYoutube()
+    {
+        return $this->youtube;
+    }
+
+    /**
+     * @param string $youtube
+     */
+    public function setYoutube($youtube)
+    {
+        $this->youtube = $youtube;
     }
 }

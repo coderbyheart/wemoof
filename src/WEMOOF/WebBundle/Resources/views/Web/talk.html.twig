@@ -24,12 +24,6 @@
                 <a href="{{ path('wemoof_speaker', {'slug': talk.speaker|slug, 'id': talk.speaker.id}) }}">{{ talk.speaker }}</a>
                 auf dem <a href="{{ path('wemoof_event', {'id': talk.event.id}) }}">{{ talk.event }}</a>.</em></p>
 
-        {{ talk.description|md }}
-
-        {% if talk.url %}
-            <p><em><a href="{{ talk.url }}">Zur Präsentation</a></em></p>
-        {% endif %}
-
         {% set share_url %}{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ app.request.pathInfo }}{% endset %}
 
         <a href="https://twitter.com/share" class="twitter-share-button" data-text="Auf dem @wemoof spricht {% spaceless %}
@@ -37,6 +31,16 @@
         {% endspaceless %} über {{ talk.name }}:" data-lang="de" data-hashtags="wemoof">Tweet</a>
 
         <div class="fb-like" data-href="{{ share_url }}" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="tahoma" data-action="recommend"></div>
+
+        {{ talk.description|md }}
+
+        {% if talk.url %}
+            <p><em><a href="{{ talk.url }}">Zur Präsentation</a></em></p>
+        {% endif %}
+
+        {% if talk.youtube %}
+            <iframe width="400" height="225" src="{{ talk.youtube }}" class="youtube"></iframe>
+        {% endif %}
 
         {% include "WEMOOFWebBundle:Web:part/user.html.twig" with {"user": talk.speaker, "hl": 3, "hl-prefix": "Über " } %}
 
