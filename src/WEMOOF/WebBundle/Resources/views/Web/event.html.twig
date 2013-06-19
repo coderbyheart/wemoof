@@ -173,6 +173,24 @@
 
     </article>
 
+    {% for event in pastEvents %}
+        {% if loop.first %}
+            <article id="past-events" >
+            <h2>Bisherige Webmontage</h2>
+            <ul>
+        {% endif %}
+        <li>
+            Am
+            <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
+            fand der<br><a href="{{ path('wemoof_event', {'id': event.id}) }}#event">{{ "%d."|format(event.id)|numtotext }}
+                <strong>Webmontag Offenbach</strong></a> statt.
+        </li>
+        {% if loop.last %}
+            </ul>
+            </article>
+        {% endif %}
+    {% endfor %}
+
     <article id="kontakt">
 
         <h2>Kontakt</h2>

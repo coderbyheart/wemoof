@@ -22,4 +22,9 @@ interface EventRepositoryInterface
      * @return Event[]
      */
     function getRegisterableEvents();
+
+    /**
+     * @return Event[]
+     */
+    function getPastEvents();
 }

@@ -52,10 +52,22 @@ class EventRepository extends DoctrineEntityRepository implements EventRepositor
         $qb->setParameter('now', new \DateTime());
         $result = $qb->getQuery()->getResult();
         $return = array();
-        foreach($result as $r) {
+        foreach ($result as $r) {
             $return[] = $r[0];
             // $r["num_registrations"]
         }
         return $return;
+    }
+
+    /**
+     * @return Event[]
+     */
+    function getPastEvents()
+    {
+        $qb = $this->createQueryBuilder('e');
+        $qb->andWhere('e.start < :now');
+        $qb->setParameter('now', new \DateTime());
+        $qb->orderBy('e.start', 'ASC');
+        return $qb->getQuery()->getResult();
     }
 }

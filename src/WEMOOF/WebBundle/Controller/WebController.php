@@ -100,6 +100,11 @@ class WebController
      */
     private $router;
 
+    /**
+     * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
+     */
+    private $session;
+
     public function __construct(Request $request, FormFactoryInterface $formFactory, ObjectManager $objectManager, EventRepositoryInterface $eventRepository, TalkRepositoryInterface $talkRepository, UserRepositoryInterface $userRepository, RegistrationRepositoryInterface $registrationRepository, HttpKernelInterface $httpKernel, CommandBus $commandBus, RouterInterface $router)
     {
         $this->request                = $request;
@@ -122,6 +127,14 @@ class WebController
     {
         $event = $this->eventRepository->getNextEvent()->get();
         return $this->forward('wemoof.web.controller.web:eventAction', array('id' => $event->getId()));
+    }
+
+    protected function forward($controller, array $attributes = array(), array $query = array())
+    {
+        $attributes['_controller'] = $controller;
+        $subRequest                = $this->request->duplicate($query, null, $attributes);
+
+        return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }
 
     /**
@@ -234,6 +247,39 @@ class WebController
     }
 
     /**
+     * @return User
+     * @throws NotFoundHttpException
+     */
+    private function getUser()
+    {
+        $session = $this->getSession();
+        $id      = $session->get('user_id');
+        $user    = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+        return $user;
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Session\SessionInterface
+     */
+    private function getSession()
+    {
+        if ($this->session === null) {
+            $this->session = new Session();
+            $this->session->start();
+        }
+        return $this->session;
+    }
+
+    /**
+     * @param string $message
+     */
+    private function addMessage($message)
+    {
+        $session = $this->getSession();
+        $session->getFlashBag()->add('notice', $message);
+    }
+
+    /**
      * @Route("/logout", name="wemoof_logout")
      */
     public function logoutAction()
@@ -253,29 +299,6 @@ class WebController
         $user    = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
         $slugger = new Slugger();
         return new RedirectResponse($this->router->generate('wemoof_user', array('id' => $id, 'slug' => $slugger->slugify((string)$user))));
-    }
-
-    /**
-     * @Route("/{id}", name="wemoof_event")
-     * @Template()
-     */
-    public function eventAction($id)
-    {
-        $event         = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
-        $talks         = $this->talkRepository->getTalksForEvent($event);
-        $spotlights    = $this->talkRepository->getSpotlightsForEvent($event);
-        $missing       = count($talks) < 6 ? array_fill(0, 6 - count($talks), 1) : array();
-        $registrations = $this->registrationRepository->getGuestsForEvent($event);
-        shuffle($talks);
-        shuffle($spotlights);
-        return array(
-            'form'          => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
-            'event'         => $event,
-            'registrations' => $registrations,
-            'talks'         => $talks,
-            'spotlights'    => $spotlights,
-            'missing'       => $missing,
-        );
     }
 
     /**
@@ -338,6 +361,30 @@ class WebController
     }
 
     /**
+     * @Route("/{id}", name="wemoof_event")
+     * @Template()
+     */
+    public function eventAction($id)
+    {
+        $event         = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
+        $talks         = $this->talkRepository->getTalksForEvent($event);
+        $spotlights    = $this->talkRepository->getSpotlightsForEvent($event);
+        $missing       = count($talks) < 6 ? array_fill(0, 6 - count($talks), 1) : array();
+        $registrations = $this->registrationRepository->getGuestsForEvent($event);
+        shuffle($talks);
+        shuffle($spotlights);
+        return array(
+            'form'          => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
+            'event'         => $event,
+            'registrations' => $registrations,
+            'talks'         => $talks,
+            'spotlights'    => $spotlights,
+            'missing'       => $missing,
+            'pastEvents'    => $this->eventRepository->getPastEvents(),
+        );
+    }
+
+    /**
      * @Route("/registration/{id}", name="wemoof_unregister_event", methods={"POST", "DELETE"})
      * @Template()
      */
@@ -396,14 +443,6 @@ class WebController
         );
     }
 
-    protected function forward($controller, array $attributes = array(), array $query = array())
-    {
-        $attributes['_controller'] = $controller;
-        $subRequest                = $this->request->duplicate($query, null, $attributes);
-
-        return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
-    }
-
     public function eventExecutionFailed(EventExecutionFailed $event)
     {
 
@@ -442,43 +481,5 @@ class WebController
         $session->set('user_id', $user->getId());
 
         return new RedirectResponse($this->router->generate('wemoof_dashboard'));
-    }
-
-    /**
-     * @return User
-     * @throws NotFoundHttpException
-     */
-    private function getUser()
-    {
-        $session = $this->getSession();
-        $id      = $session->get('user_id');
-        $user    = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
-        return $user;
-    }
-
-    /**
-     * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
-     */
-    private $session;
-
-    /**
-     * @return \Symfony\Component\HttpFoundation\Session\SessionInterface
-     */
-    private function getSession()
-    {
-        if ($this->session === null) {
-            $this->session = new Session();
-            $this->session->start();
-        }
-        return $this->session;
-    }
-
-    /**
-     * @param string $message
-     */
-    private function addMessage($message)
-    {
-        $session = $this->getSession();
-        $session->getFlashBag()->add('notice', $message);
     }
 }
