@@ -100,11 +100,6 @@ class WebController
      */
     private $router;
 
-    /**
-     * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
-     */
-    private $session;
-
     public function __construct(Request $request, FormFactoryInterface $formFactory, ObjectManager $objectManager, EventRepositoryInterface $eventRepository, TalkRepositoryInterface $talkRepository, UserRepositoryInterface $userRepository, RegistrationRepositoryInterface $registrationRepository, HttpKernelInterface $httpKernel, CommandBus $commandBus, RouterInterface $router)
     {
         $this->request                = $request;
@@ -259,15 +254,11 @@ class WebController
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Session\SessionInterface
+     * @return \Symfony\Component\HttpFoundation\Session\Session
      */
     private function getSession()
     {
-        if ($this->session === null) {
-            $this->session = new Session();
-            $this->session->start();
-        }
-        return $this->session;
+        return $this->request->getSession();
     }
 
     /**
@@ -284,8 +275,7 @@ class WebController
      */
     public function logoutAction()
     {
-        $session = new Session();
-        $session->start();
+        $session = $this->getSession();
         $session->invalidate();
         return new RedirectResponse($this->router->generate('wemoof_index'));
     }
@@ -462,8 +452,10 @@ class WebController
 
     /**
      * @Route("/login/{id}/{key}", name="wemoof_login")
+     *
      * @param $id
      * @param $key
+     *
      * @return RedirectResponse
      */
     public function loginAction($id, $key)
