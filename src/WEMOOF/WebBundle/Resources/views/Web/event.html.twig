@@ -45,8 +45,7 @@
 
             <p><a href="http://goo.gl/maps/tHXIg">Ludwigstraße 112, 63067&nbsp;Offenbach/Main</a>
                 (<a href="http://afip-hessen.de/">»afip!«</a>)<br>
-                <small>S-Bahn-Haltestelle: Ledermuseum (S1, S2, S8, S9). Bus-Haltestelle: Lilistraße (102,
-                103).</small>
+                <small>S-Bahn-Haltestelle: Ledermuseum (S1, S2, S8, S9). Bus-Haltestelle: Lilistraße (102, 103).</small>
             </p>
 
         </div>
@@ -70,63 +69,100 @@
                 <li>
                     <a href="https://docs.google.com/forms/d/1iz7YvsIaKHrErlLW-fO_EDLDkHKdV2a2Uh3zE3Acveg/viewform" title="Du möchtest selber auf dem WEMO♥F sprechen?">
                         <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}" alt="" class="user">
-                        <span class="name"><br><em>Wird noch bekannt gegeben.</em></span> </a>
+                        <span class="name"><br><em>Dieser Slot ist noch frei!</em></span> </a>
                 </li>
             {% endfor %}
         </ul>
 
-        {% form_theme form 'WEMOOFWebBundle:Form:fields.html.twig' %}
-        <form method="POST" action="{{ path("wemoof_register") }}" class="register">
+        <div class="form">
+            {% form_theme form 'WEMOOFWebBundle:Form:fields.html.twig' %}
+            {% if user is defined %}
+                <h3><strong>Hallo {{ user }}</strong>,<br>schön dich zu sehen!</h3>
+                {% for registerableEvent in registerableEvents %}
+                    {% if loop.first %}
+                        <p>Zu diesem Webmontag kannst Du dich jetzt anmelden:</p>
+                    {% endif %}
+                    {% form_theme registerableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
+                    <form method="POST" action="{{ path("wemoof_register_event", {"id": registerableEvent.event.id }) }}" class="clearfix">
+                        <p>
+                            <strong>{{ registerableEvent.event.name }},
+                                am {{ registerableEvent.event.start|shortdate }}</strong>
+                            {{ form_widget(registerableEvent.form) }}
+                            <button type="submit">Anmelden</button>
+                        </p>
+                    </form>
+                {% endfor %}
 
-            <h3>Anmeldung</h3>
+                {% for unregisterableEvent in unregisterableEvents %}
+                    {% if loop.first %}
+                        <p>Aktuell bist Du zu diesem Webmontag angemeldet. Du kannst dich jederzeit wieder
+                            abmelden und so deinen Platz für andere zur Verfügung stellen.</p>
+                    {% endif %}
+                    {% form_theme unregisterableEvent.form 'WEMOOFWebBundle:Form:fields.html.twig' %}
+                    <form method="POST" action="{{ path("wemoof_unregister_event", {"id": unregisterableEvent.registration.id }) }}" class="clearfix">
+                        <p>
+                            <strong>{{ unregisterableEvent.event.name }},
+                                am {{ unregisterableEvent.event.start|shortdate }}</strong>
+                            {{ form_widget(unregisterableEvent.form) }}
+                            <button type="submit" class="danger">Jetzt abmelden</button>
+                        </p>
+                    </form>
+                {% endfor %}
 
-            {% if event.start.isPast() %}
-                <p><em>Dieser Webmontag ist bereits rum.</em></p>
-                <p>Du kannst aber Deine E-Mail-Adresse hinterlassen um benachrichtigt zu werden, sobald die
-                    Registrierung für den nächsten Webmontag frei geschaltet wurde.</p>
+                <h3>Namensschild gefällig?</h3>
+
+                <p>Damit am Einlass ein Namensschild auf dich wartet, benötigst Du ein <a href="{{ path('wemoof_edit_profile') }}">ausgefülltes Profil</a>.</p>
+
+                <p>
+                    <a href="{{ path("wemoof_logout") }}">Logout</a>
+                </p>
             {% else %}
-                {% if event.ticketSalesStart.isEmpty() %}
-                    <p><em>Der Zeitpunkt für die Registrierung wurde noch nicht bekannt gegeben.</em></p>
-                    <p>Du kannst aber Deine E-Mail-Adresse hinterlassen. Du wirst benachrichtigt, sobald die
-                        Registrierung frei geschaltet wurde.</p>
-                {% else %}
-                    {% if event.ticketSalesStart.get().isFuture() %}
-                        <p><strong>Geduld!</strong> Ab {{ event.ticketSalesStart.get()|longdate }} kannst Du dich für
-                            den Webmontag Offenbach registrieren.</p>
+                <form method="POST" action="{{ path("wemoof_register") }}" class="register">
+
+                    <h3>Anmeldung</h3>
+
+                    {% if event.start.isPast() %}
+                        <p><em>Dieser Webmontag ist bereits rum.</em></p>
+                        <p>Du kannst aber Deine E-Mail-Adresse hinterlassen um benachrichtigt zu werden, sobald die
+                            Registrierung für den nächsten Webmontag frei geschaltet wurde.</p>
                     {% else %}
-                        <div class="loading">
-                            <div class="inner" style="width: {{ event.percentTicketsSold }}%;"></div>
-                        </div>
-
-                        {% if event.numTicketsAvailable > 0 %}
-                            <p>Es sind noch {{ event.numTicketsAvailable }} Tickets verfügbar.</p>
-
-                            <p>Um dich für den {{ "%d."|format(event.id) }} Webmontag Offenbach zu registrieren, melde
-                                dich bitte mit deiner E-Mail-Adresse an.</p>
-
-                            <p>Die Teilnahme an der Veranstaltung ist Dank unserer <a href="#sponsoren">Sponsoren</a>
-                                kostenfrei möglich.</p>
-
+                        {% if event.ticketSalesStart.isEmpty() %}
+                            <p><em>Der Zeitpunkt für die Registrierung wurde noch nicht bekannt gegeben.</em></p>
+                            <p>Du kannst aber Deine E-Mail-Adresse hinterlassen. Du wirst benachrichtigt, sobald die
+                                Registrierung frei geschaltet wurde.</p>
                         {% else %}
-                            <p>Es sind keine Tickets mehr verfügbar. Du kannst aber deine E-Mail-Adresse hinterlassen
-                                und Du wirst benachrichtigt, sobald wieder Plätze frei sind.</p>
+                            {% if event.ticketSalesStart.get().isFuture() %}
+                                <p><strong>Geduld!</strong> Ab {{ event.ticketSalesStart.get()|longdate }} kannst Du
+                                    dich für den Webmontag Offenbach registrieren.</p>
+                            {% else %}
+                                <div class="loading">
+                                    <div class="inner" style="width: {{ event.percentTicketsSold }}%;"></div>
+                                </div>
+
+                                {% if event.numTicketsAvailable > 0 %}
+                                    <p>Es sind noch {{ event.numTicketsAvailable }} Tickets verfügbar.</p>
+
+                                    <p>Um dich für den {{ "%d."|format(event.id) }} Webmontag Offenbach zu registrieren,
+                                        melde dich bitte mit deiner E-Mail-Adresse an.</p>
+
+                                {% else %}
+                                    <p>Es sind keine Tickets mehr verfügbar. Du kannst aber deine E-Mail-Adresse
+                                        hinterlassen und Du wirst benachrichtigt, sobald wieder Plätze frei sind.</p>
+                                {% endif %}
+                            {% endif %}
                         {% endif %}
                     {% endif %}
-                {% endif %}
+
+                    <fieldset>
+                        {{ form_widget(form) }}
+                        <button type="submit">weiter</button>
+                    </fieldset>
+
+                    <p class="fineprint">
+                        Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</p>
+                </form>
             {% endif %}
-
-            <fieldset>
-                {{ form_widget(form) }}
-                <button type="submit">weiter</button>
-            </fieldset>
-
-            <p class="fineprint">
-                Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</p>
-
-            <p class="fineprint"><strong>Bereits registriert?</strong> Du kannst dich <a href="{{ path('wemoof_requestlogin') }}">hier
-                    einloggen</a>, um deine Registrierungen und dein Profil zu bearbeiten. </p>
-        </form>
-
+        </div>
     </article>
 
 {% endblock %}

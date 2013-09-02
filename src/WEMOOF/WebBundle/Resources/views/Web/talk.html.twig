@@ -1,3 +1,4 @@
+{% set body_class = "compact" %}
 {% extends "WEMOOFWebBundle::page.html.twig" %}
 {% set meta_title %}{{ talk }} | WEMO♥F #{{ event.id }} am {{ event.start|shortdate }}{% endset %}
 {% set meta_image %}{% spaceless %}
@@ -9,7 +10,7 @@
 {% endspaceless %}{% endset %}
 {% set meta_description %}{{ talk.description|md }}{% endset %}
 {% block content %}
-    <article class="talk clearfix">
+    <article class="talk">
         <h1>
             <a href="/">
                 <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
@@ -39,7 +40,7 @@
         {% endif %}
 
         {% if talk.youtube %}
-            <iframe width="400" height="225" src="{{ talk.youtube }}" class="youtube"></iframe>
+            <iframe width="540" height="304" src="{{ talk.youtube }}" class="youtube"></iframe>
         {% endif %}
 
         {% include "WEMOOFWebBundle:Web:part/user.html.twig" with {"user": talk.speaker, "hl": 3, "hl-prefix": "Über " } %}

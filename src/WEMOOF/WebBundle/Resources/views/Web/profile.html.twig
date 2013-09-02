@@ -1,0 +1,38 @@
+{% set body_class = "compact" %}
+{% extends "WEMOOFWebBundle::page.html.twig" %}
+{% set meta_title %}Mein Profil | WEMO♥F{% endset %}
+{% block content %}
+    <article id="profile">
+        <h2>Dein Profil bearbeiten</h2>
+
+        <p>Die Profilinformationen werden verwendet, um öffentliche Profile der Webmontag-Gäste zu erzeugen. Ein Teil
+            der Informationen (Name, Titel, Twitter, Tags) wird auch auf ein Namensschild gedruckt, dass Du am Einlass
+            erhältst. So kannst Du leichter mit anderen Gästen ins Gespräch kommen.</p>
+
+        {% if user.public %}
+            <p>Die URL zu deiner WEMO♥F-Profilseite lautet:<br>
+                <a href="{{ path('wemoof_user', {'id': user.id, 'slug': user|slug }) }}">{% if app.request.isSecure() %}https://{% else %}http://{% endif %}{{ app.request.host }}{{ path('wemoof_user', {'id': user.id, 'slug': user|slug }) }}</a>
+            </p>
+        {% endif %}
+
+        {% form_theme editProfileForm 'WEMOOFWebBundle:Form:fields.html.twig' %}
+        <form method="POST" action="{{ path("wemoof_edit_profile") }}#editprofile" class="clearfix">
+            {{ form_widget(editProfileForm) }}
+            <p>
+                <button type="submit">Aktualisieren</button>
+            </p>
+        </form>
+
+        <dl>
+            <dt>Öffentliche Profile</dt>
+            <dd>… werden als Teilnehmer auf der Veranstaltungsseite angezeigt und können so anderen Nutzern gefunden
+                werden.
+            </dd>
+            <dt>Gravatar verwenden</dt>
+            <dd>Wenn Du dich unter <a href="http://gravatar.com/">gravatar.com</a> mit deiner E-Mail-Adresse
+                <em>{{ user.email }}</em> registrierst, zeigen wir auch dein Bild an.
+            </dd>
+        </dl>
+    </article>
+
+{% endblock %}

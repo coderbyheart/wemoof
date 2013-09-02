@@ -77,7 +77,7 @@ class UserService
                 array(
                     'user'         => $command->user,
                     'loginlink'    => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_login', array('id' => $command->user->getId(), 'key' => $loginKey)),
-                    'newloginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_requestlogin'),
+                    'newloginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_index'),
                 ),
                 'Dein Login-Link für Webmontag Offenbach'));
     }
@@ -93,7 +93,7 @@ class UserService
                 array(
                     'user'         => $command->user,
                     'loginlink'    => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_login', array('id' => $command->user->getId(), 'key' => $loginKey)),
-                    'newloginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_requestlogin'),
+                    'newloginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_index'),
                 ),
                 'Dein Webmontag Offenbach Profil'));
     }
@@ -110,7 +110,7 @@ class UserService
                 array(
                     'user'         => $command->user,
                     'loginlink'    => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_login', array('id' => $command->user->getId(), 'key' => $loginKey)),
-                    'newloginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_requestlogin'),
+                    'newloginlink' => ((string)$command->schemeAndHost) . $this->router->generate('wemoof_index'),
                 ),
                 'Dein Webmontag Offenbach Namensschild'));
     }

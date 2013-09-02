@@ -1,3 +1,5 @@
+$inputBorder: 1px;
+
 label {
   @extend .headline;
 }
@@ -7,7 +9,7 @@ label + label {
 }
 
 .textinput {
-  border: 3px solid $blue;
+  border: $inputBorder solid $blue;
   width: 100%;
 }
 

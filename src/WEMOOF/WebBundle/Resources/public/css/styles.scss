@@ -2,6 +2,7 @@
 @import "helpers";
 @import "colors";
 @import "fonts";
+@import "form";
 
 $spacing: 15px;
 $textMaxWidth: 550px;
@@ -21,10 +22,6 @@ a {
   text-decoration: none;
 }
 
-.bborder {
-  border-bottom: $spacing solid $blue;
-}
-
 span.heart {
   color: $heart;
 }
@@ -42,28 +39,39 @@ span.heart {
   line-height: 125%;
 }
 
+#logo {
+  width: 100%;
+}
+
+h1 {
+  margin: 0;
+}
+
+#box > article {
+  border-top: $spacing solid $blue;
+}
+
 header {
-  @extend .bborder;
   border-top: $spacing solid $blue;
   background: $bg;
+  padding-bottom: $spacing;
   article {
-    h1 {
-      margin: 0;
-    }
     #logo {
       padding: $spacing;
-      width: 100%;
     }
     font-size: 0.875em;
     line-height: 125%;
     div {
-      margin: 0 0 $spacing 0;
+      margin: 0;
       padding: 0 $spacing;
       max-width: $textMaxWidth;
       h2 {
         margin-top: 0;
         line-height: 115%;
         font-size: 1.25em;
+      }
+      p {
+        margin-bottom: 0;
       }
     }
   }
@@ -73,6 +81,13 @@ header {
   @extend .bborder;
   padding: $spacing;
   background-color: $bg;
+}
+
+div.messages {
+  border-top: $spacing solid $blue;
+  background-color: $warning;
+  padding: $spacing;
+  color: rgba(#000, 0.85);
 }
 
 #event {
@@ -114,6 +129,34 @@ header {
   @extend .box;
 }
 
+#profile {
+  @extend .box;
+}
+
+article.talk, article.user {
+  @extend .box;
+  img.user {
+    width: 150px;
+    float: right;
+    margin-left: 10px;
+  }
+  img.talk {
+    width: 100%;
+    margin-bottom: 1em;
+  }
+}
+
+article.important {
+  color: $warning_text;
+  input {
+    border-color: $warning;
+  }
+  button {
+    background-color: $warning;
+    color: $warning_text;
+  }
+}
+
 /** Forms **/
 form.register {
   fieldset {
@@ -122,7 +165,6 @@ form.register {
     padding: 0;
     border: 0;
     input {
-      border: 1px solid $blue;
       width: 65%;
       float: left;
     }
@@ -148,8 +190,17 @@ footer {
   }
   p {
     margin: 0;
-    padding: 0 1em 1em 0;
+    padding: 1em 1em 1em 0;
   }
+}
+
+iframe.youtube {
+  border: 0;
+}
+
+ul.links {
+  list-style: none;
+  padding: 0;
 }
 
 @media screen and (min-width: 768px) {
@@ -159,13 +210,12 @@ footer {
     @extend .clearfix;
     article {
       #logo {
-
-        float: left;
-        width: 33%;
+        float: right;
+        width: (100%/6)*2;
       }
       div {
         float: left;
-        width: 66%;
+        width: (100%/6)*4;
         padding-left: 1em;
         margin-top: $spacing;
       }
@@ -237,7 +287,8 @@ footer {
         }
       }
     }
-    form {
+    div.form {
+      font-size: 0.875em;
       background-color: rgba($bg, 0.9);
       color: #000;
       padding: 0 1em;
@@ -246,6 +297,17 @@ footer {
       top: 0;
       right: 0;
       width: (100%/6*2);
+      h3 {
+        margin-bottom: 0;
+      }
+      h3 + p {
+        margin-top: 0;
+      }
+    }
+  }
+  footer {
+    p {
+      padding-right: 0;
     }
   }
 }
@@ -256,5 +318,10 @@ footer {
     width: $maxWidth;
     border-left: $spacing solid $blue;
     border-right: $spacing solid $blue;
+  }
+  body.compact {
+    #box {
+      width: $maxWidth / 2;
+    }
   }
 }

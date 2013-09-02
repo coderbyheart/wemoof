@@ -20,13 +20,13 @@
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
     {% endstylesheets %}
 </head>
-<body>
-{% for flashMessage in app.session.flashbag.get('notice') %}
-    <div class="messages">
-        <div class="message">{{ flashMessage }}</div>
-    </div>
-{% endfor %}
+<body class="{{ body_class|default() }}">
 <div id="box">
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="messages">
+            <div class="message">{{ flashMessage }}</div>
+        </div>
+    {% endfor %}
     {% block content %}
     {% endblock %}
     <footer>

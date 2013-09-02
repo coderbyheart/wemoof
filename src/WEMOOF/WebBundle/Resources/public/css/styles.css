@@ -334,15 +334,16 @@ table {
 * {
   box-sizing: border-box; }
 
-.clearfix:before, #event ul.talks:before, #event ul.talks li:before, form.register fieldset:before,
+.clearfix:before, label + label:before, #event ul.talks:before, #event ul.talks li:before, form.register fieldset:before,
 .clearfix:after,
+label + label:after,
 #event ul.talks:after,
 #event ul.talks li:after,
 form.register fieldset:after {
   content: "";
   display: table; }
 
-.clearfix:after, #event ul.talks:after, #event ul.talks li:after, form.register fieldset:after {
+.clearfix:after, label + label:after, #event ul.talks:after, #event ul.talks li:after, form.register fieldset:after {
   clear: both; }
 
 .alignright {
@@ -397,6 +398,35 @@ you can use the generic selector below, but it's slower:
 .icon-twitter:before {
   content: "\e001"; }
 
+.textinput, input[type=text], input[type=email], input[type=url], textarea {
+  border: 1px solid #3c93da;
+  width: 100%; }
+
+input[type=text], input[type=email], input[type=url] {
+  height: 30px;
+  padding: 5px; }
+
+textarea {
+  height: 250px; }
+
+button {
+  background-color: #3c93da;
+  color: #fff;
+  border: 0;
+  padding: 5px 10px;
+  height: 30px; }
+
+button.danger {
+  background-color: #940000; }
+
+form.oneline .textinput, form.oneline input[type=text], form.oneline input[type=email], form.oneline input[type=url], form.oneline textarea {
+  width: 60%;
+  float: left; }
+form.oneline button {
+  float: left;
+  width: 35%;
+  margin-left: 10px; }
+
 html {
   background: #fafafa url(../images/bg.png);
   color: #337cb9;
@@ -407,9 +437,6 @@ html {
 a {
   color: #6a9106;
   text-decoration: none; }
-
-.bborder, header, .box, #event, #extras {
-  border-bottom: 15px solid #3c93da; }
 
 span.heart {
   color: #d40101; }
@@ -424,29 +451,44 @@ span.heart {
   font-size: 0.875em;
   line-height: 125%; }
 
+#logo {
+  width: 100%; }
+
+h1 {
+  margin: 0; }
+
+#box > article {
+  border-top: 15px solid #3c93da; }
+
 header {
   border-top: 15px solid #3c93da;
-  background: #fafafa; }
+  background: #fafafa;
+  padding-bottom: 15px; }
   header article {
     font-size: 0.875em;
     line-height: 125%; }
-    header article h1 {
-      margin: 0; }
     header article #logo {
-      padding: 15px;
-      width: 100%; }
+      padding: 15px; }
     header article div {
-      margin: 0 0 15px 0;
+      margin: 0;
       padding: 0 15px;
       max-width: 550px; }
       header article div h2 {
         margin-top: 0;
         line-height: 115%;
         font-size: 1.25em; }
+      header article div p {
+        margin-bottom: 0; }
 
-.box, #event, #extras {
+.box, #event, #extras, #profile, article.talk, article.user {
   padding: 15px;
   background-color: #fafafa; }
+
+div.messages {
+  border-top: 15px solid #3c93da;
+  background-color: #f8a414;
+  padding: 15px;
+  color: rgba(0, 0, 0, 0.85); }
 
 #event div.bgimage {
   display: none; }
@@ -470,13 +512,28 @@ header {
   #event ul.talks li:last-child {
     margin-right: 0; }
 
+article.talk img.user, article.user img.user {
+  width: 150px;
+  float: right;
+  margin-left: 10px; }
+article.talk img.talk, article.user img.talk {
+  width: 100%;
+  margin-bottom: 1em; }
+
+article.important {
+  color: #7c520a; }
+  article.important input {
+    border-color: #f8a414; }
+  article.important button {
+    background-color: #f8a414;
+    color: #7c520a; }
+
 /** Forms **/
 form.register fieldset {
   margin: 0;
   padding: 0;
   border: 0; }
   form.register fieldset input {
-    border: 1px solid #3c93da;
     width: 65%;
     float: left; }
   form.register fieldset button {
@@ -492,18 +549,25 @@ footer {
     text-decoration: underline; }
   footer p {
     margin: 0;
-    padding: 0 1em 1em 0; }
+    padding: 1em 1em 1em 0; }
+
+iframe.youtube {
+  border: 0; }
+
+ul.links {
+  list-style: none;
+  padding: 0; }
 
 @media screen and (min-width: 768px) {
   header {
     float: left;
     width: 100%; }
     header article #logo {
-      float: left;
-      width: 33%; }
+      float: right;
+      width: 33.33333%; }
     header article div {
       float: left;
-      width: 66%;
+      width: 66.66667%;
       padding-left: 1em;
       margin-top: 15px; }
 
@@ -561,7 +625,8 @@ footer {
           padding: 7.5px;
           margin: 0;
           text-shadow: 1px 1px 1px #fff, 1px -1px 1px #fff, -1px 1px 1px #fff, -1px -1px 1px #fff; }
-    #event form {
+    #event div.form {
+      font-size: 0.875em;
       background-color: rgba(250, 250, 250, 0.9);
       color: #000;
       padding: 0 1em;
@@ -569,10 +634,20 @@ footer {
       position: absolute;
       top: 0;
       right: 0;
-      width: 33.33333%; } }
+      width: 33.33333%; }
+      #event div.form h3 {
+        margin-bottom: 0; }
+      #event div.form h3 + p {
+        margin-top: 0; }
+
+  footer p {
+    padding-right: 0; } }
 @media screen and (min-width: 1230px) {
   #box {
     margin: 2% auto;
     width: 1200px;
     border-left: 15px solid #3c93da;
-    border-right: 15px solid #3c93da; } }
+    border-right: 15px solid #3c93da; }
+
+  body.compact #box {
+    width: 600px; } }

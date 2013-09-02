@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use LiteCQRS\Bus\CommandBus;
 use LiteCQRS\Bus\EventExecutionFailed;
 use PhpOption\None;
+use PhpOption\Option;
 use PhpOption\Some;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -162,47 +163,40 @@ class WebController
 
         $this->commandBus->handle(SendLoginLinkCommand::create($user, new SchemeAndHostValue($this->request->getSchemeAndHttpHost())));
 
-        return array(
-            'user' => $user
+        $this->addMessage(
+            sprintf(
+                'Bitte folge den Anweisung in der E-Mail, die gerade an %s verschickt wurde.',
+                $command->email
+            )
         );
+
+        return new RedirectResponse($this->router->generate('wemoof_index'));
     }
 
     /**
-     * @Route("/dashboard", name="wemoof_dashboard")
+     * @param string $message
+     */
+    private function addMessage($message)
+    {
+        $session = $this->getSession();
+        $session->getFlashBag()->add('notice', $message);
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Session\Session
+     */
+    private function getSession()
+    {
+        return $this->request->getSession();
+    }
+
+    /**
+     * @Route("/profile", name="wemoof_edit_profile")
      * @Template()
      */
-    public function dashboardAction()
+    public function profileAction()
     {
-        $user                = $this->getUser();
-        $registrations       = $this->registrationRepository->getRegistrationsForUser($this->getUser());
-        $registeredEvents    = array_map(function (Registration $registration) {
-            return $registration->getEvent()->getId();
-        }, $registrations);
-        $registration2Events = array();
-        foreach ($registrations as $registration) {
-            $registration2Events[$registration->getEvent()->getId()] = $registration;
-        }
-        $registerableEvents = array();
-
-        foreach ($this->eventRepository->getRegisterableEvents() as $event) {
-            if (in_array($event->getId(), $registeredEvents)) continue;
-            $form                 = $this->formFactory->create(new RegisterEventType(), RegisterEventCommand::create($user, $event));
-            $registerableEvents[] = array(
-                'form'  => $form->createView(),
-                'event' => $event
-            );
-        }
-
-        // Unregisterable events
-        $unregisterableEvents = array();
-        foreach ($this->registrationRepository->getCancelableRegistrationsForUser($user) as $registration) {
-            $form                   = $this->formFactory->create(new UnregisterEventType(), UnregisterEventCommand::create($registration));
-            $unregisterableEvents[] = array(
-                'form'         => $form->createView(),
-                'event'        => $registration->getEvent(),
-                'registration' => $registration,
-            );
-        }
+        $user = $this->getUser()->getOrThrow(new AccessDeniedHttpException('Not logged in.'));
 
         $editProfileForm = $this->formFactory->create(new EditProfileType(), EditProfileModel::factory($user));
         if ($this->request->isMethod('POST')) {
@@ -228,46 +222,25 @@ class WebController
                 $editProfileCommand->url         = empty($model->url) ? None::create() : Some::create(URLValue::parse($model->url));
                 $this->commandBus->handle($editProfileCommand);
                 $this->addMessage("Profil aktualisiert.");
-                $user            = $this->getUser();
                 $editProfileForm = $this->formFactory->create(new EditProfileType(), EditProfileModel::factory($user));
             }
         }
 
         return array(
-            'user'                 => $user,
-            'registerableEvents'   => $registerableEvents,
-            'unregisterableEvents' => $unregisterableEvents,
-            'editProfileForm'      => $editProfileForm->createView(),
+            'user'            => $user,
+            'editProfileForm' => $editProfileForm->createView(),
         );
     }
 
     /**
-     * @return User
-     * @throws NotFoundHttpException
+     * @return Option
      */
     private function getUser()
     {
         $session = $this->getSession();
         $id      = $session->get('user_id');
-        $user    = $this->userRepository->getUser($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown user: %d", $id)));
+        $user    = $this->userRepository->getUser($id);
         return $user;
-    }
-
-    /**
-     * @return \Symfony\Component\HttpFoundation\Session\Session
-     */
-    private function getSession()
-    {
-        return $this->request->getSession();
-    }
-
-    /**
-     * @param string $message
-     */
-    private function addMessage($message)
-    {
-        $session = $this->getSession();
-        $session->getFlashBag()->add('notice', $message);
     }
 
     /**
@@ -277,6 +250,7 @@ class WebController
     {
         $session = $this->getSession();
         $session->invalidate();
+        $this->addMessage('Bis bald!');
         return new RedirectResponse($this->router->generate('wemoof_index'));
     }
 
@@ -325,7 +299,7 @@ class WebController
     {
         /** @var Event $event */
         $event = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
-        $user  = $this->getUser();
+        $user  = $this->getUser()->getOrThrow(new AccessDeniedHttpException('Not logged in.'));
         if ($event->getNumTicketsAvailable() <= 0) throw new AccessDeniedHttpException(sprintf("Event %d is sold out.", $event->getId()));
 
         $command = RegisterEventCommand::create($user, $event);
@@ -338,7 +312,7 @@ class WebController
             }
         }
 
-        return new RedirectResponse($this->router->generate('wemoof_dashboard'));
+        return new RedirectResponse($this->router->generate('wemoof_index'));
     }
 
     /**
@@ -361,9 +335,11 @@ class WebController
         $spotlights    = $this->talkRepository->getSpotlightsForEvent($event);
         $missing       = count($talks) < 6 ? array_fill(0, 6 - count($talks), 1) : array();
         $registrations = $this->registrationRepository->getGuestsForEvent($event);
+        $user          = $this->getUser();
         shuffle($talks);
         shuffle($spotlights);
-        return array(
+
+        $data = array(
             'form'          => $this->formFactory->create(new RegisterType(), new RegisterUserCommand())->createView(),
             'event'         => $event,
             'registrations' => $registrations,
@@ -372,6 +348,42 @@ class WebController
             'missing'       => $missing,
             'pastEvents'    => $this->eventRepository->getPastEvents(),
         );
+
+
+        if ($user->isDefined()) {
+            $registrations    = $this->registrationRepository->getRegistrationsForUser($user->get());
+            $registeredEvents = array_map(function (Registration $registration) {
+                return $registration->getEvent()->getId();
+            }, $registrations);
+
+            $registerableEvents = array();
+            foreach ($this->eventRepository->getRegisterableEvents() as $event) {
+                if (in_array($event->getId(), $registeredEvents)) continue;
+                $form                 = $this->formFactory->create(new RegisterEventType(), RegisterEventCommand::create($user->get(), $event));
+                $registerableEvents[] = array(
+                    'form'  => $form->createView(),
+                    'event' => $event
+                );
+            }
+
+            // Unregisterable events
+            $unregisterableEvents = array();
+            foreach ($this->registrationRepository->getCancelableRegistrationsForUser($user->get()) as $registration) {
+                $form                   = $this->formFactory->create(new UnregisterEventType(), UnregisterEventCommand::create($registration));
+                $unregisterableEvents[] = array(
+                    'form'         => $form->createView(),
+                    'event'        => $registration->getEvent(),
+                    'registration' => $registration,
+                );
+            }
+
+            $data['user']                 = $user->get();
+            $data['registerableEvents']   = $registerableEvents;
+            $data['unregisterableEvents'] = $unregisterableEvents;
+
+        }
+
+        return $data;
     }
 
     /**
@@ -381,7 +393,7 @@ class WebController
     public function unregisterEventAction($id)
     {
         $registration = $this->registrationRepository->getRegistration($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown registration: %d", $id)));
-        if ($registration->getUser()->getId() !== $this->getUser()->getId()) throw new AccessDeniedHttpException();
+        if ($registration->getUser()->getId() !== $this->getUser()->getOrThrow(new AccessDeniedHttpException('Not logged in.'))->getId()) throw new AccessDeniedHttpException();
         $command = UnregisterEventCommand::create($registration);
         $form    = $this->formFactory->create(new UnregisterEventType(), $command);
         if ($this->request->isMethod('POST')) {
@@ -392,7 +404,7 @@ class WebController
             }
         }
 
-        return new RedirectResponse($this->router->generate('wemoof_dashboard'));
+        return new RedirectResponse($this->router->generate('wemoof_index'));
     }
 
     /**
@@ -439,18 +451,6 @@ class WebController
     }
 
     /**
-     * @Route("/login/new", name="wemoof_requestlogin")
-     * @Template()
-     */
-    public function newLoginAction()
-    {
-        $form = $this->formFactory->create(new RegisterType(), new RegisterUserCommand());
-        return array(
-            'form' => $form->createView(),
-        );
-    }
-
-    /**
      * @Route("/login/{id}/{key}", name="wemoof_login")
      *
      * @param $id
@@ -472,6 +472,6 @@ class WebController
         $this->commandBus->handle(ClearLoginKeyCommand::create(new IdValue($user->getId())));
         $session->set('user_id', $user->getId());
 
-        return new RedirectResponse($this->router->generate('wemoof_dashboard'));
+        return new RedirectResponse($this->router->generate('wemoof_index'));
     }
 }
