@@ -2,306 +2,130 @@
 {% set meta_title %}WEMO♥F | Webmontag Offenbach #{{ event.id }} am {{ event.start|shortdate }}{% endset %}
 {% set meta_image %}{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}{% endset %}
 {% block content %}
-    <article>
-        <h1>
-            <img src="{{ asset('bundles/wemoofweb/images/logo-noborder-xxl.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
-        </h1>
 
-        <p>Der <strong>Webmontag Offenbach</strong> ist eine informelle, nicht-kommerzielle und von der Community
-            organisierte Veranstaltung, die Menschen zusammen bringt, die sich für das Web begeistern, Teil davon sind
-            oder es werden wollen.</p>
+    <header>
+        <article>
+            <h1>
+                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
+            </h1>
 
-    </article>
+            <div>
+
+                <h2>Am
+                    <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
+                    findet der {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag Offenbach</strong> in der
+                    <a href="http://afip-hessen.de/">»afip!«</a> statt.
+                </h2>
+
+                <p>Der <strong>Webmontag Offenbach</strong> ist eine informelle, nicht-kommerzielle und von der
+                    Community organisierte Veranstaltung, die Menschen zusammen bringt, die sich für das Web begeistern,
+                    Teil davon sind oder es werden wollen.</p>
+
+            </div>
+
+        </article>
+    </header>
 
     <article id="event">
 
-        <h2>Am
-            <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
-            findet der {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag Offenbach</strong> in der
-            <a href="http://afip-hessen.de/">»afip!«</a> statt.
-        </h2>
+        <div class="bgimage">
+            <div>
+                <img src="http://farm8.staticflickr.com/7324/8747087939_de89c56fb0_c.jpg" class="bg" alt="">
+            </div>
+        </div>
 
-        <h3>Die Sprecher</h3>
+        <div class="info">
 
-        <p>Sechs Sprecher halten einen Vortrag über ein Thema, das sie gerade bewegt. Jeder Vortrag dauert 15-20
-            Minuten. Zusätzlich werden in 1- bis 2-minütigen Spotlight-Vorträgen aktuelle Szeneereignisse
-            vorgestellt.</p>
+            <h2>
+                <strong>Webmontag Offenbach #{{ event.id }}</strong><br>
+                <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
+            </h2>
 
-        {% for talk in talks %}
-            {% if loop.first %}
-                <ul class="speaker">
-            {% endif %}
-            <li>
-                <a href="{{ path('wemoof_speaker', {'slug': talk.speaker|slug, 'id': talk.speaker.id}) }}">
-                    {% if talk.speaker.hasGravatar %}
-                        <img src="{{ gravatar(talk.speaker.email) }}" alt="{{ talk.speaker }}">
-                    {% else %}
-                        <img src="/upload/user/{{ talk.speaker|slug }}-{{ talk.speaker.id }}.jpg" alt="{{ talk.speaker }}">
-                    {% endif %}
-                    <br><abbr title="{{ talk.speaker }}">{{ talk.speaker.firstname }}</abbr> </a>
-            </li>
-            {% if loop.last %}
-                </ul>
-            {% endif %}
-        {% endfor %}
+            <h3>Location</h3>
 
-        <h3>Die Talks</h3>
+            <p><a href="http://goo.gl/maps/tHXIg">Ludwigstraße 112, 63067&nbsp;Offenbach/Main</a>
+                (<a href="http://afip-hessen.de/">»afip!«</a>)<br>
+                <small>S-Bahn-Haltestelle: Ledermuseum (S1, S2, S8, S9). Bus-Haltestelle: Lilistraße (102,
+                103).</small>
+            </p>
 
-        <ol>
+        </div>
+
+        <h3 class="talks">Sprecher</h3>
+
+        <ul class="talks">
             {% for talk in talks %}
                 <li>
-                    <a href="{{ path('wemoof_talk', {'slug': talk|slug, 'id': talk.id}) }}">
-                        {{ talk }}
+                    <a href="{{ path('wemoof_talk', {'slug': talk|slug, 'id': talk.id}) }}" title="{{ talk }}">
+                        {% if talk.speaker.hasGravatar %}
+                            <img src="{{ gravatar(talk.speaker.email) }}" alt="{{ talk.speaker }}" class="user">
+                        {% else %}
+                            <img src="/upload/user/{{ talk.speaker|slug }}-{{ talk.speaker.id }}.jpg" alt="{{ talk.speaker }}" class="user">
+                        {% endif %}
+                        <span class="name"><br><abbr title="{{ talk.speaker }}">{{ talk.speaker.firstname }}</abbr>: {{ talk.name }}</span>
                     </a>
                 </li>
             {% endfor %}
             {% for i in missing %}
-                <li><em>Wird noch bekannt gegeben.</em></li>
+                <li>
+                    <a href="https://docs.google.com/forms/d/1iz7YvsIaKHrErlLW-fO_EDLDkHKdV2a2Uh3zE3Acveg/viewform" title="Du möchtest selber auf dem WEMO♥F sprechen?">
+                        <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}" alt="" class="user">
+                        <span class="name"><br><em>Wird noch bekannt gegeben.</em></span> </a>
+                </li>
             {% endfor %}
-        </ol>
-
-        <p>
-            <small><em>Die Reihenfolge der Talks wird erst am Veranstaltungsabend festgelegt.</em></small>
-        </p>
-
-        {% for talk in spotlights %}
-            {% if loop.first %}
-                <h4>Spotlights</h4>
-                <ul>
-            {% endif %}
-            <li>
-                <a href="{{ path('wemoof_talk', {'slug': talk|slug, 'id': talk.id}) }}">
-                    {{ talk }}
-                </a>
-            </li>
-            {% if loop.last %}
-                </ul>
-            {% endif %}
-        {% endfor %}
-
-
-        <h3>Location</h3>
-
-        <p>Der {{ "%d."|format(event.id)|numtotext }} Webmontag Offenbach findet in der
-            <a href="http://afip-hessen.de/">»afip!«</a>, Ludwigstraße 112, 63067 Offenbach/Main
-            (<a href="http://goo.gl/maps/tHXIg">Karte</a>) statt.<br></p>
-
-        <p>S-Bahn-Haltestelle: Ledermuseum (S1, S2, S8, S9)<br> Bus-Haltestelle: Lilistraße (102, 103)</p>
-
-        <h3>Ablauf</h3>
-
-        <ul>
-            <li>19:00 Einlass<br>
-                <small>Kostenlose Registrierung (s.u.) ist erforderlich!</small>
-            </li>
-            <li>ca. 19:30 Intro, Talks I</li>
-            <li>ca. 20:30-21:00 Pause<br>
-                <small>für Getränke und Snacks ist gesorgt</small>
-            </li>
-            <li>ca 21:00-22:00 Spotlights, Talks II</li>
-            <li>ab ca. 22:00 Uhr Networking</li>
         </ul>
 
-        {% for registration in registrations %}
-            {% if loop.first %}
-                <h3>Gästeliste</h3>
-                <ul class="attendees">
-            {% endif %}
-            <li>
-                {% if registration.user.public %}
-                    <a href="{{ path("wemoof_user", {"id": registration.user.id, "slug": registration.user|slug}) }}">
-                        {% if registration.user.hasGravatar %}
-                            <img src="{{ gravatar(registration.user.email, 50) }}" alt="{{ registration.user }}" class="user">
-                        {% else %}
-                            <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}" alt="{{ registration.user }}" class="user">
-                        {% endif %}
-                    </a>
-                {% else %}
-                    <img src="{{ asset('bundles/wemoofweb/images/avatar.png') }}" alt="Anonymer Gast" class="user">
-                {% endif %}
-            </li>
-            {% if loop.last %}
-                </ul>
-            {% endif %}
-        {% endfor %}
+        {% form_theme form 'WEMOOFWebBundle:Form:fields.html.twig' %}
+        <form method="POST" action="{{ path("wemoof_register") }}" class="register">
 
-    </article>
+            <h3>Anmeldung</h3>
 
-    <article id="tickets" class="important">
-
-        <h2>Registrierung</h2>
-
-        {% if event.start.isPast() %}
-            <p><em>Dieser Webmontag ist bereits rum.</em></p>
-            <p>Du kannst aber Deine E-Mail-Adresse hinterlassen um benachrichtigt zu werden, sobald die Registrierung
-                für den nächsten Webmontag frei geschaltet wurde.</p>
-        {% else %}
-            {% if event.ticketSalesStart.isEmpty() %}
-                <p><em>Der Zeitpunkt für die Registrierung wurde noch nicht bekannt gegeben.</em></p>
-                <p>Du kannst aber Deine E-Mail-Adresse hinterlassen. Du wirst benachrichtigt, sobald die Registrierung
-                    frei geschaltet wurde.</p>
+            {% if event.start.isPast() %}
+                <p><em>Dieser Webmontag ist bereits rum.</em></p>
+                <p>Du kannst aber Deine E-Mail-Adresse hinterlassen um benachrichtigt zu werden, sobald die
+                    Registrierung für den nächsten Webmontag frei geschaltet wurde.</p>
             {% else %}
-                {% if event.ticketSalesStart.get().isFuture() %}
-                    <p><strong>Geduld!</strong> Ab {{ event.ticketSalesStart.get()|longdate }} kannst Du dich für den
-                        Webmontag Offenbach registrieren.</p>
+                {% if event.ticketSalesStart.isEmpty() %}
+                    <p><em>Der Zeitpunkt für die Registrierung wurde noch nicht bekannt gegeben.</em></p>
+                    <p>Du kannst aber Deine E-Mail-Adresse hinterlassen. Du wirst benachrichtigt, sobald die
+                        Registrierung frei geschaltet wurde.</p>
                 {% else %}
-                    <div class="loading">
-                        <div class="inner" style="width: {{ event.percentTicketsSold }}%;"></div>
-                    </div>
-
-                    {% if event.numTicketsAvailable > 0 %}
-                        <p>Es sind noch {{ event.numTicketsAvailable }} Tickets verfügbar.</p>
-
-                        <p>Um dich für den {{ "%d."|format(event.id) }} Webmontag Offenbach zu registrieren, melde dich
-                            bitte mit deiner E-Mail-Adresse an.</p>
-
-                        <p>Die Teilnahme an der Veranstaltung ist Dank unserer <a href="#sponsoren">Sponsoren</a>
-                            kostenfrei möglich.</p>
-
+                    {% if event.ticketSalesStart.get().isFuture() %}
+                        <p><strong>Geduld!</strong> Ab {{ event.ticketSalesStart.get()|longdate }} kannst Du dich für
+                            den Webmontag Offenbach registrieren.</p>
                     {% else %}
-                        <p>Es sind keine Tickets mehr verfügbar. Du kannst aber deine E-Mail-Adresse hinterlassen und Du
-                            wirst benachrichtigt, sobald wieder Plätze frei sind.</p>
+                        <div class="loading">
+                            <div class="inner" style="width: {{ event.percentTicketsSold }}%;"></div>
+                        </div>
+
+                        {% if event.numTicketsAvailable > 0 %}
+                            <p>Es sind noch {{ event.numTicketsAvailable }} Tickets verfügbar.</p>
+
+                            <p>Um dich für den {{ "%d."|format(event.id) }} Webmontag Offenbach zu registrieren, melde
+                                dich bitte mit deiner E-Mail-Adresse an.</p>
+
+                            <p>Die Teilnahme an der Veranstaltung ist Dank unserer <a href="#sponsoren">Sponsoren</a>
+                                kostenfrei möglich.</p>
+
+                        {% else %}
+                            <p>Es sind keine Tickets mehr verfügbar. Du kannst aber deine E-Mail-Adresse hinterlassen
+                                und Du wirst benachrichtigt, sobald wieder Plätze frei sind.</p>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
             {% endif %}
-        {% endif %}
 
-        {% form_theme form 'WEMOOFWebBundle:Form:fields.html.twig' %}
-        <form method="POST" action="{{ path("wemoof_register") }}" class="clearfix oneline">
-            {{ form_widget(form) }}
-            <button type="submit">Registrieren</button>
+            <fieldset>
+                {{ form_widget(form) }}
+                <button type="submit">weiter</button>
+            </fieldset>
+
+            <p class="fineprint">
+                Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</p>
+
+            <p class="fineprint"><strong>Bereits registriert?</strong> Du kannst dich <a href="{{ path('wemoof_requestlogin') }}">hier
+                    einloggen</a>, um deine Registrierungen und dein Profil zu bearbeiten. </p>
         </form>
-
-        <p>
-            <small>Ich werden deine E-Mail-Adresse nicht an Dritte weitergeben.</small>
-        </p>
-
-        <p>Du kannst dich <a href="{{ path('wemoof_requestlogin') }}">hier einloggen</a>, um deine Registrierungen und
-            dein Profil zu bearbeiten.</p>
-
-    </article>
-
-    {% for event in pastEvents %}
-        {% if loop.first %}
-            <article id="past-events" >
-            <h2>Bisherige Webmontage</h2>
-            <ul>
-        {% endif %}
-        <li>
-            Am
-            <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
-            fand
-            der<br><a href="{{ path('wemoof_event', {'id': event.id}) }}#event">{{ "%d."|format(event.id)|numtotext }}
-                <strong>Webmontag Offenbach</strong></a> statt.
-        </li>
-        {% if loop.last %}
-            </ul>
-            </article>
-        {% endif %}
-    {% endfor %}
-
-    <article id="kontakt">
-
-        <h2>Kontakt</h2>
-
-        <p>Der Webmontag Offenbach wird organisiert von <a href="http://tckr.cc/" rel="author">Markus Tacker</a>. Du
-            erreichst mich via Mail unter <a href="mailto:m@wemoof.de">m@wemoof.de</a> und via Twitter unter
-            <a href="http://twitter.com/markustacker">@markustacker</a>.</p>
-
-        <h3>Team</h3>
-
-        <ul class="team">
-
-            <li>
-                <a href="{{ path('wemoof_user', {'id': 1, 'slug': "Markus Tacker"|slug}) }}" rel="author">
-                    <img src="{{ gravatar('m@tckr.cc', 125) }}" alt="Markus Tacker"><br>Markus Tacker</a><br>
-                <small>Initiator</small>
-            </li>
-            <li>
-                <a href="{{ path('wemoof_user', {'id': 9, 'slug': "Lutz Jahnke"|slug}) }}">
-                    <img src="/upload/user/{{ "Lutz Jahnke"|slug }}-9.jpg" alt="Lutz Jahnke"><br>Lutz Jahnke</a><br>
-                <small>Location</small>
-            </li>
-            <li>
-                <a href="{{ path('wemoof_user', {'id': 33, 'slug': "Julia Diehl"|slug}) }}">
-                    <img src="/upload/user/{{ "Julia Diehl"|slug }}-33.jpg" alt="Julia Diehl"><br>Julia Diehl</a><br>
-                <small>Patin des leiblichen Wohls</small>
-            </li>
-            <li>
-                <a href="{{ path('wemoof_user', {'id': 17, 'slug': "Thomas Meid"|slug}) }}">
-                    <img src="{{ gravatar('thomas@agentur-meid.com', 125) }}" alt="Thomas Meid"><br>Thomas Meid</a><br>
-                <small>Videos</small>
-            </li>
-            <li>
-                <a href="mailto:m@wemoof.de?subject=WEMOOF+Team">
-                    <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}" alt=""><br>Du? </a>
-            </li>
-        </ul>
-
-        {% include "WEMOOFWebBundle:Web:part/socialmedia.html.twig" %}
-
-    </article>
-
-    <article id="helfen">
-
-        <h2>Du möchtest mich bei der Realisierung des <strong>WEMO<span class="heart">♥</span>F</strong> unterstützen?
-        </h2>
-
-        <p>Super! <a href="mailto:m@wemoof.de">Mail</a> / <a href="tel:+491796678859">Ruf</a> /
-            <a href="http://twitter.com/markustacker">Tweet</a> mich an oder komm' im <a href="http://offenraum.de/">OFfenraum</a>
-            vorbei.</p>
-
-    </article>
-
-    <article id="faq">
-
-        <h2>Warum …</h2>
-
-        <h3 id="faq-web">Web?</h3>
-
-        <p>Das Internet ist ohne Zweifel das Leitmedium der kreativen Wirtschaft geworden und mit den Grundprinzipien
-            des Webs - Offenheit, Transparenz und Freiheit - können sich viele Menschen identifizieren. Das Web als
-            Kulturgut, Arbeitswerkzeug oder Freizeitvergnügen ist aus unserem Alltag nicht mehr wegzudenken und bietet
-            so als übergeordneter Rahmen der Webmontage die thematische Grundlage der Veranstaltung. </p>
-
-        <h3 id="faq-format">Das Format „Webmontag“ </h3>
-
-        <p>
-            Ein <a href="http://webmontag.de" rel="friend muse">Webmontag</a> findet in Deutschland in vielen Städten
-            regelmäßig an einem Montag Abend statt. Im Lauf des Abends werden mehrere Vorträge gehalten - üblicherweise
-            unterbrochen von einer Pause. Diese Pause, wie auch die Zeit vor und nach den Vorträgen bietet Gelegenheit
-            sich mit Kollegen, Bekannten und Unbekannte aus der Branche bei einem Bier in ungezwungener Atmosphäre über
-            die Vorträge und aktuelle Themen auszutauschen. Das "Sie" wird dabei an der Garderobe abgegeben.</p>
-
-    </article>
-
-    <article id="sponsoren">
-
-        <h2>Sponsoren</h2>
-
-        <ul class="sponsoren">
-            <li>
-                <a href="http://afip-hessen.de/" rel="met friend">
-                    <img src="{{ asset('bundles/wemoofweb/images/afip.png') }}" alt="afip — akademie für interdisziplinäre prozesse | offenbach"><br><abbr title="akademie für interdisziplinäre prozesse | offenbach">»afip!«</abbr>
-                </a> <br>
-                <small>Locationunterstützung<br> Platz für 200 Leute</small>
-            </li>
-
-            <li>
-                <a href="mailto:m@wemoof.de?subject=Sponsoring">
-                    <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}" alt=""><br>Dein<br>Unternehmen?</a>
-            </li>
-        </ul>
-
-        <h2>Partner</h2>
-
-        <ul class="partner">
-            <li>
-                <a href="http://facebook.com/likeOffenbach" rel="met friend">
-                    <img src="{{ asset('bundles/wemoofweb/images/like-offenbach.png') }}" alt="Like Offenbach"><br>Like
-                    Offenbach </a>
-            </li>
-        </ul>
 
     </article>
 

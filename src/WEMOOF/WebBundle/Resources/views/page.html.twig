@@ -1,5 +1,4 @@
-{% set info_claim %}Der Webmontag Offenbach ist eine informelle, nicht-kommerzielle und von der Communityorganisierte Veranstaltung, die Menschen zusammen bringt, die sich für das Web begeistern, Teil davon sind oder es werden wollen.{% endset %}
-<!doctype html>
+{% set info_claim %}Der Webmontag Offenbach ist eine informelle, nicht-kommerzielle und von der Communityorganisierte Veranstaltung, die Menschen zusammen bringt, die sich für das Web begeistern, Teil davon sind oder es werden wollen.{% endset %}<!doctype html>
 <html lang="de-de">
 <head>
     <meta charset="UTF-8">
@@ -27,11 +26,13 @@
         <div class="message">{{ flashMessage }}</div>
     </div>
 {% endfor %}
-{% block content %}
-{% endblock %}
-<footer>
-    <p>Hergestellt in Offenbach.<br><a href="http://coderbyheart.de">Markus Tacker</a>, 2013.</p>
-</footer>
+<div id="box">
+    {% block content %}
+    {% endblock %}
+    <footer>
+        <p>Hergestellt in Offenbach.<br><a href="http://coderbyheart.de">Markus Tacker</a>, 2013.</p>
+    </footer>
+</div>
 <script>!function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (!d.getElementById(id)) {

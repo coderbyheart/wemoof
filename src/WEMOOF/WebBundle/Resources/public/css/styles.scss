@@ -3,6 +3,11 @@
 @import "colors";
 @import "fonts";
 
+$spacing: 15px;
+$textMaxWidth: 550px;
+$imgheight: 400px;
+$maxWidth: 1200px;
+
 html {
   background: $bg url(../images/bg.png);
   color: $text;
@@ -14,6 +19,10 @@ html {
 a {
   color: $link;
   text-decoration: none;
+}
+
+.bborder {
+  border-bottom: $spacing solid $blue;
 }
 
 span.heart {
@@ -28,174 +37,224 @@ span.heart {
   color: $warning;
 }
 
-article {
-  max-width: 500px;
-  background: #fff;
-  padding: 5%;
-  border-bottom: 25px solid $blue;
+.small {
+  font-size: 0.875em;
+  line-height: 125%;
 }
 
-hr {
-  border: 0;
-  border-bottom: 1px solid rgba($blue, 0.5);
-}
-
-.headline {
-  font-family: 'Varela Round', sans-serif;
-  line-height: 1.25em;
-}
-
-h2, h3, h4, p.tagline {
-  @extend .headline;
-}
-
-article > h1, article > h2 {
-  margin-top: 0;
-}
-
-p.tagline {
-  font-size: 1.75em;
-
-}
-
-form {
-  @extend .clearfix;
-  margin-bottom: 2em;
-}
-
-//
-
-ul.imagelist {
-  @extend .clearfix;
-  padding: 0;
-  li {
-    float: left;
-    display: inline-block;
-    margin-right: 10px;
-    margin-bottom: 20px;
-    width: 120px;
-    img {
-      width: 120px;
+header {
+  @extend .bborder;
+  border-top: $spacing solid $blue;
+  background: $bg;
+  article {
+    h1 {
+      margin: 0;
     }
-  }
-  li:last-child {
-    margin-right: 0;
-  }
-}
-
-ul.team, ul.sponsoren, ul.partner {
-  @extend ul.imagelist;
-}
-
-ul.speaker {
-  @extend ul.imagelist;
-  margin-left: 10px;
-  li {
-    img {
-      width: 110px;
+    #logo {
+      padding: $spacing;
+      width: 100%;
+    }
+    font-size: 0.875em;
+    line-height: 125%;
+    div {
+      margin: 0 0 $spacing 0;
+      padding: 0 $spacing;
+      max-width: $textMaxWidth;
+      h2 {
+        margin-top: 0;
+        line-height: 115%;
+        font-size: 1.25em;
+      }
     }
   }
 }
 
-ul.attendees {
-  @extend ul.imagelist;
-  li {
-    overflow: hidden;
-    width: 50px;
-    height: 50px;
+.box {
+  @extend .bborder;
+  padding: $spacing;
+  background-color: $bg;
+}
+
+#event {
+  @extend .box;
+  div.bgimage {
+    display: none;
+  }
+  h2 {
+    margin-top: 0;
+  }
+  ul.talks {
     margin: 0;
-    img {
-      width: 50px;
+    padding: 0;
+    @extend .clearfix;
+    list-style: none;
+    li {
+      @extend .small;
+      @extend .clearfix;
+      margin: 0;
+      padding: 0;
+      margin-right: 2%;
+      margin-bottom: 2%;
+      width: (94%/3);
+      float: left;
+      img {
+        width: 100%;
+      }
+      span.name {
+        display: none;
+      }
+    }
+    li:last-child {
+      margin-right: 0;
     }
   }
 }
 
-ul.links {
-  list-style: none;
-  padding: 0;
+#extras {
+  @extend .box;
 }
 
-#logo {
-  width: 100%;
+/** Forms **/
+form.register {
+  fieldset {
+    @extend .clearfix;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    input {
+      border: 1px solid $blue;
+      width: 65%;
+      float: left;
+    }
+    button {
+      float: right;
+      width: 33%;
+    }
+  }
+}
+
+p.fineprint {
+  @extend .small;
 }
 
 footer {
-  font-size: 0.75em;
-  color: $footer;
-  text-shadow: 0 0 1px #fff;
-  text-align: center;
+  @extend .small;
+  background-color: $blue;
+  color: rgba($bg, 0.75);
+  text-align: right;
   a {
-    color: $footer;
+    color: rgba($bg, 0.75);
     text-decoration: underline;
   }
-  line-height: 1em;
+  p {
+    margin: 0;
+    padding: 0 1em 1em 0;
+  }
 }
 
-article.talk, article.user {
-  img.user {
-    width: 150px;
-    float: right;
-    margin-left: 10px;
-  }
-  img.talk {
+@media screen and (min-width: 768px) {
+  header {
+    float: left;
     width: 100%;
-    margin-bottom: 1em;
+    @extend .clearfix;
+    article {
+      #logo {
+
+        float: left;
+        width: 33%;
+      }
+      div {
+        float: left;
+        width: 66%;
+        padding-left: 1em;
+        margin-top: $spacing;
+      }
+    }
   }
-}
 
-article.important {
-  color: $warning_text;
-  input {
-    border-color: $warning;
-  }
-  button {
-    background-color: $warning;
-    color: $warning_text;
-  }
-}
-
-// http://codepen.io/herzflimmern/pen/uFrlk
-.loading {
-
-  $loading_hei: 24px;
-  $border_width: 3px;
-
-  $loading_wid: 100%;
-
-  background-color: darken($bg, 5);
-
-  width: $loading_wid;
-  border: $border_width solid $warning;
-  overflow: hidden;
-  padding: $border_width;
-
-  .inner {
+  #event {
+    @extend .clearfix;
+    overflow: hidden;
+    float: left;
+    width: 100%;
+    padding: 0;
     position: relative;
-    width: 10%;
-    height: $loading_hei;
-    background: $warning;
+    div.bgimage {
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: $imgheight;
+      left: 0;
+      top: 0;
+      img {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    }
+    div.info {
+      height: $imgheight;
+      position: relative;
+      top: 0;
+      left: 0;
+      color: $bg;
+      text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000;
+      padding: $imgheight / 2 0 0 $spacing;
+      h3 + p {
+        margin-top: 0;
+      }
+      h3 {
+        margin-bottom: 0;
+      }
+      a {
+        color: $warning;
+      }
+    }
+    h3.talks {
+      display: none;
+    }
+    ul.talks {
+      width: 100%;
+      background-color: $blue;
+      border-top: $spacing solid $blue;
+      li {
+        position: relative;
+        margin: 0;
+        width: (100%/6);
+        height: (100%/6);
+        overflow: hidden;
+        text-align: right;
+        span.name {
+          display: block;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          color: #000;
+          padding: $spacing/2;
+          margin: 0;
+          text-shadow: 1px 1px 1px #fff, 1px -1px 1px #fff, -1px 1px 1px #fff, -1px -1px 1px #fff;
+        }
+      }
+    }
+    form {
+      background-color: rgba($bg, 0.9);
+      color: #000;
+      padding: 0 1em;
+      height: $imgheight;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: (100%/6*2);
+    }
   }
 }
 
-.messages {
-  width: 50%;
-  margin: 0 25%;
-  position: fixed;
-  .message {
-    background-color: $warning;
-    color: $warning_text;
-
-    padding: 0.25em;
-    font-size: 0.875em;
-    font-weight: bold;
+@media screen and (min-width: ($maxWidth + 2*$spacing)) {
+  #box {
+    margin: 2% auto;
+    width: $maxWidth;
+    border-left: $spacing solid $blue;
+    border-right: $spacing solid $blue;
   }
-
 }
-
-iframe.youtube {
-  border: 0;
-}
-
-@import "form";
-@import "responsive";
-
