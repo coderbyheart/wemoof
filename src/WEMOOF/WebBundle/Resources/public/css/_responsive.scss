@@ -116,7 +116,9 @@
   }
 }
 
-@media screen and (min-width: (($maxWidth/2) + 2*$spacing)) {
+// @media screen and (min-width: (($maxWidth/2) + 2*$spacing)) { // Only in sass 3.2+
+@media screen and (min-width: 630px) { // Only in sass 3.2+
+
   body.compact {
     #box {
       margin: 2% auto;
@@ -127,7 +129,8 @@
   }
 }
 
-@media screen and (min-width: ($maxWidth + 2*$spacing)) {
+// @media screen and (min-width: ($maxWidth + 2*$spacing)) { // Only in sass 3.2+
+@media screen and (min-width: 1230px) {
   #box {
     margin: 2% auto;
     width: $maxWidth;
