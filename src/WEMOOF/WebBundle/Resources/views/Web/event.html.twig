@@ -79,6 +79,25 @@
             {% endfor %}
         </ul>
 
+        {% for registration in registrations %}
+            {% if loop.first %}
+                <h3 class="users">Teilnehmer</h3>
+                <ul class="users">
+            {% endif %}
+            <li>
+                <a href="{{ path('wemoof_user', {'slug': registration.user|slug, 'id': registration.user.id}) }}" title="{{ registration.user }}">
+                    {% if registration.user.hasGravatar %}
+                        <img src="{{ gravatar(registration.user.email) }}" alt="{{ registration.user }}" class="user">
+                    {% else %}
+                        <img src="/upload/user/{{ registration.user|slug }}-{{ registration.user.id }}.jpg" alt="{{ registration.user }}" class="user">
+                    {% endif %}
+                </a>
+            </li>
+            {% if loop.last %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+
         <div class="form">
             {% form_theme form 'WEMOOFWebBundle:Form:fields.html.twig' %}
             {% if user is defined %}
@@ -140,10 +159,6 @@
                                 <p><strong>Geduld!</strong> Ab {{ event.ticketSalesStart.get()|longdate }} kannst Du
                                     dich für den Webmontag Offenbach registrieren.</p>
                             {% else %}
-                                <div class="loading">
-                                    <div class="inner" style="width: {{ event.percentTicketsSold }}%;"></div>
-                                </div>
-
                                 {% if event.numTicketsAvailable > 0 %}
                                     <p>Es sind noch {{ event.numTicketsAvailable }} Tickets verfügbar.</p>
 
@@ -168,6 +183,7 @@
                 </form>
             {% endif %}
         </div>
+
     </article>
 
 {% endblock %}

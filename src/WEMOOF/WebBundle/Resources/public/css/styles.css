@@ -453,7 +453,7 @@ span.heart {
 .warning {
   color: #f8a414; }
 
-.small, #event ul.talks li, p.fineprint, footer {
+.small, #event ul.talks li, #event ul.users li, p.fineprint, footer {
   font-size: 0.875em;
   line-height: 125%; }
 
@@ -466,17 +466,17 @@ h1 {
 #box > article {
   border-top: 15px solid #3c93da; }
 
-ul.imagelist, ul.team, ul.sponsoren, ul.partner {
+ul.imagelist, ul.team, ul.sponsoren, ul.partner, ul.users {
   padding: 0; }
-  ul.imagelist li, ul.team li, ul.sponsoren li, ul.partner li {
+  ul.imagelist li, ul.team li, ul.sponsoren li, ul.partner li, ul.users li {
     float: left;
     display: inline-block;
     margin-right: 10px;
     margin-bottom: 20px;
     width: 120px; }
-    ul.imagelist li img, ul.team li img, ul.sponsoren li img, ul.partner li img {
-      width: 120px; }
-  ul.imagelist li:last-child, ul.team li:last-child, ul.sponsoren li:last-child, ul.partner li:last-child {
+    ul.imagelist li img, ul.team li img, ul.sponsoren li img, ul.partner li img, ul.users li img {
+      width: 100%; }
+  ul.imagelist li:last-child, ul.team li:last-child, ul.sponsoren li:last-child, ul.partner li:last-child, ul.users li:last-child {
     margin-right: 0; }
 
 header {
@@ -524,23 +524,25 @@ div.messages {
   display: none; }
 #event h2 {
   margin-top: 0; }
-#event ul.talks {
+#event ul.talks, #event ul.users {
   margin: 0;
   padding: 0;
   list-style: none; }
-  #event ul.talks li {
+  #event ul.talks li, #event ul.users li {
     margin: 0;
     padding: 0;
     margin-right: 2%;
     margin-bottom: 2%;
     width: 31.33333%;
     float: left; }
-    #event ul.talks li img {
+    #event ul.talks li img, #event ul.users li img {
       width: 100%; }
-    #event ul.talks li span.name {
+    #event ul.talks li span.name, #event ul.users li span.name {
       display: none; }
-  #event ul.talks li:last-child {
+  #event ul.talks li:last-child, #event ul.users li:last-child {
     margin-right: 0; }
+#event ul.users li {
+  width: 10.44444%; }
 
 article.page img.user, article.talk img.user, article.user img.user {
   width: 150px;
@@ -645,19 +647,19 @@ ul.links {
         margin-bottom: 0; }
       #event div.info a {
         color: #f8a414; }
-    #event h3.talks {
+    #event h3.talks, #event h3.users {
       display: none; }
-    #event ul.talks {
+    #event ul.talks, #event ul.users {
       width: 100%;
       background-color: #3c93da; }
-      #event ul.talks li {
+      #event ul.talks li, #event ul.users li {
         position: relative;
         margin: 0;
         width: 16.66667%;
         height: 16.66667%;
         overflow: hidden;
         text-align: right; }
-        #event ul.talks li span.name {
+        #event ul.talks li span.name, #event ul.users li span.name {
           display: block;
           position: absolute;
           right: 0;
@@ -666,6 +668,9 @@ ul.links {
           padding: 7.5px;
           margin: 0;
           text-shadow: 1px 1px 1px #fff, 1px -1px 1px #fff, -1px 1px 1px #fff, -1px -1px 1px #fff; }
+    #event ul.users li {
+      width: 1.81818%;
+      height: 1.81818%; }
     #event div.form {
       font-size: 0.875em;
       background-color: rgba(250, 250, 250, 0.9);

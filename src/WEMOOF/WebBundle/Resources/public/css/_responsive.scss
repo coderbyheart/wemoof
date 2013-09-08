@@ -63,10 +63,10 @@
         color: $warning;
       }
     }
-    h3.talks {
+    h3.talks, h3.users {
       display: none;
     }
-    ul.talks {
+    ul.talks, ul.users {
       width: 100%;
       background-color: $blue;
       li {
@@ -87,6 +87,10 @@
           text-shadow: 1px 1px 1px #fff, 1px -1px 1px #fff, -1px 1px 1px #fff, -1px -1px 1px #fff;
         }
       }
+    }
+    ul.users li {
+      width: (100%/55);
+      height: (100%/55);
     }
     div.form {
       font-size: 0.875em;

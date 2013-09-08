@@ -61,7 +61,7 @@ ul.imagelist {
     margin-bottom: 20px;
     width: 120px;
     img {
-      width: 120px;
+      width: 100%;
     }
   }
   li:last-child {
@@ -69,7 +69,7 @@ ul.imagelist {
   }
 }
 
-ul.team, ul.sponsoren, ul.partner {
+ul.team, ul.sponsoren, ul.partner, ul.users {
   @extend ul.imagelist;
 }
 
@@ -136,10 +136,10 @@ div.messages {
   h2 {
     margin-top: 0;
   }
-  ul.talks {
+  ul.talks, ul.users {
+    @extend .clearfix;
     margin: 0;
     padding: 0;
-    @extend .clearfix;
     list-style: none;
     li {
       @extend .small;
@@ -161,6 +161,9 @@ div.messages {
       margin-right: 0;
     }
   }
+  ul.users li {
+    width: (94%/9);
+  }
 }
 
 #extras {
@@ -173,6 +176,7 @@ div.messages {
 
 article.page {
   @extend .box;
+  @extend .clearfix;
   img.user {
     width: 150px;
     float: right;
