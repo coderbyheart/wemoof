@@ -1,4 +1,3 @@
 wemoof_web:
-    resource: "@WEMOOFWebBundle/Controller/"
-    type:     annotation
+    resource: "@WEMOOFWebBundle/Resources/config/routing.yml"
     prefix:   /

@@ -43,6 +43,7 @@ use WEMOOF\WebBundle\Form\UnregisterEventType;
 use WEMOOF\BackendBundle\Entity\User;
 use WEMOOF\BackendBundle\Entity\Registration;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\Util\StringUtils;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -131,6 +132,51 @@ class WebController
         $subRequest                = $this->request->duplicate($query, null, $attributes);
 
         return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+    }
+
+    /**
+     * Renders the team page.
+     *
+     * @param Request $request
+     * @Route("/team", name="wemoof_team")
+     * @Template()
+     * @Cache(maxAge=86400, sMaxAge=86400, public=true)
+     */
+    public function teamAction(Request $request)
+    {
+        return array(
+            'event' => $event = $this->eventRepository->getNextEvent()->get(),
+        );
+    }
+
+    /**
+     * Renders the contact page.
+     *
+     * @param Request $request
+     * @Route("/contact", name="wemoof_contact")
+     * @Template()
+     * @Cache(maxAge=86400, sMaxAge=86400, public=true)
+     */
+    public function contactAction(Request $request)
+    {
+        return array(
+            'event' => $event = $this->eventRepository->getNextEvent()->get(),
+        );
+    }
+
+    /**
+     * Renders the faq page.
+     *
+     * @param Request $request
+     * @Route("/faq", name="wemoof_faq")
+     * @Template()
+     * @Cache(maxAge=86400, sMaxAge=86400, public=true)
+     */
+    public function faqAction(Request $request)
+    {
+        return array(
+            'event' => $event = $this->eventRepository->getNextEvent()->get(),
+        );
     }
 
     /**

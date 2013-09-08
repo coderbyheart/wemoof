@@ -51,17 +51,55 @@ h1 {
   border-top: $spacing solid $blue;
 }
 
+ul.imagelist {
+  @extend .clearfix;
+  padding: 0;
+  li {
+    float: left;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    width: 120px;
+    img {
+      width: 120px;
+    }
+  }
+  li:last-child {
+    margin-right: 0;
+  }
+}
+
+ul.team, ul.sponsoren, ul.partner {
+  @extend ul.imagelist;
+}
+
 header {
   border-top: $spacing solid $blue;
   background: $bg;
   padding-bottom: $spacing;
   article {
-    #logo {
-      padding: $spacing;
+    div {
+      img {
+        padding: $spacing;
+      }
+      nav {
+        @extend .clearfix;
+        margin: $spacing 0;
+        font-size: 1.25em;
+        a {
+          text-align: center;
+          float: left;
+          width: 33%;
+          color: $bg;
+          padding: 1em 0;
+        }
+        background-color: $blue;
+        color: $bg;
+      }
     }
     font-size: 0.875em;
     line-height: 125%;
-    div {
+    aside {
       margin: 0;
       padding: 0 $spacing;
       max-width: $textMaxWidth;
@@ -133,7 +171,7 @@ div.messages {
   @extend .box;
 }
 
-article.talk, article.user {
+article.page {
   @extend .box;
   img.user {
     width: 150px;
@@ -144,6 +182,10 @@ article.talk, article.user {
     width: 100%;
     margin-bottom: 1em;
   }
+}
+
+article.talk, article.user {
+  @extend article.page;
 }
 
 article.important {
@@ -181,6 +223,7 @@ p.fineprint {
 
 footer {
   @extend .small;
+  @extend .clearfix;
   background-color: $blue;
   color: rgba($bg, 0.75);
   text-align: right;
@@ -191,6 +234,14 @@ footer {
   p {
     margin: 0;
     padding: 1em 1em 1em 0;
+  }
+  nav {
+    float: left;
+    text-align: left;
+    margin: $spacing;
+    a {
+      display: block;
+    }
   }
 }
 
@@ -203,125 +254,4 @@ ul.links {
   padding: 0;
 }
 
-@media screen and (min-width: 768px) {
-  header {
-    float: left;
-    width: 100%;
-    @extend .clearfix;
-    article {
-      #logo {
-        float: right;
-        width: (100%/6)*2;
-      }
-      div {
-        float: left;
-        width: (100%/6)*4;
-        padding-left: 1em;
-        margin-top: $spacing;
-      }
-    }
-  }
-
-  #event {
-    @extend .clearfix;
-    overflow: hidden;
-    float: left;
-    width: 100%;
-    padding: 0;
-    position: relative;
-    div.bgimage {
-      display: block;
-      position: absolute;
-      width: 100%;
-      height: $imgheight;
-      left: 0;
-      top: 0;
-      img {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-      }
-    }
-    div.info {
-      height: $imgheight;
-      position: relative;
-      top: 0;
-      left: 0;
-      color: $bg;
-      text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000;
-      padding: $imgheight / 2 0 0 $spacing;
-      h3 + p {
-        margin-top: 0;
-      }
-      h3 {
-        margin-bottom: 0;
-      }
-      a {
-        color: $warning;
-      }
-    }
-    h3.talks {
-      display: none;
-    }
-    ul.talks {
-      width: 100%;
-      background-color: $blue;
-      border-top: $spacing solid $blue;
-      li {
-        position: relative;
-        margin: 0;
-        width: (100%/6);
-        height: (100%/6);
-        overflow: hidden;
-        text-align: right;
-        span.name {
-          display: block;
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          color: #000;
-          padding: $spacing/2;
-          margin: 0;
-          text-shadow: 1px 1px 1px #fff, 1px -1px 1px #fff, -1px 1px 1px #fff, -1px -1px 1px #fff;
-        }
-      }
-    }
-    div.form {
-      font-size: 0.875em;
-      background-color: rgba($bg, 0.9);
-      color: #000;
-      padding: 0 1em;
-      height: $imgheight;
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: (100%/6*2);
-      h3 {
-        margin-bottom: 0;
-      }
-      h3 + p {
-        margin-top: 0;
-      }
-    }
-  }
-  footer {
-    p {
-      padding-right: 0;
-    }
-  }
-}
-
-@media screen and (min-width: ($maxWidth + 2*$spacing)) {
-  #box {
-    margin: 2% auto;
-    width: $maxWidth;
-    border-left: $spacing solid $blue;
-    border-right: $spacing solid $blue;
-  }
-  body.compact {
-    #box {
-      width: $maxWidth / 2;
-    }
-  }
-}
+@import "responsive";

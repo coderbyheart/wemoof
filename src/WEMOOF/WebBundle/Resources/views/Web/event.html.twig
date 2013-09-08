@@ -5,12 +5,18 @@
 
     <header>
         <article>
-            <h1>
-                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
-            </h1>
-
             <div>
+                <h1>
+                    <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo">
+                </h1>
+                <nav>
+                    <a href="{{ path('wemoof_team') }}">Team</a>
+                    <a href="{{ path('wemoof_faq') }}">Wissenswertes</a>
+                    <a href="{{ path('wemoof_contact') }}">Kontakt</a>
+                </nav>
+            </div>
 
+            <aside>
                 <h2>Am
                     <time datetime="{{ event.start|rfc3339 }}">{{ event.start|shortdate }}</time>
                     findet der {{ "%d."|format(event.id)|numtotext }} <strong>Webmontag Offenbach</strong> in der
@@ -21,8 +27,7 @@
                     Community organisierte Veranstaltung, die Menschen zusammen bringt, die sich für das Web begeistern,
                     Teil davon sind oder es werden wollen.</p>
 
-            </div>
-
+            </aside>
         </article>
     </header>
 
@@ -30,7 +35,7 @@
 
         <div class="bgimage">
             <div>
-                <img src="http://farm8.staticflickr.com/7324/8747087939_de89c56fb0_c.jpg" class="bg" alt="">
+                <img src="http://farm6.staticflickr.com/5330/9352013973_1d98f9506d_b.jpg" class="bg" alt="">
             </div>
         </div>
 

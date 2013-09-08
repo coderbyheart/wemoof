@@ -1,0 +1,5 @@
+# Catchall dynamic routing
+wemoof_web:
+    resource: "@WEMOOFWebBundle/Controller/"
+    type:     annotation
+

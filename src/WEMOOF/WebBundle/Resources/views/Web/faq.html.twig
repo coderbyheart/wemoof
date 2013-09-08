@@ -1,0 +1,59 @@
+{% set body_class = "compact" %}
+{% extends "WEMOOFWebBundle::page.html.twig" %}
+{% set meta_title %}Wissenswertes | WEMO♥F{% endset %}
+{% block content %}
+    <article class="page">
+        <h1>
+            <a href="/">
+                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
+            </a>
+        </h1>
+
+        <h2>Wissenswertes</h2>
+
+        <h3>Warum …</h3>
+
+        <h4 id="faq-web">Web?</h4>
+
+        <p>Das Internet ist ohne Zweifel das Leitmedium der kreativen Wirtschaft geworden und mit den Grundprinzipien
+            des Webs - Offenheit, Transparenz und Freiheit - können sich viele Menschen identifizieren. Das Web als
+            Kulturgut, Arbeitswerkzeug oder Freizeitvergnügen ist aus unserem Alltag nicht mehr wegzudenken und bietet
+            so als übergeordneter Rahmen der Webmontage die thematische Grundlage der Veranstaltung. </p>
+
+        <h4 id="faq-format">Das Format „Webmontag“ </h4>
+
+        <p>
+            Ein <a href="http://webmontag.de" rel="friend muse">Webmontag</a> findet in Deutschland in vielen Städten
+            regelmäßig an einem Montag Abend statt. Im Lauf des Abends werden mehrere Vorträge gehalten - üblicherweise
+            unterbrochen von einer Pause. Diese Pause, wie auch die Zeit vor und nach den Vorträgen bietet Gelegenheit
+            sich mit Kollegen, Bekannten und Unbekannte aus der Branche bei einem Bier in ungezwungener Atmosphäre über
+            die Vorträge und aktuelle Themen auszutauschen. Das "Sie" wird dabei an der Garderobe abgegeben.</p>
+
+        <h3>Sponsoren</h3>
+
+        <ul class="sponsoren">
+            <li>
+                <a href="http://afip-hessen.de/" rel="met friend">
+                    <img src="{{ asset('bundles/wemoofweb/images/afip.png') }}" alt="afip — akademie für interdisziplinäre prozesse | offenbach"><br><abbr title="akademie für interdisziplinäre prozesse | offenbach">»afip!«</abbr>
+                </a> <br>
+                <small>Locationunterstützung<br> Platz für 200 Leute</small>
+            </li>
+
+            <li>
+                <a href="mailto:m@wemoof.de?subject=Sponsoring">
+                    <img src="{{ asset('bundles/wemoofweb/images/wildcard.png') }}" alt=""><br>Dein<br>Unternehmen?</a>
+            </li>
+        </ul>
+
+        <h3>Partner</h3>
+
+        <ul class="partner">
+            <li>
+                <a href="http://facebook.com/likeOffenbach" rel="met friend">
+                    <img src="{{ asset('bundles/wemoofweb/images/like-offenbach.png') }}" alt="Like Offenbach"><br>Like
+                    Offenbach </a>
+            </li>
+        </ul>
+
+    </article>
+{% endblock %}

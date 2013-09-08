@@ -1,0 +1,37 @@
+{% set body_class = "compact" %}
+{% extends "WEMOOFWebBundle::page.html.twig" %}
+{% set meta_title %}Team | WEMO♥F{% endset %}
+{% block content %}
+    <article class="page">
+        <h1>
+            <a href="/">
+                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
+            </a>
+        </h1>
+
+        <h2>Team</h2>
+
+        <p>Der Webmontag Offenbach wird organisiert von <a href="http://tckr.cc/" rel="author">Markus Tacker</a>. Du
+            erreichst mich via Mail unter <a href="mailto:m@wemoof.de">m@wemoof.de</a>.</p>
+
+        <ul class="team">
+
+            <li>
+                <a href="{{ path('wemoof_user', {'id': 1, 'slug': "Markus Tacker"|slug}) }}" rel="author">
+                    <img src="{{ gravatar('m@tckr.cc', 125) }}" alt="Markus Tacker"><br>Markus Tacker</a><br>
+                <small>Initiator</small>
+            </li>
+            <li>
+                <a href="{{ path('wemoof_user', {'id': 9, 'slug': "Lutz Jahnke"|slug}) }}">
+                    <img src="/upload/user/{{ "Lutz Jahnke"|slug }}-9.jpg" alt="Lutz Jahnke"><br>Lutz Jahnke</a><br>
+                <small>Location</small>
+            </li>
+            <li>
+                <a href="{{ path('wemoof_user', {'id': 17, 'slug': "Thomas Meid"|slug}) }}">
+                    <img src="{{ gravatar('thomas@agentur-meid.com', 125) }}" alt="Thomas Meid"><br>Thomas Meid</a><br>
+                <small>Videos</small>
+            </li>
+        </ul>
+
+    </article>
+{% endblock %}

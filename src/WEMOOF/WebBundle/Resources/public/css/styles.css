@@ -334,16 +334,22 @@ table {
 * {
   box-sizing: border-box; }
 
-.clearfix:before, label + label:before, #event ul.talks:before, #event ul.talks li:before, form.register fieldset:before,
+.clearfix:before, label + label:before, ul.imagelist:before, ul.team:before, ul.sponsoren:before, ul.partner:before, header article div nav:before, #event ul.talks:before, #event ul.talks li:before, form.register fieldset:before, footer:before,
 .clearfix:after,
 label + label:after,
+ul.imagelist:after,
+ul.team:after,
+ul.sponsoren:after,
+ul.partner:after,
+header article div nav:after,
 #event ul.talks:after,
 #event ul.talks li:after,
-form.register fieldset:after {
+form.register fieldset:after,
+footer:after {
   content: "";
   display: table; }
 
-.clearfix:after, label + label:after, #event ul.talks:after, #event ul.talks li:after, form.register fieldset:after {
+.clearfix:after, label + label:after, ul.imagelist:after, ul.team:after, ul.sponsoren:after, ul.partner:after, header article div nav:after, #event ul.talks:after, #event ul.talks li:after, form.register fieldset:after, footer:after {
   clear: both; }
 
 .alignright {
@@ -460,6 +466,19 @@ h1 {
 #box > article {
   border-top: 15px solid #3c93da; }
 
+ul.imagelist, ul.team, ul.sponsoren, ul.partner {
+  padding: 0; }
+  ul.imagelist li, ul.team li, ul.sponsoren li, ul.partner li {
+    float: left;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    width: 120px; }
+    ul.imagelist li img, ul.team li img, ul.sponsoren li img, ul.partner li img {
+      width: 120px; }
+  ul.imagelist li:last-child, ul.team li:last-child, ul.sponsoren li:last-child, ul.partner li:last-child {
+    margin-right: 0; }
+
 header {
   border-top: 15px solid #3c93da;
   background: #fafafa;
@@ -467,20 +486,31 @@ header {
   header article {
     font-size: 0.875em;
     line-height: 125%; }
-    header article #logo {
+    header article div img {
       padding: 15px; }
-    header article div {
+    header article div nav {
+      margin: 15px 0;
+      font-size: 1.25em;
+      background-color: #3c93da;
+      color: #fafafa; }
+      header article div nav a {
+        text-align: center;
+        float: left;
+        width: 33%;
+        color: #fafafa;
+        padding: 1em 0; }
+    header article aside {
       margin: 0;
       padding: 0 15px;
       max-width: 550px; }
-      header article div h2 {
+      header article aside h2 {
         margin-top: 0;
         line-height: 115%;
         font-size: 1.25em; }
-      header article div p {
+      header article aside p {
         margin-bottom: 0; }
 
-.box, #event, #extras, #profile, article.talk, article.user {
+.box, #event, #extras, #profile, article.page, article.talk, article.user {
   padding: 15px;
   background-color: #fafafa; }
 
@@ -512,11 +542,11 @@ div.messages {
   #event ul.talks li:last-child {
     margin-right: 0; }
 
-article.talk img.user, article.user img.user {
+article.page img.user, article.talk img.user, article.user img.user {
   width: 150px;
   float: right;
   margin-left: 10px; }
-article.talk img.talk, article.user img.talk {
+article.page img.talk, article.talk img.talk, article.user img.talk {
   width: 100%;
   margin-bottom: 1em; }
 
@@ -550,6 +580,12 @@ footer {
   footer p {
     margin: 0;
     padding: 1em 1em 1em 0; }
+  footer nav {
+    float: left;
+    text-align: left;
+    margin: 15px; }
+    footer nav a {
+      display: block; }
 
 iframe.youtube {
   border: 0; }
@@ -561,11 +597,17 @@ ul.links {
 @media screen and (min-width: 768px) {
   header {
     float: left;
-    width: 100%; }
-    header article #logo {
+    width: 100%;
+    padding: 0; }
+    header article div {
       float: right;
       width: 33.33333%; }
-    header article div {
+      header article div nav {
+        width: 100%;
+        margin: 0;
+        font-size: 1em;
+        margin-bottom: -15px; }
+    header article aside {
       float: left;
       width: 66.66667%;
       padding-left: 1em;
@@ -587,7 +629,7 @@ ul.links {
       #event div.bgimage img {
         position: absolute;
         left: 0;
-        bottom: 0;
+        top: 0;
         width: 100%; }
     #event div.info {
       height: 400px;
@@ -607,8 +649,7 @@ ul.links {
       display: none; }
     #event ul.talks {
       width: 100%;
-      background-color: #3c93da;
-      border-top: 15px solid #3c93da; }
+      background-color: #3c93da; }
       #event ul.talks li {
         position: relative;
         margin: 0;
@@ -641,13 +682,18 @@ ul.links {
         margin-top: 0; }
 
   footer p {
-    padding-right: 0; } }
+    padding-right: 0; }
+  footer nav {
+    margin-left: 0; } }
+@media screen and (min-width: 630px) {
+  body.compact #box {
+    margin: 2% auto;
+    width: 600px;
+    border-left: 15px solid #3c93da;
+    border-right: 15px solid #3c93da; } }
 @media screen and (min-width: 1230px) {
   #box {
     margin: 2% auto;
     width: 1200px;
     border-left: 15px solid #3c93da;
-    border-right: 15px solid #3c93da; }
-
-  body.compact #box {
-    width: 600px; } }
+    border-right: 15px solid #3c93da; } }
