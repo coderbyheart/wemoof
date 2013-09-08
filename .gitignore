@@ -11,3 +11,4 @@ app/config/parameters.yml
 web/css/
 /web/upload
 /*.sql*
+src/WEMOOF/WebBundle/Resources/public/css/*.css
