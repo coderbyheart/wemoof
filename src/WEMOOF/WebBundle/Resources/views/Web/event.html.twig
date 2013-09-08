@@ -87,14 +87,14 @@
             <li>
                 {% if registration.user.public %}
                 <a href="{{ path('wemoof_user', {'slug': registration.user|slug, 'id': registration.user.id}) }}" title="{{ registration.user }}">
-                {% endif %}
                     {% if registration.user.hasGravatar %}
                         <img src="{{ gravatar(registration.user.email) }}" alt="{{ registration.user }}" class="user">
                     {% else %}
                         <img src="/upload/user/{{ registration.user|slug }}-{{ registration.user.id }}.jpg" alt="{{ registration.user }}" class="user">
                     {% endif %}
-                {% if registration.user.public %}
                 </a>
+                {% else %}
+                    <img src="{{ asset('bundles/wemoofweb/images/avatar.png') }}" alt="" class="user">
                 {% endif %}
             </li>
             {% if loop.last %}
