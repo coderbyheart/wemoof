@@ -364,6 +364,7 @@ class WebController
     /**
      * @Route("/{id}/presse", name="wemoof_presse")
      * @Template()
+     * @Cache(maxAge=86400, sMaxAge=86400, public=true)
      */
     public function presseAction($id)
     {
@@ -456,6 +457,7 @@ class WebController
     /**
      * @Route("/talk/{slug}/{id}", name="wemoof_talk")
      * @Template()
+     * @Cache(maxAge=86400, sMaxAge=86400, public=true)
      */
     public function talkAction($slug, $id)
     {
@@ -470,6 +472,7 @@ class WebController
     /**
      * @Route("/speaker/{slug}/{id}", name="wemoof_speaker")
      * @Template()
+     * @Cache(maxAge=86400, sMaxAge=86400, public=true)
      */
     public function speakerAction($slug, $id)
     {
@@ -479,6 +482,7 @@ class WebController
     /**
      * @Route("/user/{slug}/{id}", name="wemoof_user")
      * @Template()
+     * @Cache(maxAge=86400, sMaxAge=86400, public=true)
      */
     public function userAction($slug, $id)
     {
