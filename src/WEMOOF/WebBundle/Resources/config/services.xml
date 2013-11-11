@@ -15,6 +15,7 @@
             <argument type="service" id="http_kernel"/>
             <argument type="service" id="command_bus"/>
             <argument type="service" id="router"/>
+            <argument>%wemoof_backend.talks_per_event%</argument>
         </service>
         <service id="wemoof.web.controller.concierge" class="WEMOOF\WebBundle\Controller\ConciergeController" scope="request">
             <argument type="service" id="wemoof.backend.repo.registration"/>

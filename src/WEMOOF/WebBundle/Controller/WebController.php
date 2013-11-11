@@ -102,7 +102,12 @@ class WebController
      */
     private $router;
 
-    public function __construct(Request $request, FormFactoryInterface $formFactory, ObjectManager $objectManager, EventRepositoryInterface $eventRepository, TalkRepositoryInterface $talkRepository, UserRepositoryInterface $userRepository, RegistrationRepositoryInterface $registrationRepository, HttpKernelInterface $httpKernel, CommandBus $commandBus, RouterInterface $router)
+    /**
+     * @var integer
+     */
+    private $talksPerEvent;
+
+    public function __construct(Request $request, FormFactoryInterface $formFactory, ObjectManager $objectManager, EventRepositoryInterface $eventRepository, TalkRepositoryInterface $talkRepository, UserRepositoryInterface $userRepository, RegistrationRepositoryInterface $registrationRepository, HttpKernelInterface $httpKernel, CommandBus $commandBus, RouterInterface $router, $talksPerEvent)
     {
         $this->request                = $request;
         $this->formFactory            = $formFactory;
@@ -114,6 +119,7 @@ class WebController
         $this->httpKernel             = $httpKernel;
         $this->commandBus             = $commandBus;
         $this->router                 = $router;
+        $this->talksPerEvent          = $talksPerEvent;
     }
 
     /**
@@ -380,7 +386,7 @@ class WebController
         $event         = $this->eventRepository->getEvent($id)->getOrThrow(new NotFoundHttpException(sprintf("Unkown event: %d", $id)));
         $talks         = $this->talkRepository->getTalksForEvent($event);
         $spotlights    = $this->talkRepository->getSpotlightsForEvent($event);
-        $missing       = count($talks) < 6 ? array_fill(0, 6 - count($talks), 1) : array();
+        $missing       = count($talks) < $this->talksPerEvent ? array_fill(0, $this->talksPerEvent - count($talks), 1) : array();
         $registrations = $this->registrationRepository->getGuestsForEvent($event);
         $user          = $this->getUser();
         shuffle($talks);

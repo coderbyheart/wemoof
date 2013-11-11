@@ -24,3 +24,5 @@ parameters:
     assets_version:    2
 
     google_api_key:    changeme
+
+    talks_per_event:   4

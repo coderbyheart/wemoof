@@ -19,11 +19,10 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('wemoof_backend');
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
-
+        $rootNode
+            ->children()
+            ->integerNode('talks_per_event')->defaultValue(4)->end()
+            ->end();
         return $treeBuilder;
     }
 }
