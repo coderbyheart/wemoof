@@ -84,7 +84,7 @@ class ConciergeController
     }
 
     /**
-     * @Route("/{id}/nametags")
+     * @Route("/{id}/nametags", defaults={"_format"="csv"})
      * @Template()
      */
     public function nametagsAction($id)
@@ -97,28 +97,21 @@ class ConciergeController
         foreach ($registrations as $registration) $sort[] = $registration->getUser()->getFirstname() . $registration->getUser()->getLastname();
         array_multisort($sort, SORT_ASC, $registrations);
 
-        $numcols   = 2;
-        $numrows   = 5;
-        $pages     = array();
         $shorturls = new ArrayCollection();
-        $page      = 0;
-        $row       = 0;
+        $nametags  = array();
         foreach ($registrations as $registration) {
-            if (!isset($pages[$page])) $pages[$page] = array();
-            if (!isset($pages[$page][$row])) $pages[$page][$row] = array();
             $user = $registration->getUser();
             if ($user->getFirstname() === null) continue;
-            if ($user->isPublic()) $shorturls->set($user->getId(), $this->shortener->shortenRoute('wemoof_user_short', array('id' => $user->getId())));
-            $pages[$page][$row][] = $registration;
-            if (count($pages[$page][$row]) % $numcols === 0) {
-                $row++;
-                if (count($pages[$page]) % $numrows === 0) $page++;
+            if ($user->isPublic()) {
+                // $shorturls->set($user->getId(), $this->shortener->shortenRoute('wemoof_user_short', array('id' => $user->getId())));
+                $shorturls->set($user->getId(), 'http://wemoof.de/~' . $user->getId());
             }
+            $nametags[] = $registration;
         }
 
         return array(
             'event'     => $event,
-            'pages'     => $pages,
+            'nametags'  => $nametags,
             'shorturls' => $shorturls,
         );
     }

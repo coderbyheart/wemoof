@@ -1,43 +1,4 @@
-<!doctype html>
-<html lang="de-de">
-<head>
-    <meta charset="UTF-8">
-    <title>Nametags für {{ event }}</title>
-    <meta name="author" content="Markus Tacker | http://tckr.cc/">
-    <!-- See /humans.txt for more infos -->
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-    {% stylesheets "bundles/wemoofweb/css/nametags.scss" filter="cssrewrite,sass" %}
-    <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
-    {% endstylesheets %}
-</head>
-<body>
-
-{% for page in pages %}
-    <table class="nametag">
-        {% for row in page %}
-            <tr>
-                {% for registration in row %}
-                    {% set user = registration.user %}
-                    <td
-                            {% if user.public %}style="background: url({{ shorturls.get(user.id) }}.qr) no-repeat 95% 70%; background-size: 80px 80px;"{% endif %}
-                            >
-                        <div class="content">
-                            {% if registration.role == 3 %}<span class="role">WEMO♥F VIP</span><br>{% endif %}
-                            {% if registration.role == 2 %}<span class="role">WEMO♥F Team</span><br>{% endif %}
-                            <span class="name">{{ user }}</span><br>
-                            {% if user.title %}<span class="title">{{ user.title }}</span><br>{% endif %}
-                            {% if user.tags %}<span class="tags">{% for tag in user.tags|split(" ") %}{{ tag }}<br>{% endfor %}</span>{% endif %}
-                            {% if user.twitter %}<br><span class="twitter"><i class="icon-twitter"></i>&nbsp;{{ user.twitter|slice(1) }}</span>{% endif %}
-                            {% if user.url %}<br><span class="url"><i class="icon-home"></i>&nbsp;{{ user.url|compacturl }}</span>{% endif %}
-                            {% if user.public %}<span class="public">~{{ user.id }}</span>{% endif %}
-                        </div>
-                    </td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
+WEMOOF-ID	Name	Titel	Tags	Twitter	URL	WEMOOF-Profil
+{% for registration in nametags %}
+{% if registration.user.public %}~{{ registration.user.id }}{% endif %}	{% if registration.role == 3 %}WEMO♥F VIP{% elseif registration.role == 2 %}WEMO♥F Team{% endif %}	{{ registration.user }}	"{{ registration.user.title }}"	{{ registration.user.tags }}	{{ registration.user.twitter }}	{{ registration.user.url|compacturl }}	{{ shorturls.get(registration.user.id) }}
 {% endfor %}
-
-</body>
-</html>
