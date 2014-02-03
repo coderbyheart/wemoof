@@ -1,0 +1,30 @@
+{% set body_class = "compact" %}
+{% extends "WEMOOFWebBundle::page.html.twig" %}
+{% set meta_title %}Talks | WEMO♥F{% endset %}
+{% block content %}
+    <article class="page">
+        <h1>
+            <a href="/">
+                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
+            </a>
+        </h1>
+
+        <h2>
+            Talks </h2>
+
+        {% for talk in talks %}
+            {% if loop.first %}
+                <ul>
+            {% endif %}
+            <li>
+                <a href="{{ path('wemoof_talk', {'slug': talk|slug, 'id': talk.id}) }}" title="{{ talk }}">
+                    {{ talk.name }}
+                </a> &ndash; {{ talk.speaker }}
+            </li>
+            {% if loop.last %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+
+    </article>
+{% endblock %}

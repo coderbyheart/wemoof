@@ -2,8 +2,8 @@
 
 namespace WEMOOF\BackendBundle\Repository;
 
+use Doctrine\Common\Collections\Collection;
 use WEMOOF\BackendBundle\Entity\Event;
-use \PhpOption\Option;
 use WEMOOF\BackendBundle\Entity\User;
 
 interface TalkRepositoryInterface
@@ -31,4 +31,9 @@ interface TalkRepositoryInterface
      * @return \PhpOption\Option
      */
     function getTalk($id);
+
+    /**
+     * @return Collection
+     */
+    function getTalks();
 }

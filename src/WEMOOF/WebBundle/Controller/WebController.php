@@ -307,6 +307,20 @@ class WebController
     }
 
     /**
+     * @Route("/talks", name="wemoof_talks")
+     * @Template()
+     * @Cache(maxAge=86400, sMaxAge=86400, public=true)
+     */
+    public function talksAction()
+    {
+        $talks = $this->talkRepository->getTalks();
+        return array(
+            'talks'  => $talks,
+        );
+
+    }
+
+    /**
      * @Route("/~{id}", name="wemoof_user_short")
      * @Template()
      */
@@ -500,6 +514,8 @@ class WebController
             'talks' => $talks,
         );
     }
+
+
 
     public function eventExecutionFailed(EventExecutionFailed $event)
     {

@@ -2,6 +2,7 @@
 
 namespace WEMOOF\BackendBundle\Repository;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository AS DoctrineEntityRepository;
 use PhpOption\None;
 use PhpOption\Some;
@@ -63,5 +64,18 @@ class TalkRepository extends DoctrineEntityRepository implements TalkRepositoryI
         $qb->leftJoin('t.event', 'e')->addSelect('e');
         $talk = $qb->getQuery()->getOneOrNullResult();
         return $talk === null ? None::create() : new Some($talk);
+    }
+
+    /**
+     * @return Collection
+     */
+    function getTalks()
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->andWhere('t.role = :role')->setParameter('role', Talk::ROLE_TALK);
+        $qb->orderBy('t.event', 'ASC');
+        $qb->leftJoin('t.speaker', 'u')->addSelect('u');
+        $qb->leftJoin('t.event', 'e')->addSelect('e');
+        return $qb->getQuery()->getResult();
     }
 }
