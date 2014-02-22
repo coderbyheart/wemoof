@@ -88,6 +88,16 @@
         }
       }
     }
+    ul.talks-num-7 {
+      li {
+        width: (100%/7);
+      }
+    }
+    ul.talks-num-8 {
+      li {
+        width: (100%/8);
+      }
+    }
     ul.users li {
       width: (100%/55);
       height: (100%/55);
@@ -121,7 +131,8 @@
 }
 
 // @media screen and (min-width: (($maxWidth/2) + 2*$spacing)) { // Only in sass 3.2+
-@media screen and (min-width: 630px) { // Only in sass 3.2+
+@media screen and (min-width: 630px) {
+  // Only in sass 3.2+
 
   body.compact {
     #box {

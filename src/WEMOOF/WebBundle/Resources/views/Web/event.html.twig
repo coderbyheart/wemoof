@@ -57,7 +57,8 @@
 
         <h3 class="talks">Sprecher</h3>
 
-        <ul class="talks">
+        <ul class="talks talks-num-{{ talks|length() + missing|length() }}">
+
             {% for talk in talks %}
                 <li>
                     <a href="{{ path('wemoof_talk', {'slug': talk|slug, 'id': talk.id}) }}" title="{{ talk }}">
