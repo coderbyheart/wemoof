@@ -97,6 +97,13 @@ class ConciergeController
         foreach ($registrations as $registration) $sort[] = $registration->getUser()->getFirstname() . $registration->getUser()->getLastname();
         array_multisort($sort, SORT_ASC, $registrations);
 
+        // Remove useless domains.
+        $filterUrl = function(User $u) {
+            if (preg_match('/(facebook\.com|xing)/', $u->getUrl())) {
+                $u->setUrl(null);
+            }
+        };
+
         $shorturls = new ArrayCollection();
         $nametags  = array();
         foreach ($registrations as $registration) {
@@ -106,6 +113,7 @@ class ConciergeController
                 // $shorturls->set($user->getId(), $this->shortener->shortenRoute('wemoof_user_short', array('id' => $user->getId())));
                 $shorturls->set($user->getId(), 'http://wemoof.de/~' . $user->getId());
             }
+            $filterUrl($user);
             $nametags[] = $registration;
         }
 

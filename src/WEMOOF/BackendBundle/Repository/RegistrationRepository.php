@@ -68,7 +68,6 @@ class RegistrationRepository extends DoctrineEntityRepository implements Registr
         return $qb->getQuery()->getResult();
     }
 
-
     /**
      * @param int $id
      * @return \PhpOption\Option
