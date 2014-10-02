@@ -63,7 +63,7 @@
                 <li>
                     <a href="{{ path('wemoof_talk', {'slug': talk|slug, 'id': talk.id}) }}" title="{{ talk }}">
                         {% if talk.speaker.hasGravatar %}
-                            <img src="{{ gravatar(talk.speaker.email) }}" alt="{{ talk.speaker }}" class="user">
+                            <img src="{{ gravatar(talk.speaker.email, 500) }}" alt="{{ talk.speaker }}" class="user">
                         {% else %}
                             <img src="/upload/user/{{ talk.speaker|slug }}-{{ talk.speaker.id }}.jpg" alt="{{ talk.speaker }}" class="user">
                         {% endif %}
@@ -89,7 +89,7 @@
                 {% if registration.user.public %}
                 <a href="{{ path('wemoof_user', {'slug': registration.user|slug, 'id': registration.user.id}) }}" title="{{ registration.user }}">
                     {% if registration.user.hasGravatar %}
-                        <img src="{{ gravatar(registration.user.email) }}" alt="{{ registration.user }}" class="user">
+                        <img src="{{ gravatar(registration.user.email, 50) }}" alt="{{ registration.user }}" class="user">
                     {% else %}
                         <img src="/upload/user/{{ registration.user|slug }}-{{ registration.user.id }}.jpg" alt="{{ registration.user }}" class="user">
                     {% endif %}
