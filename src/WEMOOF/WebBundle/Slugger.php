@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @author Markus Tacker <m@coderbyheart.de>
- */
-
 namespace WEMOOF\WebBundle;
 
 class Slugger
