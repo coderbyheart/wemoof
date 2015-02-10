@@ -171,6 +171,21 @@ class WebController
     }
 
     /**
+     * Renders the code of conduct page.
+     *
+     * @param Request $request
+     * @Route("/verhaltensregeln", name="wemoof_coc")
+     * @Template()
+     * @Cache(maxAge=86400, sMaxAge=86400, public=true)
+     */
+    public function codeOfConductAction(Request $request)
+    {
+        return array(
+            'event' => $event = $this->eventRepository->getNextEvent()->get(),
+        );
+    }
+
+    /**
      * Renders the faq page.
      *
      * @param Request $request
