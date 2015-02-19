@@ -232,7 +232,7 @@ class WebController
 
         $this->addMessage(
             sprintf(
-                'Bitte folge den Anweisung in der E-Mail, die gerade an %s verschickt wurde.',
+                'Bitte folge den Anweisungen in der E-Mail, die gerade an %s verschickt wurde.',
                 $command->email
             )
         );
