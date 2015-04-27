@@ -72,7 +72,6 @@ class TalkRepository extends DoctrineEntityRepository implements TalkRepositoryI
     function getTalks()
     {
         $qb = $this->createQueryBuilder('t');
-        $qb->andWhere('t.role = :role')->setParameter('role', Talk::ROLE_TALK);
         $qb->orderBy('t.event', 'ASC');
         $qb->leftJoin('t.speaker', 'u')->addSelect('u');
         $qb->leftJoin('t.event', 'e')->addSelect('e');
