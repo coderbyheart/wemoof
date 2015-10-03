@@ -141,21 +141,6 @@ class WebController
     }
 
     /**
-     * Renders the team page.
-     *
-     * @param Request $request
-     * @Route("/team", name="wemoof_team")
-     * @Template()
-     * @Cache(maxAge=86400, sMaxAge=86400, public=true)
-     */
-    public function teamAction(Request $request)
-    {
-        return array(
-            'event' => $event = $this->eventRepository->getNextEvent()->get(),
-        );
-    }
-
-    /**
      * Renders the contact page.
      *
      * @param Request $request
