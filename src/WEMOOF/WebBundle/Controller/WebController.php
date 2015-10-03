@@ -21,6 +21,7 @@ use WEMOOF\BackendBundle\Command\SendLoginLinkCommand;
 use WEMOOF\BackendBundle\Command\VerifyUserCommand;
 use WEMOOF\BackendBundle\Command\EditProfileCommand;
 use WEMOOF\BackendBundle\Entity\Event;
+use WEMOOF\BackendBundle\Entity\Talk;
 use WEMOOF\BackendBundle\Repository\EventRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\TalkRepositoryInterface;
 use WEMOOF\BackendBundle\Repository\UserRepositoryInterface;
@@ -128,8 +129,22 @@ class WebController
      */
     public function indexAction()
     {
-        $event = $this->eventRepository->getNextEvent()->get();
-        return $this->forward('wemoof.web.controller.web:eventAction', array('id' => $event->getId()));
+        $talks = $this->talkRepository->getTalks();
+        $speakers = array_map(function(Talk $talk) { return $talk->getSpeaker(); }, $talks);
+        $speakers = array_unique($speakers);
+        $speakerSort = array();
+        foreach($speakers as $speaker) {
+            /** @var User $speaker */
+            $speakerSort[] = $speaker->getLastname();
+        }
+        array_multisort($speakerSort, SORT_ASC, $speakers);
+
+        $data = array(
+            'pastEvents' => $this->eventRepository->getPastEvents(),
+            'speakers' => $speakers
+        );
+
+        return $data;
     }
 
     protected function forward($controller, array $attributes = array(), array $query = array())
@@ -150,9 +165,13 @@ class WebController
      */
     public function contactAction(Request $request)
     {
-        return array(
-            'event' => $event = $this->eventRepository->getNextEvent()->get(),
-        );
+        $optionalEvent = $this->eventRepository->getNextEvent();
+        if ($optionalEvent->isDefined()) {
+            return array(
+                'event' => $optionalEvent->get()
+            );
+        }
+        return array();
     }
 
     /**
@@ -165,9 +184,13 @@ class WebController
      */
     public function codeOfConductAction(Request $request)
     {
-        return array(
-            'event' => $event = $this->eventRepository->getNextEvent()->get(),
-        );
+        $optionalEvent = $this->eventRepository->getNextEvent();
+        if ($optionalEvent->isDefined()) {
+            return array(
+                'event' => $optionalEvent->get()
+            );
+        }
+        return array();
     }
 
     /**
@@ -180,9 +203,13 @@ class WebController
      */
     public function faqAction(Request $request)
     {
-        return array(
-            'event' => $event = $this->eventRepository->getNextEvent()->get(),
-        );
+        $optionalEvent = $this->eventRepository->getNextEvent();
+        if ($optionalEvent->isDefined()) {
+            return array(
+                'event' => $optionalEvent->get()
+            );
+        }
+        return array();
     }
 
     /**
@@ -315,7 +342,7 @@ class WebController
     {
         $talks = $this->talkRepository->getTalks();
         return array(
-            'talks'  => $talks,
+            'talks' => $talks,
         );
 
     }
@@ -514,7 +541,6 @@ class WebController
             'talks' => $talks,
         );
     }
-
 
 
     public function eventExecutionFailed(EventExecutionFailed $event)

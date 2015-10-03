@@ -1,0 +1,67 @@
+{% set body_class = "compact" %}
+{% extends "WEMOOFWebBundle::page.html.twig" %}
+{% set meta_title %}Der Webmontag Offenbach sucht neue Organisatoren!{% endset %}
+{% block content %}
+    <article class="page">
+        <h1>
+            <a href="/">
+                <img src="{{ asset('bundles/wemoofweb/images/logo-m-wide.png') }}" alt="WEMO♥OF &ndash; Webmontag Offenbach" id="logo"/>
+            </a>
+        </h1>
+
+        <h2>Der Webmontag Offenbach sucht neue Organisatoren!</h2>
+
+        <p>Hallo,</p>
+
+        <p>nachdem ich insgesamt 12 Webmontage in Offenbach organisiert habe, ist es für mich an der Zeit, den
+            WEMO♥F in neue Hände zu geben. Daher gibt es bis auf weiteres keinen neuen Termin für den nächsten
+        Webmontag Offenbach.</p>
+
+        <p>
+            <strong>Es liegt an Dir,</strong> diese Veranstaltung weiter zu führen. Wenn Du die Organisation übernehmen,
+            oder dich zumindest beteiligen möchtest, melde dich bei mir <a href="mailto:m@wemoof.de">via E-Mail</a>,
+            ich werde dich dann mit weiteren Interessierten verbinden.
+        </p>
+
+        <h3>Danke!</h3>
+
+        <p>
+            An dieser Stelle möchte ich noch einmal den Unterstützern des Webmontags danken. Allen Voran Lutz Jahnke,
+            in dessen <a href="http://www.afip-hessen.de/" rel="friend">afip! Hessen</a> wir zu Gast sein durften.
+        </p>
+
+        <p>Ich danke unseren großartigen Sponsoren:</p>
+
+        <ul>
+            <li><a href="http://convecto.de/" rel="friend">Convecto</a></li>
+            <li><a href="http://fintura.de/" rel="friend">Fintura</a></li>
+            <li><a href="https://click4life.hiv/" rel="friend">dotHIV</a></li>
+            <li><a href="http://essquare.de/" rel="friend">essquare</a></li>
+        </ul>
+
+        <p>Ein herzlichen Dank an das Team:</p>
+
+        <ul>
+            <li>Jochen Bachmann</li>
+            <li>Julia Diehl</li>
+            <li>Natalie Färber</li>
+            <li>Lutz Jahnke</li>
+            <li>Thomas Meid</li>
+            <li>Vladimir Shapovalov</li>
+            <li>Michael Perrot</li>
+        </ul>
+
+        <p>Ohne unsere Speaker wäre der Webmontag unvorstellbar! Vielen Dank!</p>
+
+        <ul>
+            {% for speaker in speakers %}
+                {% if speaker.lastname != "" and speaker.id != 1 %}
+                <li>
+                    <a href="{{ path('wemoof_speaker', {'slug': speaker|slug, 'id': speaker.id}) }}">{{  speaker.firstname }} {{ speaker.lastname }}</a>
+                </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+
+    </article>
+{% endblock %}

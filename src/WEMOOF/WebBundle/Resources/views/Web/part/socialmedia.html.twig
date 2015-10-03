@@ -2,9 +2,11 @@
 
 <h3>Twitter</h3>
 
+{% if event is defined  %}
 <p>
     <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://wemoof.de/" data-text="Am {{ event.start|shortdate }} findet der  {{ "%d."|format(event.id)|numtotext }} Webmontag in Offenbach statt! Sei dabei!" data-via="wemoof" data-lang="de" data-hashtags="wemoof">Tweet</a>
 </p>
+{% endif %}
 
 <p>Den <strong>WEMO<span class="heart">♥</span>F</strong> findest Du auf Twitter unter
     <a href="http://twitter.com/wemoof" rel="me">@wemoof</a>. Der offizielle Hashtag ist
